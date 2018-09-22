@@ -54,145 +54,29 @@
             </li>
         </ul>
     </div>
-    <!-- <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
-            </a>
-        </li>
-    </ul> -->
+
     <ul class="nav">
-        <!-- Dashboard -->
-        <li routerLinkActive="active" class="nav-item">
-            <a class="nav-link" [routerLink]="['/dashboard']">
-                <i class="material-icons">dashboard</i>
-                <p>Dashboard</p>
-            </a>
-        </li>
-        <!-- Departments -->
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="dropdown">
+<!-- Dynamic menu -->
 
-                <p>
-                    <i class="material-icons">layers</i>Departments
-                    <span class="caret pull-right"></span>
-                </p>
-            </a>
-            <ul class="dropdown-menu">
-                <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[menuItem.path]">
-                        <i class="material-icons">{{menuItem.icon}}</i>
-                        <p>{{menuItem.title}}</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- Sales -->
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="dropdown">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" *ngFor="let menuItem of menuItems">
+        <a class="nav-link" [routerLink]="[menuItem.path]" data-toggle="dropdown">
 
-                <p>
-                    <i class="material-icons">shop_two</i>Sales
-                    <span class="caret pull-right"></span>
-                </p>
-            </a>
-            <ul class="dropdown-menu">
-                <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[menuItem.path]">
-                        <i class="material-icons">{{menuItem.icon}}</i>
-                        <p>{{menuItem.title}}</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!--Purchase-->
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="dropdown">
-                <p>
-                    <i class="material-icons">shopping_cart</i>Purchases
-                    <span class="caret pull-right"></span>
-                </p>
-            </a>
-            <ul class="dropdown-menu">
-                <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[menuItem.path]">
-                        <i class="material-icons">{{menuItem.icon}}</i>
-                        <p>{{menuItem.title}}</p>
-                    </a>
-                </li>Ú
-            </ul>
-        </li>
-        <!--Accounts-->
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="dropdown">
-                <p>
-                    <i class="material-icons">account_balance</i>Accounts
-                    <span class="caret pull-right"></span>
-                </p>
-            </a>
-            <ul class="dropdown-menu">
-                <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[menuItem.path]">
-                        <i class="material-icons">{{menuItem.icon}}</i>
-                        <p>{{menuItem.title}}</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <p>
+                <i class="material-icons">{{menuItem.icon}}</i>{{menuItem.title}}
+                <span class="caret pull-right" *ngIf="menuItem.children?.length>0"></span>
+            </p>
+        </a>
+        <ul class="dropdown-menu" *ngIf="menuItem.children?.length>0">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  *ngFor="let child of menuItem.children" class="{{child.class}} nav-item">
+                <a class="nav-link" [routerLink]="[child.path]">
+                    <i class="material-icons">{{child.icon}}</i>
+                    <p>{{child.title}}</p>
+                </a>
+            </li>
+        </ul>
+    </li>
 
-        <!--Contacts-->
-        <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="dropdown">
-                    <p>
-                        <i class="material-icons">contacts</i>Contacts
-                        <span class="caret pull-right"></span>
-                    </p>
-                </a>
-                <ul class="dropdown-menu">
-                    <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-                        <a class="nav-link" [routerLink]="[menuItem.path]">
-                            <i class="material-icons">{{menuItem.icon}}</i>
-                            <p>{{menuItem.title}}</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        <!--Reports-->
-        <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="dropdown">
-                    <p>
-                        <i class="material-icons">bar_chart</i>Reports
-                        <span class="caret pull-right"></span>
-                    </p>
-                </a>
-                <ul class="dropdown-menu">
-                    <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-                        <a class="nav-link" [routerLink]="[menuItem.path]">
-                            <i class="material-icons">{{menuItem.icon}}</i>
-                            <p>{{menuItem.title}}</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        
-        <!--Masters-->
-        <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="dropdown">
-                    <p>
-                        <i class="material-icons">create</i>Masters
-                        <span class="caret pull-right"></span>
-                    </p>
-                </a>
-                <ul class="dropdown-menu">
-                    <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-                        <a class="nav-link" [routerLink]="[menuItem.path]">
-                            <i class="material-icons">{{menuItem.icon}}</i>
-                            <p>{{menuItem.title}}</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+
     </ul>
     
 </div>
