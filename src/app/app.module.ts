@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
@@ -18,19 +18,27 @@ import { IconsComponent } from './icons/icons.component';
 import { MapsComponent } from './maps/maps.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
+import { LoginComponent } from './login/login.component';
+import { MatButtonModule, MatCheckboxModule, MatInputModule } from '@angular/material';
 import {
   AgmCoreModule
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { AuthenticationService } from './services/authentication.service';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
+	ReactiveFormsModule,
     HttpModule,
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
+	 MatInputModule,
+        MatCheckboxModule,
+        MatButtonModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -38,9 +46,9 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-
+	LoginLayoutComponent,
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

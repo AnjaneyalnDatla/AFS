@@ -1,0 +1,43 @@
+<div class="login-page">
+    <div class="content card-panel">
+        <form class="login-form" name="form" #f="ngForm" novalidate>
+            <div class="text-center">
+                <h2 class="app-name">Login</h2>
+            </div>
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <mat-form-field class="w-100">
+					<i class="mdi-social-person-outline prefix"></i>
+                        <input matInput placeholder="User Name" name="username" [(ngModel)]="model.username" #username="ngModel">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <mat-form-field class="w-100">
+                        <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="model.password" #password="ngModel">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
+                <div fxFlex>
+                    <mat-checkbox color="primary">Remember Me</mat-checkbox>
+                </div>
+                <div fxFlex fxLayoutAlign="end">
+                    <a href="javascript:void(0)">Forgot Password?</a>
+                </div>
+            </div>
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <button mat-raised-button color="primary" class="w-100" (click)="login();">Login</button>
+                </div>
+            </div>
+			<br>
+			<div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <button mat-raised-button color="primary" class="w-100" (click)="regClick();">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

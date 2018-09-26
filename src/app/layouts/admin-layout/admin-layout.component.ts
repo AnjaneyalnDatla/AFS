@@ -68,6 +68,13 @@ export class AdminLayoutComponent implements OnInit {
           return true;
       }
   }
+  isLoggedIn(){
+	console.log(this.location.path());
+	if(this.location.path().indexOf('/login') >= 0)
+	  return false;
+	else
+	  return true;
+  }
   runOnRouteChange(): void {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
       const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
