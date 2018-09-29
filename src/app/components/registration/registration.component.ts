@@ -4,7 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material'
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
   selector: 'app-registration',

@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="background"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3"></div>
+            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                <form class="login-form" name="form" #f="ngForm" novalidate>
+                    <div class="card content card-panel">
+                        <div class="card-header">
+                            <h4>Welcome</h4>
+                        </div>
+                        <div class="card-form">
+                            <div class="form-row">
+                                <i class="material-icons">face</i>
+                                <mat-input-container color="accent">
+                                    <input type="text" matInput placeholder="User Name" name="username" [(ngModel)]="model.username" #username="ngModel" />
+                                </mat-input-container>
+                            </div>
+                            <div class="form-row">
+                                <i class="material-icons">lock_outline</i>
+                                <mat-input-container color="accent">
+                                    <input type="password" matInput placeholder="Password" name="password" [(ngModel)]="model.password" #password="ngModel" />
+                                </mat-input-container>
+                            </div>
+                            <div class="form-row">
+                                <mat-checkbox>Remember me</mat-checkbox>
+                            </div>
+                            
+                        </div>
+                        <div class="form-row">
+                           
+                            <button mat-raised-button (click)="login();">Login</button>
+                            <button mat-raised-button ((click)="regClick();">Register</button>
+                           
+                        </div>
+                        <div class="footer">
+                            <button mat-raised-button>Forgot Username/Password</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

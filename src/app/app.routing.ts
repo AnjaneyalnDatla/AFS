@@ -3,8 +3,8 @@ import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { AdminLayoutComponent } from './components/layouts/admin-layout/admin-layout.component';
+import { LoginLayoutComponent } from './components/layouts/login-layout/login-layout.component';
 //import { LoginComponent } from './login/login.component';
 
 const routes: Routes =[
@@ -19,7 +19,7 @@ const routes: Routes =[
     children: [
         {
       path: '',
-      loadChildren: './layouts/login-layout/login-layout.module#LoginLayoutModule'
+      loadChildren: './components/layouts/login-layout/login-layout.module#LoginLayoutModule'
   },
   ]},
   {
@@ -28,7 +28,7 @@ const routes: Routes =[
     children: [
         {
       path: '',
-      loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
+      loadChildren: './components/layouts/admin-layout/admin-layout.module#AdminLayoutModule'
   },
   //{ path: 'login', component: LoginComponent},
    //path: '', 

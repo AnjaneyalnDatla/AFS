@@ -10,22 +10,22 @@ import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { TableListComponent } from './table-list/table-list.component';
-import { TypographyComponent } from './typography/typography.component';
-import { IconsComponent } from './icons/icons.component';
-import { MapsComponent } from './maps/maps.component';
-import { NotificationsComponent } from './notifications/notifications.component';
-import { UpgradeComponent } from './upgrade/upgrade.component';
-import { LoginComponent } from './login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { TableListComponent } from './components/table-list/table-list.component';
+import { TypographyComponent } from './components/typography/typography.component';
+import { IconsComponent } from './components/icons/icons.component';
+import { MapsComponent } from './components/maps/maps.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { UpgradeComponent } from './components/upgrade/upgrade.component';
+import { LoginComponent } from './components/login/login.component';
 import { MatButtonModule, MatCheckboxModule, MatInputModule } from '@angular/material';
 import {
   AgmCoreModule
 } from '@agm/core';
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
-import { AuthenticationService } from './services/authentication.service';
+import { AdminLayoutComponent } from './components/layouts/admin-layout/admin-layout.component';
+import { LoginLayoutComponent } from './components/layouts/login-layout/login-layout.component';
+import { AuthenticationService } from './_services/authentication.service';
 
 @NgModule({
   imports: [
