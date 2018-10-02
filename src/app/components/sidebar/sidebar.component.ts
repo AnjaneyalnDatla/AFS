@@ -24,7 +24,7 @@ export const ROUTES: RouteInfo[] = [
             { path: '/#', title: 'Electronics',  icon:'layers', class: ''},
             { path: '/#', title: 'Mechanical',  icon:'layers', class: ''},
     ] },
-    { path: '/user-profile', title: 'Sales',  icon:'shop_two', class: '' , children:[]},
+    { path: '/sales', title: 'Sales',  icon:'shop_two', class: '' , children:[]},
     { path: '/table-list', title: 'Purchases',  icon:'shopping_cart', class: '', children:[] },
     { path: '/typography', title: 'Products and Services',  icon:'content_paste', class: '', children:[] },
     { path: '/icons', title: 'Contacts',  icon:'person', class: '', children:[] },

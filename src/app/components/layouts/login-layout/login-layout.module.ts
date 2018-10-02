@@ -22,11 +22,11 @@ import {
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
-	MatCheckboxModule,
+	  MatCheckboxModule,
   ],
   declarations: [
     LoginComponent,
-	RegistrationComponent,
+	  RegistrationComponent,
   ]
 })
 

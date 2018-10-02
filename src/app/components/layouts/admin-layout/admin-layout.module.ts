@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
+import { SalesComponent } from '../../sales/sales.component';
 import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
@@ -17,7 +17,17 @@ import {
   MatInputModule,
   MatRippleModule,
   MatTooltipModule,
+  MatCheckboxModule,
+  MatOptionModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatTableModule,
 } from '@angular/material';
+import{
+  ChartsModule,
+}from 'ng2-charts/ng2-charts';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,10 +37,18 @@ import {
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
+    MatCheckboxModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatTableModule,
+    ChartsModule,
   ],
   declarations: [
     DashboardComponent,
-    UserProfileComponent,
+    SalesComponent,
     TableListComponent,
     TypographyComponent,
     IconsComponent,
