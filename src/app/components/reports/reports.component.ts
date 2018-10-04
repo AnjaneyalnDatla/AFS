@@ -9,11 +9,11 @@ label?: string;
 draggable?: boolean;
 }
 @Component({
-  selector: 'app-maps',
-  templateUrl: './maps.component.html',
-  styleUrls: ['./maps.component.css']
+  selector: 'app-reports',
+  templateUrl: './reports.component.html',
+  styleUrls: ['./reports.component.css']
 })
-export class MapsComponent implements OnInit {
+export class ReportsComponent implements OnInit {
 
   constructor() { }
 

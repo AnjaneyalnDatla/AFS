@@ -48,7 +48,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 
 @Component({
-  selector: 'app-table-list',
+  selector: 'app-purchases',
   templateUrl: './purchases.component.html',
   styleUrls: ['./purchases.component.css']
 })

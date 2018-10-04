@@ -6,11 +6,11 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { SalesComponent } from '../../sales/sales.component';
 import { PurchasesComponent } from '../../purchases/purchases.component';
-import { TypographyComponent } from '../../typography/typography.component';
-import { IconsComponent } from '../../icons/icons.component';
-import { MapsComponent } from '../../maps/maps.component';
+import { ProductsAndServicesComponent } from '../../productandservices/productandservices.component';
+import { ContactsComponent } from '../../contacts/contacts.component';
+import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import { UpgradeComponent } from '../../upgrade/upgrade.component';
+import { AccountComponent } from '../../account/account.component';
 
 import {
   MatButtonModule,
@@ -50,11 +50,11 @@ import{
     DashboardComponent,
     SalesComponent,
     PurchasesComponent,
-    TypographyComponent,
-    IconsComponent,
-    MapsComponent,
+    ProductsAndServicesComponent,
+    ContactsComponent,
+    ReportsComponent,
     NotificationsComponent,
-    UpgradeComponent,
+    AccountComponent,
   ]
 })
 

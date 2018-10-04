@@ -19,10 +19,10 @@ export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '', children:[] },
     { path: '/sales', title: 'Sales',  icon:'shop_two', class: '' , children:[]},
     { path: '/purchases', title: 'Purchases',  icon:'shopping_cart', class: '', children:[] },
-    { path: '/typography', title: 'Products and Services',  icon:'content_paste', class: '', children:[] },
-    { path: '/icons', title: 'Contacts',  icon:'person', class: '', children:[] },
-    { path: '/upgrade', title: 'Accounts',  icon:'account_balance', class: '', children:[] },
-    { path: '/maps', title: 'Reports',  icon:'bar_chart', class: '', children:[] },
+    { path: '/productandservices', title: 'Products and Services',  icon:'content_paste', class: '', children:[] },
+    { path: '/contacts', title: 'Contacts',  icon:'person', class: '', children:[] },
+    { path: '/account', title: 'Accounts',  icon:'account_balance', class: '', children:[] },
+    { path: '/reports', title: 'Reports',  icon:'bar_chart', class: '', children:[] },
 ];
 
 @Component({

@@ -19,12 +19,6 @@ export class RegistrationComponent implements OnInit {
   constructor( private router: Router,
    private authenticationService: AuthenticationService,) { 
   }
-  
-    //username: new FormControl('');
-    //password: new FormControl('');
-
-	//loading = false;
-	//returnUrl: string;
 
   ngOnInit() {
 	}  
