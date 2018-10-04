@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginLayoutRoutes } from './login-layout.routing';
 import { LoginComponent } from '../../login/login.component';
 import { RegistrationComponent } from '../../registration/registration.component';
+import { PasswordResetComponent } from '../../passwordReset/passwordReset.component';
+import { ForgotPasswordComponent } from '../../forgotPassword/forgotPassword.component';
 
 import {
   MatButtonModule,
@@ -26,7 +28,9 @@ import {
   ],
   declarations: [
     LoginComponent,
-	  RegistrationComponent,
+    RegistrationComponent,
+    PasswordResetComponent,
+    ForgotPasswordComponent,
   ]
 })
 
