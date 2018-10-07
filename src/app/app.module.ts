@@ -10,7 +10,7 @@ import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
 
-import { MatButtonModule, MatCheckboxModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatMenuModule} from '@angular/material';
 import {
   AgmCoreModule
 } from '@agm/core';
@@ -31,6 +31,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 	  MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatMenuModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     }),

@@ -15,6 +15,8 @@ import {
   MatOptionModule,
   MatSelectModule,
   MatDatepickerModule,
+  MatMenuModule,
+  MatIconModule,
 } from '@angular/material';
 @NgModule({
   imports: [
@@ -28,6 +30,8 @@ import {
     MatOptionModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatMenuModule,
+    MatIconModule,
   ],
   declarations: [
     FooterComponent,

@@ -24,7 +24,9 @@ import {
   MatNativeDateModule,
   MatPaginatorModule,
   MatTableModule,
+  MatMenuModule,
 } from '@angular/material';
+
 import{
   ChartsModule,
 }from 'ng2-charts/ng2-charts';
@@ -45,6 +47,7 @@ import{
     MatPaginatorModule,
     MatTableModule,
     ChartsModule,
+    MatMenuModule,
   ],
   declarations: [
     DashboardComponent,

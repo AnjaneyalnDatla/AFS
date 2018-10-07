@@ -36,27 +36,42 @@
         </ul>
     </div>
 
-    <ul class="nav">
-<!-- Dynamic menu -->
-
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngFor="let menuItem of menuItems">
-        <a class="nav-link" [routerLink]="[menuItem.path]" data-toggle="dropdown">
-            <p>
-                <i class="material-icons">{{menuItem.icon}}</i>{{menuItem.title}}
-                <span class="caret pull-right" *ngIf="menuItem.children?.length>0"></span>
-            </p>
-        </a>
-        <ul class="dropdown-menu" *ngIf="menuItem.children?.length>0">
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  *ngFor="let child of menuItem.children" class="{{child.class}} nav-item">
-                <a class="nav-link" [routerLink]="[child.path]">
-                    <i class="material-icons">{{child.icon}}</i>
-                    <p>{{child.title}}</p>
+    <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button> -->
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+        <span>Menu</span>
+    </button>
+    <mat-menu #menu="matMenu" class="nav">
+        <button mat-menu-item></button>
+        <ng-container *ngFor="let menuItem of menuItems">
+            <button mat-menu-item>
+                <a class="nav-link" [routerLink]="[menuItem.path]" data-toggle="dropdown">
+                    <mat-icon>{{menuItem.icon}}</mat-icon>
+                    <span>{{menuItem.title}}</span>
                 </a>
-            </li>
-        </ul>
-    </li>
+            </button>
+        </ng-container>
+    </mat-menu>
+  <!--  <ul class="nav">
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngFor="let menuItem of menuItems">
+            <a class="nav-link" [routerLink]="[menuItem.path]" data-toggle="dropdown">
+                <p>
+                    <i class="material-icons">{{menuItem.icon}}</i>{{menuItem.title}}
+                    <span class="caret pull-right" *ngIf="menuItem.children?.length>0"></span>
+                </p>
+            </a>
+            <ul class="dropdown-menu" *ngIf="menuItem.children?.length>0">
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngFor="let child of menuItem.children" class="{{child.class}} nav-item">
+                    <a class="nav-link" [routerLink]="[child.path]">
+                        <i class="material-icons">{{child.icon}}</i>
+                        <p>{{child.title}}</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
 
-    </ul>
-    
+    </ul> -->
+
 </div>

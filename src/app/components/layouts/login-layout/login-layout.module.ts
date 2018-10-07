@@ -14,6 +14,7 @@ import {
   MatRippleModule,
   MatTooltipModule,
   MatCheckboxModule,
+  MatMenuModule,
 } from '@angular/material';
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import {
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
-	  MatCheckboxModule,
+    MatCheckboxModule,
+    MatMenuModule,
   ],
   declarations: [
     LoginComponent,
