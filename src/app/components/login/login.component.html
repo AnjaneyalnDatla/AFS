@@ -25,18 +25,19 @@
                                 </mat-input-container>
                             </div>
                             <div class="form-row">
-                                <mat-checkbox>Remember me</mat-checkbox>
+                                <mat-checkbox><span style="color:black">Remember me</span></mat-checkbox>
+                                <span class="pswd-text"><a (click)="forgotPassword();">Forgot password?</a></span>
                             </div>
                             
                         </div>
-                        <div class="form-row">
+                        <!-- <div class="footer">
                            
-                            <button mat-raised-button (click)="login();">Login</button>
+                            <button mat-raised-button primary (click)="login();">Login</button>
                             <button mat-raised-button ((click)="regClick();">Register</button>
                            
-                        </div>
+                        </div> -->
                         <div class="footer">
-                            <button mat-raised-button (click)="forgotPassword();">Forgot Username/Password</button>
+                            <button mat-raised-button (click)="login();">Login</button>
                         </div>
                     </div>
                 </form>
