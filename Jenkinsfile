@@ -36,7 +36,7 @@ pipeline{
 		}
 		stage("Run App"){
 			steps{
-					sh 'docker run -d --name afs-portal -p 80:80 afs-portal:${BUILD_NUMBER}'
+					sh 'docker run -d --name afs-portal -p 90:80 afs-portal:${BUILD_NUMBER}'
 			}
 		}
 	}
