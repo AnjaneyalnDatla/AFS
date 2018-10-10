@@ -24,6 +24,7 @@ pipeline{
 		}
 		stage("Create Docker Image"){
 			steps{
+					sh 'whoami'
 					sh 'docker build -t afs-portal:${BUILD_NUMBER} .'
 			}
 		}
