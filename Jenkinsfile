@@ -22,10 +22,10 @@ pipeline{
 					sh 'docker build -t afs-portal:${BUILD_NUMBER} .'
 			}
 		}
-		stage("Publish Docker Image"){
+		stage("Clean up old Docker Images and containers"){
 			steps{
+					sh 'docker stop afs-portal || true && docker rm afs-portal || true docker rmi $(docker images |grep afs-portal) || true'
 					sh 'docker tag afs-portal:${BUILD_NUMBER} afs-portal:${BUILD_NUMBER}'
-					sh 'docker rmi afs-portal:${BUILD_NUMBER}'
 			}
 		}
 		stage("Run App"){
