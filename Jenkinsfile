@@ -12,6 +12,11 @@ pipeline{
                 sh 'rm -rf afs-portal && git init && git clone https://$BITBUCKET_COMMON_CREDS_USR:$BITBUCKET_COMMON_CREDS_PSW@bitbucket.org/a2ninesrkr/afs-portal.git'
             }
         }
+		stage("Install Dependencies"){
+			steps{
+				sh "npm install"
+			}
+		}
         stage("Create build"){
 			steps{
 				sh "npm run build"
