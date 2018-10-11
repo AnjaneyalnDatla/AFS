@@ -313,7 +313,10 @@ module.exports = webpackAsyncContext;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationService", function() { return AuthenticationService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var rxjs_add_operator_map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/add/operator/map */ "./node_modules/rxjs-compat/_esm5/add/operator/map.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var rxjs_add_operator_map__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/add/operator/map */ "./node_modules/rxjs-compat/_esm5/add/operator/map.js");
+/* harmony import */ var rxjs_add_operator_catch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/add/operator/catch */ "./node_modules/rxjs-compat/_esm5/add/operator/catch.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -325,25 +328,29 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
+
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService() {
+    function AuthenticationService(http) {
+        this.http = http;
     }
     AuthenticationService.prototype.login = function (username, password) {
-        if (username == 'admin' && password == 'admin') {
-            return true;
-        }
-        else {
-            return false;
-        }
-        // return this.http.post<any>('/api/authenticate', { username: username, password: password })
-        //    .map(user => {
-        //       // login successful if there's a jwt token in the response
-        //       if (user && user.token) {
-        //         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        //        localStorage.setItem('currentUser', JSON.stringify(user));
-        //    }
-        //    return user;
-        // }); 
+        var url = "" + _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].identity_contextroot + ("" + _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].identity_validate_url);
+        var user = {
+            userName: username,
+            password: password,
+        };
+        return this.http.post(url, user, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(function (response) {
+            if (response) {
+                localStorage.setItem('currentUser', JSON.stringify(response));
+            }
+            return response;
+        });
     };
     AuthenticationService.prototype.logout = function () {
         // remove user from local storage to log user out
@@ -351,7 +358,7 @@ var AuthenticationService = /** @class */ (function () {
     };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], AuthenticationService);
     return AuthenticationService;
 }());
@@ -378,7 +385,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<router-outlet></router-outlet>\n"
+module.exports = "<router-outlet></router-outlet>\n\n"
 
 /***/ }),
 
@@ -478,6 +485,7 @@ var AppModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_8__["MatInputModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_8__["MatCheckboxModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_8__["MatButtonModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_8__["MatMenuModule"],
                 _agm_core__WEBPACK_IMPORTED_MODULE_9__["AgmCoreModule"].forRoot({
                     apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
                 }),
@@ -621,6 +629,8 @@ var ComponentsModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatOptionModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatSelectModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatDatepickerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatMenuModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatIconModule"],
             ],
             declarations: [
                 _footer_footer_component__WEBPACK_IMPORTED_MODULE_3__["FooterComponent"],
@@ -659,7 +669,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<footer class=\"footer \">\n    <div class=\"container-fluid\">\n        <nav class=\"pull-left\">\n            <ul>\n                <li>\n                    <a href=\"#\">\n                        About Us\n                    </a>\n                </li>\n                <li>\n                    <a href=\"#\">\n                        Blog\n                    </a>\n                </li>\n                <li>\n                    <a href=\"#\">\n                        Licenses\n                    </a>\n                </li>\n            </ul>\n        </nav>\n        <div class=\"copyright pull-right\">\n            &copy;\n            {{test | date: 'yyyy'}}, powered by\n            <a href=\"#\" target=\"_blank\">A2Nine</a>\n        </div>\n    </div>\n</footer>\n"
+module.exports = "<footer class=\"footer \">\n    <div class=\"container-fluid\">\n        <nav class=\"pull-right\">\n            <ul>\n                <li>\n                    <a href=\"#\">\n                        About Us\n                    </a>\n                </li>\n                <li>\n                    <a href=\"#\">\n                        Blog\n                    </a>\n                </li>\n                <li>\n                    <a href=\"#\">\n                        Licenses\n                    </a>\n                </li>\n            </ul>\n        </nav>\n        <div class=\"copyright pull-left\">\n            &copy;\n            {{test | date: 'yyyy'}}, powered by\n            <a href=\"#\" target=\"_blank\">A2Nine</a>\n        </div>\n    </div>\n</footer>\n"
 
 /***/ }),
 
@@ -712,7 +722,7 @@ var FooterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\">\n    <div class=\"sidebar\" data-color=\"danger\" data-background-color=\"white\" data-image=\"../assets/img/sidebar-1.jpg\">\n        <app-sidebar></app-sidebar>\n        <div class=\"sidebar-background\" style=\"background-image: url(../assets/img/sidebar-4.jpg)\"></div>\n    </div>\n    <div class=\"main-panel\">\n        <div><app-navbar></app-navbar></div>\n        <router-outlet></router-outlet>\n       <!-- <div *ngIf=\"isMaps('maps')\">\n            <app-footer></app-footer>\n        </div> -->\n    </div>\n</div>\n"
+module.exports = "<div class=\"background\">\n    <div class=\"wrapper\">\n        <!-- <div class=\"sidebar\" data-color=\"danger\" data-background-color=\"white\" data-image=\"../assets/img/sidebar-1.jpg\"> -->\n        <div>\n            <app-navbar></app-navbar>\n        </div>\n        <div class=\"main-panel panel\">\n            <router-outlet></router-outlet>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -723,7 +733,7 @@ module.exports = "<div class=\"wrapper\">\n    <div class=\"sidebar\" data-color
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".transperancy {\n  border-width: 0px;\n  box-shadow: 0px 0px;\n  background-color: rgba(0, 0, 0, 0);\n  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%); }\n\n.example-container {\n  width: 500px;\n  height: 300px;\n  border: 1px solid rgba(0, 0, 0, 0.5); }\n\n.example-sidenav {\n  padding: 20px; }\n\n.panel {\n  width: 100%; }\n"
 
 /***/ }),
 
@@ -856,7 +866,7 @@ var AdminLayoutComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".mainlayout{\n    min-height: 90vh;\n    flex: 1;\n  }\n\n.background{\n  width: 100%;\n  height: 100%;\n  background: url('background3.jpg');\n  background-size: 100% 100%;\n  background-position: top center;\n}"
 
 /***/ }),
 
@@ -867,7 +877,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>  \n    <router-outlet></router-outlet>\n    <app-footer></app-footer>\n</div>"
+module.exports = "<div class=\"background\">\n    <div class=\"mainlayout\">\n        <router-outlet></router-outlet>\n    </div>\n    <app-footer class=\"mt-auto\"></app-footer>\n</div>"
 
 /***/ }),
 
@@ -930,7 +940,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top\">\n    <div class=\"container-fluid\">\n        <!--<div class=\"navbar-wrapper\">\n          <a class=\"navbar-brand\" href=\"#\">{{getTitle()}}</a>\n        </div> -->\n        <button mat-raised-button class=\"navbar-toggler\" type=\"button\" (click)=\"sidebarToggle()\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"navbar-toggler-icon icon-bar\"></span>\n            <span class=\"navbar-toggler-icon icon-bar\"></span>\n            <span class=\"navbar-toggler-icon icon-bar\"></span>\n        </button>\n        <div class=\"collapse navbar-collapse justify-content-end\" id=\"navigation\">\n            <form class=\"navbar-form\">\n                <div class=\"input-group no-border\">\n                    <input type=\"text\" value=\"\" class=\"form-control\" placeholder=\"Search...\">\n                    <button mat-raised-button type=\"submit\" class=\"btn btn-white btn-round btn-just-icon\">\n                        <i class=\"material-icons\">search</i>\n                        <div class=\"ripple-container\"></div>\n                    </button>\n                </div>\n            </form>\n            <ul class=\"navbar-nav\">\n                <li class=\"nav-item dropdown\">\n                    <a class=\"nav-link\" href=\"http://example.com\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"material-icons\">notifications</i>\n                        <span class=\"notification\">2</span>\n                        <p>\n                            <span class=\"d-lg-none d-md-block\">Some Actions</span>\n                        </p>\n                    </a>\n                    <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"navbarDropdownMenuLink\">\n                        <a class=\"dropdown-item\" href=\"#\">Not Enabled</a>\n                    </div>\n                </li>\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" href=\"#pablo\">\n                        <i class=\"material-icons\">person</i>\n                        <p>\n                            <span class=\"d-lg-none d-md-block\">Account</span>\n                        </p>\n                    </a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top\">\n    <div class=\"container-fluid\">\n        <button mat-raised-button class=\"navbar-toggler\" type=\"button\" (click)=\"sidebarToggle()\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"navbar-toggler-icon icon-bar\"></span>\n            <span class=\"navbar-toggler-icon icon-bar\"></span>\n            <span class=\"navbar-toggler-icon icon-bar\"></span>\n        </button>\n        <div>\n            <app-sidebar></app-sidebar>\n        </div>\n        <div class=\"collapse navbar-collapse justify-content-end\" id=\"navigation\">\n            <form class=\"navbar-form\">\n                <div class=\"input-group no-border\">\n                    <input type=\"text\" value=\"\" class=\"form-control\" placeholder=\"Search...\">\n                    <button mat-raised-button type=\"submit\" class=\"btn btn-white btn-round btn-just-icon\">\n                        <i class=\"material-icons\">search</i>\n                        <div class=\"ripple-container\"></div>\n                    </button>\n                </div>\n            </form>\n            <ul class=\"navbar-nav\">\n                <li class=\"nav-item dropdown\">\n                    <a class=\"nav-link\" href=\"http://example.com\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"material-icons\">notifications</i>\n                        <span class=\"notification\">2</span>\n                        <p>\n                            <span class=\"d-lg-none d-md-block\">Some Actions</span>\n                        </p>\n                    </a>\n                    <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"navbarDropdownMenuLink\">\n                        <a class=\"dropdown-item\" href=\"#\">Not Enabled</a>\n                    </div>\n                </li>\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" href=\"#pablo\">\n                        <i class=\"material-icons\">person</i>\n                        <p>\n                            <span class=\"d-lg-none d-md-block\">Account</span>\n                        </p>\n                    </a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>\n"
 
 /***/ }),
 
@@ -1097,7 +1107,7 @@ module.exports = ".custom-color{\n    background: linear-gradient(60deg, #cceeed
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"sidebar-wrapper\">\n    <div *ngIf=\"isMobileMenu()\">\n        <form class=\"navbar-form\">\n            <span class=\"bmd-form-group\">\n                <div class=\"input-group no-border\">\n                    <input type=\"text\" value=\"\" class=\"form-control\" placeholder=\"Search...\">\n                    <button mat-raised-button type=\"submit\" class=\"btn btn-white btn-round btn-just-icon\">\n                        <i class=\"material-icons\">search</i>\n                        <div class=\"ripple-container\"></div>\n                    </button>\n                </div>\n            </span>\n        </form>\n        <ul class=\"nav navbar-nav nav-mobile-menu\">\n            <li class=\"nav-item dropdown\">\n                <a class=\"nav-link\" href=\"http://example.com\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <i class=\"material-icons\">notifications</i>\n                    <span class=\"notification\">2</span>\n                    <p>\n                        <span class=\"d-lg-none d-md-block\">Some Actions</span>\n                    </p>\n                </a>\n                <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"navbarDropdownMenuLink\">\n                    <a class=\"dropdown-item\" href=\"#\">No New Notifications</a>\n                    <a class=\"dropdown-item\" href=\"#\">Under Construction</a>\n                </div>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#pablo\">\n                    <i class=\"material-icons\">person</i>\n                    <p>\n                        <span class=\"d-lg-none d-md-block\">Account</span>\n                    </p>\n                </a>\n            </li>\n        </ul>\n    </div>\n\n    <ul class=\"nav\">\n<!-- Dynamic menu -->\n\n    <li routerLinkActive=\"active\" [routerLinkActiveOptions]=\"{exact: true}\" class=\"nav-item dropdown\" *ngFor=\"let menuItem of menuItems\">\n        <a class=\"nav-link\" [routerLink]=\"[menuItem.path]\" data-toggle=\"dropdown\">\n            <p>\n                <i class=\"material-icons\">{{menuItem.icon}}</i>{{menuItem.title}}\n                <span class=\"caret pull-right\" *ngIf=\"menuItem.children?.length>0\"></span>\n            </p>\n        </a>\n        <ul class=\"dropdown-menu\" *ngIf=\"menuItem.children?.length>0\">\n            <li routerLinkActive=\"active\" [routerLinkActiveOptions]=\"{exact: true}\"  *ngFor=\"let child of menuItem.children\" class=\"{{child.class}} nav-item\">\n                <a class=\"nav-link\" [routerLink]=\"[child.path]\">\n                    <i class=\"material-icons\">{{child.icon}}</i>\n                    <p>{{child.title}}</p>\n                </a>\n            </li>\n        </ul>\n    </li>\n\n\n    </ul>\n    \n</div>"
+module.exports = "<div class=\"sidebar-wrapper\">\n    <div *ngIf=\"isMobileMenu()\">\n        <form class=\"navbar-form\">\n            <span class=\"bmd-form-group\">\n                <div class=\"input-group no-border\">\n                    <input type=\"text\" value=\"\" class=\"form-control\" placeholder=\"Search...\">\n                    <button mat-raised-button type=\"submit\" class=\"btn btn-white btn-round btn-just-icon\">\n                        <i class=\"material-icons\">search</i>\n                        <div class=\"ripple-container\"></div>\n                    </button>\n                </div>\n            </span>\n        </form>\n        <ul class=\"nav navbar-nav nav-mobile-menu\">\n            <li class=\"nav-item dropdown\">\n                <a class=\"nav-link\" href=\"http://example.com\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <i class=\"material-icons\">notifications</i>\n                    <span class=\"notification\">2</span>\n                    <p>\n                        <span class=\"d-lg-none d-md-block\">Some Actions</span>\n                    </p>\n                </a>\n                <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"navbarDropdownMenuLink\">\n                    <a class=\"dropdown-item\" href=\"#\">No New Notifications</a>\n                    <a class=\"dropdown-item\" href=\"#\">Under Construction</a>\n                </div>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#pablo\">\n                    <i class=\"material-icons\">person</i>\n                    <p>\n                        <span class=\"d-lg-none d-md-block\">Account</span>\n                    </p>\n                </a>\n            </li>\n        </ul>\n    </div>\n\n    <!-- <button mat-button [matMenuTriggerFor]=\"menu\">Menu</button> -->\n    <button mat-icon-button [matMenuTriggerFor]=\"menu\">\n        <mat-icon>more_vert</mat-icon>\n        <span>Menu</span>\n    </button>\n    <mat-menu #menu=\"matMenu\" class=\"nav\">\n        <button mat-menu-item></button>\n        <ng-container *ngFor=\"let menuItem of menuItems\">\n            <button mat-menu-item>\n                <a class=\"nav-link\" [routerLink]=\"[menuItem.path]\" data-toggle=\"dropdown\">\n                    <mat-icon>{{menuItem.icon}}</mat-icon>\n                    <span>{{menuItem.title}}</span>\n                </a>\n            </button>\n        </ng-container>\n    </mat-menu>\n  <!--  <ul class=\"nav\">\n\n        <li routerLinkActive=\"active\" [routerLinkActiveOptions]=\"{exact: true}\" class=\"nav-item dropdown\" *ngFor=\"let menuItem of menuItems\">\n            <a class=\"nav-link\" [routerLink]=\"[menuItem.path]\" data-toggle=\"dropdown\">\n                <p>\n                    <i class=\"material-icons\">{{menuItem.icon}}</i>{{menuItem.title}}\n                    <span class=\"caret pull-right\" *ngIf=\"menuItem.children?.length>0\"></span>\n                </p>\n            </a>\n            <ul class=\"dropdown-menu\" *ngIf=\"menuItem.children?.length>0\">\n                <li routerLinkActive=\"active\" [routerLinkActiveOptions]=\"{exact: true}\" *ngFor=\"let child of menuItem.children\" class=\"{{child.class}} nav-item\">\n                    <a class=\"nav-link\" [routerLink]=\"[child.path]\">\n                        <i class=\"material-icons\">{{child.icon}}</i>\n                        <p>{{child.title}}</p>\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n\n    </ul> -->\n\n</div>"
 
 /***/ }),
 
@@ -1127,7 +1137,7 @@ var ROUTES = [
     { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '', children: [] },
     { path: '/sales', title: 'Sales', icon: 'shop_two', class: '', children: [] },
     { path: '/purchases', title: 'Purchases', icon: 'shopping_cart', class: '', children: [] },
-    { path: '/productandservices', title: 'Products and Services', icon: 'content_paste', class: '', children: [] },
+    //{ path: '/productandservices', title: 'Products and Services',  icon:'content_paste', class: '', children:[] },
     { path: '/contacts', title: 'Contacts', icon: 'person', class: '', children: [] },
     { path: '/account', title: 'Accounts', icon: 'account_balance', class: '', children: [] },
     { path: '/reports', title: 'Reports', icon: 'bar_chart', class: '', children: [] },
@@ -1175,7 +1185,11 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
-    production: false
+    production: false,
+    // Context Roots
+    identity_contextroot: 'http://localhost:8080/identity/',
+    // Context Paths
+    identity_validate_url: 'validate',
 };
 
 

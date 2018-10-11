@@ -1,5 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import { contact } from '../../_models/contact';
+import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
 
+export interface PeriodicElement {
+  position: string;
+  name: string;
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  { position: '1', name: "Antony" },
+  { position: '2', name: "Mark" },
+  { position: '3', name: "John" },
+  { position: '4', name: "Smith" },
+  { position: '5', name: "Aby" },
+  { position: '6', name: "Tony" },
+  { position: '7', name: "Stark" },
+  { position: '8', name: "Neil" },
+  { position: '9', name: "Roger" },
+  { position: '10', name: "Siddle" },
+];
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -7,9 +26,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactsComponent implements OnInit {
 
+  displayedColumns: string[] = ['position', 'name'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
+  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
 }

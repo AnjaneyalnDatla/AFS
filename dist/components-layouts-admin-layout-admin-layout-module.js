@@ -4871,6 +4871,7 @@ var AdminLayoutModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatPaginatorModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatTableModule"],
                 ng2_charts_ng2_charts__WEBPACK_IMPORTED_MODULE_14__["ChartsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_13__["MatMenuModule"],
             ],
             declarations: [
                 _dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_5__["DashboardComponent"],

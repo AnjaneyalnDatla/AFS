@@ -104,6 +104,6 @@ export class PurchasesComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-  }ß
+  }
 
 }

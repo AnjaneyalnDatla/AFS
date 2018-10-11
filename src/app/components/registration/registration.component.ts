@@ -26,4 +26,8 @@ export class RegistrationComponent implements OnInit {
   loginClick(){
 	 this.router.navigate(["login"]);
   }
+
+  registration(){
+    
+  }
 }
