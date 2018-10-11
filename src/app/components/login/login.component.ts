@@ -22,13 +22,25 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.returnVal = this.authenticationService.login(this.model.username, this.model.password);
-    if (this.returnVal) {
-      this.router.navigate(["dashboard"]);
-    } else {
-      alert("Invalid credentials");
-      this.loading = false;
-    }
+    //this.returnVal = this.authenticationService.login(this.model.username, this.model.password);
+    
+    this.authenticationService.login(this.model.username, this.model.password)
+            .subscribe(
+                data => {
+                    this.router.navigate(["dashboard"]);
+                },
+                error => {
+                   // this.alertService.error(error);
+                   alert("Invalid credentials");
+                    this.loading = false;
+                });
+    
+    // if (this.returnVal) {
+    //   this.router.navigate(["dashboard"]);
+    // } else {
+    //   alert("Invalid credentials");
+    //   this.loading = false;
+    // }
   }
   regClick() {
     this.router.navigate(["register"]);

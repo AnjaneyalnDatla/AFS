@@ -7,6 +7,7 @@ import { LoginComponent } from '../../login/login.component';
 import { RegistrationComponent } from '../../registration/registration.component';
 import { PasswordResetComponent } from '../../passwordReset/passwordReset.component';
 import { ForgotPasswordComponent } from '../../forgotPassword/forgotPassword.component';
+import { HttpClientModule } from '@angular/common/http';
 
 import {
   MatButtonModule,
@@ -27,6 +28,7 @@ import {
     MatTooltipModule,
     MatCheckboxModule,
     MatMenuModule,
+    HttpClientModule,
   ],
   declarations: [
     LoginComponent,
