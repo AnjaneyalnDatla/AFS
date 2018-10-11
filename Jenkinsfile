@@ -12,6 +12,11 @@ pipeline{
                 sh 'rm -rf afs-portal && git init && git clone https://$BITBUCKET_COMMON_CREDS_USR:$BITBUCKET_COMMON_CREDS_PSW@bitbucket.org/a2ninesrkr/afs-portal.git'
             }
         }
+		stage("Install Dependencies"){
+			steps{
+				sh "npm install"
+			}
+		}
         stage("Create build"){
 			steps{
 				sh "npm run build"
@@ -19,18 +24,19 @@ pipeline{
 		}
 		stage("Create Docker Image"){
 			steps{
+					sh 'whoami'
 					sh 'docker build -t afs-portal:${BUILD_NUMBER} .'
 			}
 		}
-		stage("Publish Docker Image"){
+		stage("Clean up old Docker Images and containers"){
 			steps{
+					sh 'docker stop afs-portal || true && docker rm afs-portal || true docker rmi $(docker images |grep afs-portal) || true'
 					sh 'docker tag afs-portal:${BUILD_NUMBER} afs-portal:${BUILD_NUMBER}'
-					sh 'docker rmi afs-portal:${BUILD_NUMBER}'
 			}
 		}
 		stage("Run App"){
 			steps{
-					sh 'docker run -d --name afs-portal -p 80:80 afs-portal:${BUILD_NUMBER}'
+					sh 'docker run -d --name afs-portal -p 90:80 afs-portal:${BUILD_NUMBER}'
 			}
 		}
 	}
