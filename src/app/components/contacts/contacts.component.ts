@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import { contact } from '../../_models/contact';
+import { Contact } from '../../_models/contact';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
+import { User } from '../../_models/user';
 
 export interface PeriodicElement {
   position: string;
@@ -26,6 +28,26 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ContactsComponent implements OnInit {
 
+  contactForm = new FormGroup({ 
+      isCompany: new FormControl(),
+      companyName: new FormControl(),
+      firstName: new FormControl(),
+      middleName: new FormControl(),
+      lastName: new FormControl(),
+      address: new FormGroup({
+        streetAddress: new FormControl(),
+        city: new FormControl(),
+        state: new FormControl(),
+        country: new FormControl(),
+        postalCode: new FormControl(),
+        landMark: new FormControl(),
+      }),
+      homePhone: new FormControl(),
+      cellPhone: new FormControl(),
+      faxNumber: new FormControl(),
+      additionalComments: new FormControl(),
+  });
+
   displayedColumns: string[] = ['position', 'name'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -39,6 +61,10 @@ export class ContactsComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  saveContact(){
+    alert(this.contactForm.value.isCompany);
   }
 
 }

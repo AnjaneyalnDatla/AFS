@@ -3,13 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-
 import { AppComponent } from './app.component';
-
 import { MatButtonModule, MatCheckboxModule, MatInputModule, MatMenuModule} from '@angular/material';
 import {
   AgmCoreModule
@@ -36,7 +32,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     }),
     ChartsModule,
-    HttpClientModule,
   ],
   declarations: [
     AppComponent,

@@ -1,4 +1,4 @@
-export interface contact {
+export interface Contact {
     value: string;
     viewValue: string;
   }
