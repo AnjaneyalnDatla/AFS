@@ -30,6 +30,7 @@ var AdminLayoutModule = /** @class */ (function () {
                 common_1.CommonModule,
                 router_1.RouterModule.forChild(admin_layout_routing_1.AdminLayoutRoutes),
                 forms_1.FormsModule,
+                forms_1.ReactiveFormsModule,
                 material_1.MatButtonModule,
                 material_1.MatRippleModule,
                 material_1.MatInputModule,
@@ -43,6 +44,9 @@ var AdminLayoutModule = /** @class */ (function () {
                 material_1.MatTableModule,
                 ng2_charts_1.ChartsModule,
                 material_1.MatMenuModule,
+                material_1.MatRadioModule,
+                material_1.MatSortModule,
+                material_1.MatTabsModule,
             ],
             declarations: [
                 dashboard_component_1.DashboardComponent,

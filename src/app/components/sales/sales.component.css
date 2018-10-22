@@ -26,3 +26,9 @@
     background: linear-gradient(60deg,  #cceeed96, #44bebe96);
     color: rgb(22, 1, 1);;
   }
+
+
+  mat-sort-header-sorted {
+    color: black;
+  }
+  

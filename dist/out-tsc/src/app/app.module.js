@@ -9,9 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("@angular/platform-browser/animations");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var http_1 = require("@angular/http");
+var http_1 = require("@angular/common/http");
 var router_1 = require("@angular/router");
-var http_2 = require("@angular/common/http");
 var app_routing_1 = require("./app.routing");
 var components_module_1 = require("./components/components.module");
 var app_component_1 = require("./app.component");
@@ -30,7 +29,7 @@ var AppModule = /** @class */ (function () {
                 animations_1.BrowserAnimationsModule,
                 forms_1.FormsModule,
                 forms_1.ReactiveFormsModule,
-                http_1.HttpModule,
+                http_1.HttpClientModule,
                 components_module_1.ComponentsModule,
                 router_1.RouterModule,
                 app_routing_1.AppRoutingModule,
@@ -42,7 +41,6 @@ var AppModule = /** @class */ (function () {
                     apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
                 }),
                 ng2_charts_1.ChartsModule,
-                http_2.HttpClientModule,
             ],
             declarations: [
                 app_component_1.AppComponent,

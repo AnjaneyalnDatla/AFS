@@ -25,6 +25,9 @@ import {
   MatPaginatorModule,
   MatTableModule,
   MatMenuModule,
+  MatRadioModule,
+  MatSortModule,
+  MatTabsModule,
 } from '@angular/material';
 
 import{
@@ -49,6 +52,9 @@ import{
     MatTableModule,
     ChartsModule,
     MatMenuModule,
+    MatRadioModule,
+    MatSortModule,
+    MatTabsModule,
   ],
   declarations: [
     DashboardComponent,

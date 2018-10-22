@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild,AfterViewInit} from '@angular/core';
-import {MatPaginator, MatTableDataSource, MatTableModule} from '@angular/material';
+import { MatSort, MatPaginator, MatTableDataSource, MatTableModule} from '@angular/material';
+// Must import to use Forms functionality  
+import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 
 export interface Vendor {
   value: string;
@@ -17,34 +19,30 @@ export interface Students {
 }
 
 export interface PeriodicElement {
+  id: number;
   name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  type: string;
+  price: number;
+  quantity: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
+  {id: 1, type: 'Electronics', name: 'Dell Laptop', price: 50000, quantity: '4'},
+  {id: 2, type: 'Furniture', name: 'Tables', price: 2000, quantity: '50'},
+  {id: 3, type: 'Food', name: 'Chicken', price: 700, quantity: '10'},
+  {id: 4, type: 'Real Estate', name: 'Land', price: 1345888, quantity: '1'},
 ];
+
+declare interface ProductInfo {
+  name: string;
+  type: string;
+  quantity: number;
+  price: string;
+}
+
+export const Products: ProductInfo[] = []
+
+
 
 @Component({
   selector: 'app-sales',
@@ -53,9 +51,12 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SalesComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  //productItems: any[];
+
+  displayedColumns: string[] = ['type', 'name', 'price', 'quantity','actions'];
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   vendors: Vendor[] = [
     {value: 'RamRao', viewValue: 'Ram'},
@@ -75,34 +76,86 @@ export class SalesComponent implements OnInit {
     {value: 'ganesh', viewValue: 'Ganesh'}
   ];
 
+  productItems = [{ name: '',type: '',quantity: 0,price: ''}];
+  productObj = {};
+
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
-  public chartType:string = 'pie';
+  salesForm: FormGroup;  
+  personType:string='';  
+  personTypeValue:string=''; 
 
-  public chartData:Array<any> = [300, 50, 100, 40, 120];
+  constructor(private fb: FormBuilder) {  
 
-  public chartLabels:Array<any> = ['Red', 'Green', 'Yellow', 'Grey', 'Dark Grey'];
+  }
 
-  public chartColors:Array<any> = [{
-      hoverBorderColor: ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'],
-      hoverBorderWidth: 0,
-      backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-      hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5","#616774"]
-  }];
+  ngOnInit() {    
+     // To initialize FormGroup  
+     this.salesForm = this.fb.group({  
+      personType : [null, Validators.required],  
+      personTypeValue : [null, Validators.required],  
+      //productInfo: this.fb.group(this.buildProductList())
+      productInfo: new FormArray([
+        new FormGroup({
+          name: new FormControl(),
+          type: new FormControl(),
+          quantity: new FormControl(),
+          price: new FormControl(),
+        })
+      ]),
+      tax: [null ,Validators.required],
+      paymentAmount: [null ,Validators.required],
+      paymentDate: [null ,Validators.required],
+      creditTo: [null ,Validators.required],
+      additionalComments: []
+    }); 
 
-  public chartOptions:any = {
-      responsive: true
-  };
-  public chartClicked(e: any): void { }
-  public chartHovered(e: any): void { }
-
-  constructor() { }
-
-  ngOnInit() {
-    
+    //this.productItems = Products.filter(productItem => productItem);    
+   // this.addNewProduct();
+  }
+  buildProductList() {
+    const arr = this.productItems.map(product => {
+      return this.fb.control(product);
+    });
+    return this.fb.array(arr);
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-}
+    this.dataSource.sort = this.sort;
+  }
+  addNewProduct(){
+    //this.productItems.push(this.product);
+    const control = <FormArray>this.salesForm.controls['productInfo'];
+    console.log(control);
+    this.productItems.forEach(x => {
+      control.push(this.fb.group({ 
+        name: x.name, 
+        type: x.type,
+        quantity: x.quantity,
+        price: x.price,
+        }))
+    })
+
+    //this.productItems = this.salesForm.get('productInfo') as FormArray;
+  //this.productItems.push(this.createItem());
+  }
+  removeProduct(index){
+   // console.log(this.productItems);
+   // this.productItems.splice(index,1);
+   const control = <FormArray>this.salesForm.controls['productInfo'];
+   control.removeAt(index);
+  }
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  editSaleItem(saleItem){
+    console.log(saleItem);
+    this.productObj = saleItem;
+  }
+  // Executed When Form Is Submitted  
+  onFormSubmit(form:NgForm)  
+  {  
+    console.log(form);  
+  }  
 
 }

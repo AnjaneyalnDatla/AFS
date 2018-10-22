@@ -15,6 +15,7 @@ var login_component_1 = require("../../login/login.component");
 var registration_component_1 = require("../../registration/registration.component");
 var passwordReset_component_1 = require("../../passwordReset/passwordReset.component");
 var forgotPassword_component_1 = require("../../forgotPassword/forgotPassword.component");
+var http_1 = require("@angular/common/http");
 var material_1 = require("@angular/material");
 var LoginLayoutModule = /** @class */ (function () {
     function LoginLayoutModule() {
@@ -31,6 +32,7 @@ var LoginLayoutModule = /** @class */ (function () {
                 material_1.MatTooltipModule,
                 material_1.MatCheckboxModule,
                 material_1.MatMenuModule,
+                http_1.HttpClientModule,
             ],
             declarations: [
                 login_component_1.LoginComponent,
