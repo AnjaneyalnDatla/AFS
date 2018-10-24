@@ -66,7 +66,7 @@
               <div class="nav-tabs-wrapper">
                 <ul class="nav nav-pills nav-pills-warning" role="tablist">
                   <li class="nav-item">
-                    <a mat-button class="nav-link  active show" style="color:black !important" href="#addSale" data-toggle="tab">
+                    <a mat-button class="nav-link" [class.active]="isActive" style="color:black !important" href="#addSale" data-toggle="tab">
                       <i class="mat-icon material-icons">add</i> New Sale
                       <div class="ripple-container"></div>
                     </a>
@@ -103,11 +103,11 @@
                   </div>
                 </form>
               </div>
-              <div class="tab-pane active" id="addSale">
+              <div class="tab-pane" [class.active]="isActive" id="addSale">
                 <form class="sale-form" name="form" [formGroup]="salesForm" (ngSubmit)="onFormSubmit(salesForm.value)">
                   <div class="row">
                     <div class="col-md-6">
-                      <mat-radio-group formControlName="personType">
+                      <mat-radio-group formControlName="personType" (change)="toggleData($event)">
                         <mat-radio-button value="vendor">Vendor ?</mat-radio-button>&nbsp;
                         <mat-radio-button value="customer">Customer ?</mat-radio-button>
                       </mat-radio-group>
@@ -115,8 +115,8 @@
                     <div class="col-md-6">
                       <mat-form-field>
                         <mat-select placeholder="Vendors/Customer" formControlName="personTypeValue">
-                          <mat-option *ngFor="let vendor of vendors" [value]="vendor.value">
-                            {{vendor.viewValue}}
+                          <mat-option *ngFor="let person of persons" [value]="person.value">
+                            {{person.viewValue}}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -139,8 +139,8 @@
                       <div class="col-md-3">
                         <mat-form-field>
                           <mat-select placeholder="Product Type" formControlName="type">
-                            <mat-option *ngFor="let student of students" [value]="student.value">
-                              {{student.viewValue}}
+                            <mat-option *ngFor="let productType of productTypes" [value]="productType.value">
+                              {{productType.viewValue}}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>

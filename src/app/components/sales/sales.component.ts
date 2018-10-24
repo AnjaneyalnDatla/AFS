@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild,AfterViewInit} from '@angular/core';
-import { MatSort, MatPaginator, MatTableDataSource, MatTableModule} from '@angular/material';
+import { MatSort, MatPaginator, MatTableDataSource, MatRadioChange} from '@angular/material';
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
+import { SalesService } from '../../_services/sales.service';
 
 export interface Vendor {
   value: string;
@@ -13,7 +14,12 @@ export interface Accounts {
   viewValue: string;
 }
 
-export interface Students {
+export interface Customers {
+  value: string;
+  viewValue: string;
+}
+
+export interface ProductType {
   value: string;
   viewValue: string;
 }
@@ -33,25 +39,12 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {id: 4, type: 'Real Estate', name: 'Land', price: 1345888, quantity: '1'},
 ];
 
-declare interface ProductInfo {
-  name: string;
-  type: string;
-  quantity: number;
-  price: string;
-}
-
-export const Products: ProductInfo[] = []
-
-
-
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
   styleUrls: ['./sales.component.css']
 })
 export class SalesComponent implements OnInit {
-
-  //productItems: any[];
 
   displayedColumns: string[] = ['type', 'name', 'price', 'quantity','actions'];
   
@@ -70,22 +63,32 @@ export class SalesComponent implements OnInit {
     {value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS'}
   ];
 
-  students: Students[] = [
+  customers: Customers[] = [
     {value: 'ramesh', viewValue: 'Ramesh'},
     {value: 'suresh', viewValue: 'Suresh'},
     {value: 'ganesh', viewValue: 'Ganesh'}
   ];
 
+  productTypes: ProductType[] = [
+    {value: 'electronics', viewValue: 'Electronics'},
+    {value: 'furniture', viewValue: 'Furniture'},
+    {value: 'food', viewValue: 'Food'},
+    {value: 'real_estate', viewValue: 'Real Estate'}
+  ];
+
   productItems = [{ name: '',type: '',quantity: 0,price: ''}];
   productObj = {};
+  persons = {};
 
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   salesForm: FormGroup;  
   personType:string='';  
   personTypeValue:string=''; 
-
-  constructor(private fb: FormBuilder) {  
+  isActive:boolean=true;
+  
+  constructor(private fb: FormBuilder,
+    private salesService: SalesService, ) {  
 
   }
 
@@ -94,7 +97,6 @@ export class SalesComponent implements OnInit {
      this.salesForm = this.fb.group({  
       personType : [null, Validators.required],  
       personTypeValue : [null, Validators.required],  
-      //productInfo: this.fb.group(this.buildProductList())
       productInfo: new FormArray([
         new FormGroup({
           name: new FormControl(),
@@ -109,16 +111,9 @@ export class SalesComponent implements OnInit {
       creditTo: [null ,Validators.required],
       additionalComments: []
     }); 
+  }
+  
 
-    //this.productItems = Products.filter(productItem => productItem);    
-   // this.addNewProduct();
-  }
-  buildProductList() {
-    const arr = this.productItems.map(product => {
-      return this.fb.control(product);
-    });
-    return this.fb.array(arr);
-  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -126,7 +121,7 @@ export class SalesComponent implements OnInit {
   addNewProduct(){
     //this.productItems.push(this.product);
     const control = <FormArray>this.salesForm.controls['productInfo'];
-    console.log(control);
+    //console.log(control);
     this.productItems.forEach(x => {
       control.push(this.fb.group({ 
         name: x.name, 
@@ -135,13 +130,8 @@ export class SalesComponent implements OnInit {
         price: x.price,
         }))
     })
-
-    //this.productItems = this.salesForm.get('productInfo') as FormArray;
-  //this.productItems.push(this.createItem());
   }
   removeProduct(index){
-   // console.log(this.productItems);
-   // this.productItems.splice(index,1);
    const control = <FormArray>this.salesForm.controls['productInfo'];
    control.removeAt(index);
   }
@@ -151,6 +141,37 @@ export class SalesComponent implements OnInit {
   editSaleItem(saleItem){
     console.log(saleItem);
     this.productObj = saleItem;
+  }
+  getVendorList(){//load on init
+    this.salesService.getVendorList().subscribe(
+      data => {
+        this.vendors  =  data;
+        console.log(data);
+      }
+    );
+  }
+  getCustomerList(){//load on init
+    this.salesService.getCustomerList().subscribe(
+      data => {
+        this.customers  =  data;
+        console.log(data);
+      }
+    );
+  }
+  getProductTypes(){//load on init
+    this.salesService.getProductTypes().subscribe(
+      data => {
+        this.productTypes  =  data;
+        console.log(data);
+      }
+    );
+  }
+  toggleData($event: MatRadioChange){ 
+    if($event.value === 'vendor'){
+      this.persons = this.vendors;
+    }else{
+      this.persons = this.customers;
+    }
   }
   // Executed When Form Is Submitted  
   onFormSubmit(form:NgForm)  
