@@ -11,6 +11,8 @@ import { ContactsComponent } from '../../contacts/contacts.component';
 import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { AccountComponent } from '../../account/account.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import {
   MatButtonModule,
@@ -55,6 +57,7 @@ import{
     MatRadioModule,
     MatSortModule,
     MatTabsModule,
+    HttpClientModule,
   ],
   declarations: [
     DashboardComponent,
