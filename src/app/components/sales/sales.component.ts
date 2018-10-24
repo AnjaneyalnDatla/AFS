@@ -109,7 +109,6 @@ export class SalesComponent implements OnInit {
       creditTo: [null ,Validators.required],
       additionalComments: []
     }); 
-
     //this.productItems = Products.filter(productItem => productItem);    
    // this.addNewProduct();
   }

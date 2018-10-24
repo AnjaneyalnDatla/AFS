@@ -36,42 +36,30 @@
         </ul>
     </div>
 
-    <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button> -->
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-        <span>Menu</span>
-    </button>
-    <mat-menu #menu="matMenu" class="nav">
-        <button mat-menu-item></button>
-        <ng-container *ngFor="let menuItem of menuItems">
-            <button mat-menu-item>
-                <a class="nav-link" [routerLink]="[menuItem.path]" data-toggle="dropdown">
-                    <mat-icon>{{menuItem.icon}}</mat-icon>
-                    <span>{{menuItem.title}}</span>
+    <ul class="nav">
+            <li routerLinkActive="active" *ngFor="let menuitem of menuItems" class="nav-item">
+                <!--If is a single link-->
+                <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'" class="nav-link">
+                    <i class="material-icons">{{menuitem.iconType}}</i>
+                    <p>{{menuitem.title}}</p>
                 </a>
-            </button>
-        </ng-container>
-    </mat-menu>
-  <!--  <ul class="nav">
+                <!--If it have a submenu-->
+                <a data-toggle="collapse" href="#{{menuitem.collapse}}" *ngIf="menuitem.type === 'sub'" (click)="updatePS()" class="nav-link">
+                    <i class="material-icons">{{menuitem.iconType}}</i>
+                    <p>{{menuitem.title}}<b class="caret"></b></p>
+                </a>
 
-        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngFor="let menuItem of menuItems">
-            <a class="nav-link" [routerLink]="[menuItem.path]" data-toggle="dropdown">
-                <p>
-                    <i class="material-icons">{{menuItem.icon}}</i>{{menuItem.title}}
-                    <span class="caret pull-right" *ngIf="menuItem.children?.length>0"></span>
-                </p>
-            </a>
-            <ul class="dropdown-menu" *ngIf="menuItem.children?.length>0">
-                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngFor="let child of menuItem.children" class="{{child.class}} nav-item">
-                    <a class="nav-link" [routerLink]="[child.path]">
-                        <i class="material-icons">{{child.icon}}</i>
-                        <p>{{child.title}}</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-
-    </ul> -->
-
+                <!--Display the submenu items-->
+                <div id="{{menuitem.collapse}}" class="collapse" *ngIf="menuitem.type === 'sub'">
+                    <ul class="nav">
+                        <li routerLinkActive="active" *ngFor="let childitem of menuitem.children" class="nav-item">
+                            <a [routerLink]="[menuitem.path, childitem.path]" class="nav-link">
+                                <span class="sidebar-mini">{{childitem.ab}}</span>
+                                <span class="sidebar-normal">{{childitem.title}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
 </div>
