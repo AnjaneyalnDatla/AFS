@@ -12,6 +12,7 @@ import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { AccountComponent } from '../../account/account.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SortedTableComponent } from '../../commons/tables/sorted-tables/sortedtable.component';
 
 
 import {
@@ -68,6 +69,7 @@ import{
     ReportsComponent,
     NotificationsComponent,
     AccountComponent,
+    SortedTableComponent,
   ]
 })
 

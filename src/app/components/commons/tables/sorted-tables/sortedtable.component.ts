@@ -1,22 +1,7 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit,Input } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
 
-export interface Vendor {
-  value: string;
-  viewValue: string;
-}
-
-export interface Accounts {
-  value: string;
-  viewValue: string;
-}
-
-export interface Students {
-  value: string;
-  viewValue: string;
-}
-
-export interface PeriodicElement {
+/*export interface PeriodicElement {
   name: string;
   position: number;
   weight: number;
@@ -45,48 +30,23 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
   { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
 ];
-const vendors: Vendor[] = [
-  { value: 'RamRao', viewValue: 'Ram' },
-  { value: 'KrishnaRao', viewValue: 'Krishna' },
-  { value: 'SubbaRao', viewValue: 'Subbu' }
-];
-
-const accounts: Accounts[] = [
-  { value: 'cash', viewValue: 'Cash' },
-  { value: 'HDFC Checkings', viewValue: 'HDFC CHECKINGS' },
-  { value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS' }
-];
-
-const students: Students[] = [
-  { value: 'ramesh', viewValue: 'Ramesh' },
-  { value: 'suresh', viewValue: 'Suresh' },
-  { value: 'ganesh', viewValue: 'Ganesh' }
-];
+*/
 
 @Component({
-  selector: 'app-purchases',
-  templateUrl: './purchases.component.html',
-  styleUrls: ['./purchases.component.css']
+  selector: 'app-sortedtable',
+  templateUrl: './sortedtable.component.html',
 })
-export class PurchasesComponent implements OnInit {
+export class SortedTableComponent implements OnInit {
+  @Input() displayedColumns: string[];
+  @Input() dataSource: any;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  productItems = [];
-  product: { name: '',type: '',price: '',quantity: 0,total:0}
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-
-  constructor() { }
-
-  ngOnInit() { }
-  ngAfterViewInit() { }
-
-  addNewProduct(){
-    this.productItems.push(this.product);
-   
-  }
-  removeProduct(index){
-   this.productItems.splice(index,1);
+  constructor() { 
   }
 
-
+  ngOnInit() {
+  }
+  ngAfterViewInit() {
+   this.dataSource.paginator = this.paginator;
+  }
 }
