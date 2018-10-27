@@ -1,7 +1,6 @@
-.card-header{
+/* .card-header{
     position: relative;
     border-radius: 3px;
-    /*background: linear-gradient(60deg, #2f944096, #79aab396);*/
     background: linear-gradient(60deg, #cceeed96, #44bebe96);
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.678), 0 7px 10px -5px rgba(217, 225, 228, 0.4);
     display: flex;
@@ -31,4 +30,4 @@
   mat-sort-header-sorted {
     color: black;
   }
-  
+   */

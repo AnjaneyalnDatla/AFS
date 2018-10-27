@@ -30,13 +30,14 @@ export interface PeriodicElement {
   type: string;
   price: number;
   quantity: string;
+  total: number;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, type: 'Electronics', name: 'Dell Laptop', price: 50000, quantity: '4'},
-  {id: 2, type: 'Furniture', name: 'Tables', price: 2000, quantity: '50'},
-  {id: 3, type: 'Food', name: 'Chicken', price: 700, quantity: '10'},
-  {id: 4, type: 'Real Estate', name: 'Land', price: 1345888, quantity: '1'},
+  {id: 1, type: 'Electronics', name: 'Dell Laptop', price: 50000, quantity: '4', total: 200000},
+  {id: 2, type: 'Furniture', name: 'Tables', price: 2000, quantity: '50', total: 100000},
+  {id: 3, type: 'Food', name: 'Chicken', price: 700, quantity: '10', total: 700},
+  {id: 4, type: 'Real Estate', name: 'Land', price: 1345888, quantity: '1', total: 1345888}
 ];
 
 @Component({
@@ -46,10 +47,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SalesComponent implements OnInit {
 
-  displayedColumns: string[] = ['type', 'name', 'price', 'quantity','actions'];
+  displayedColumns: string[] = ['id','type', 'name', 'price', 'quantity', 'total'];
   
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
 
   vendors: Vendor[] = [
     {value: 'RamRao', viewValue: 'Ram'},
@@ -76,9 +77,9 @@ export class SalesComponent implements OnInit {
     {value: 'real_estate', viewValue: 'Real Estate'}
   ];
 
-  productItems = [{ name: '',type: '',quantity: 0,price: ''}];
+  productItems = [{ name: '',type: '',quantity: 0,price: '',total: 0}];
   productObj = {};
-  persons = {};
+  persons = [];
 
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
@@ -103,6 +104,7 @@ export class SalesComponent implements OnInit {
           type: new FormControl(),
           quantity: new FormControl(),
           price: new FormControl(),
+          total: new FormControl()
         })
       ]),
       tax: [null ,Validators.required],
@@ -115,8 +117,8 @@ export class SalesComponent implements OnInit {
   
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
+   // this.dataSource.sort = this.sort;
   }
   addNewProduct(){
     //this.productItems.push(this.product);
@@ -128,6 +130,7 @@ export class SalesComponent implements OnInit {
         type: x.type,
         quantity: x.quantity,
         price: x.price,
+        total: x.total
         }))
     })
   }
