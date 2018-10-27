@@ -77,7 +77,7 @@ export class SalesComponent implements OnInit {
     {value: 'real_estate', viewValue: 'Real Estate'}
   ];
 
-  productItems = [{ name: '',type: '',quantity: 0,price: '',total: 0}];
+  productItems = [{ name: '',type: '',quantity: 0,price: 0,total: 0}];
   productObj = {};
   persons = [];
 
@@ -102,9 +102,9 @@ export class SalesComponent implements OnInit {
         new FormGroup({
           name: new FormControl(),
           type: new FormControl(),
-          quantity: new FormControl(),
-          price: new FormControl(),
-          total: new FormControl()
+          quantity: new FormControl(0),
+          price: new FormControl(0),
+          total: new FormControl(0)
         })
       ]),
       tax: [null ,Validators.required],
@@ -176,6 +176,19 @@ export class SalesComponent implements OnInit {
       this.persons = this.customers;
     }
   }
+  //calculates total for an item
+  getTotal(index) {
+    //update the total form field with the new sum calculated (price * quantity)
+    const control = <FormArray>this.salesForm.get('productInfo');
+    
+    // console.log(control);
+    //  for(let i = 0; i < control.length; i++) {
+    //    const prod = control.get('price')
+    //    console.log(prod);
+    //    //prod.get('total').setValue(prod.get('price') * prod.get('quantity');
+    //  }
+  }
+
   // Executed When Form Is Submitted  
   onFormSubmit(form:NgForm)  
   {  
