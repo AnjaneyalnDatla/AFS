@@ -1,125 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild,AfterViewInit} from '@angular/core';
+import { MatSort, MatPaginator, MatTableDataSource, MatRadioChange} from '@angular/material';
+// Must import to use Forms functionality  
+import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 
-declare const google: any;
+export interface ReportType {
+    value: string;
+    viewValue: string;
+  }
 
-interface Marker {
-lat: number;
-lng: number;
-label?: string;
-draggable?: boolean;
-}
+  export interface PeriodicElement {
+    id: number;
+    name: string;
+    type: string;
+    price: number;
+    quantity: string;
+    total: number;
+  }
+  
+  const ELEMENT_DATA: PeriodicElement[] = [
+    {id: 1, type: 'Electronics', name: 'Dell Laptop', price: 50000, quantity: '4', total: 200000},
+    {id: 2, type: 'Furniture', name: 'Tables', price: 2000, quantity: '50', total: 100000},
+    {id: 3, type: 'Food', name: 'Chicken', price: 700, quantity: '10', total: 700},
+    {id: 4, type: 'Real Estate', name: 'Land', price: 1345888, quantity: '1', total: 1345888}
+  ];
+  
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
+    displayedColumns: string[] = ['id','type', 'name', 'price', 'quantity', 'total'];
+    dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+   reportTypes: ReportType[] = [
+        {value: 'sales', viewValue: 'Sales'},
+        {value: 'purchases', viewValue: 'Purchases'},
+        {value: 'contacts', viewValue: 'Contacts'},
+        {value: 'accounts', viewValue: 'Accounts'}
+      ];
+      reportTypeValue:string=''; 
+      reportForm: FormGroup; 
 
-  constructor() { }
+  constructor(private fb: FormBuilder) {
+       // To initialize FormGroup  
+    this.reportForm = this.fb.group({  
+        reportTypeValue : [null, Validators.required],
+        reportStartDate : [null],
+        reportEndDate : [null],
+    });
+    
+   }
 
   ngOnInit() {
-
-    var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-    var mapOptions = {
-        zoom: 13,
-        center: myLatlng,
-        scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-        styles: [{
-            "featureType": "water",
-            "stylers": [{
-                "saturation": 43
-            }, {
-                "lightness": -11
-            }, {
-                "hue": "#0088ff"
-            }]
-        }, {
-            "featureType": "road",
-            "elementType": "geometry.fill",
-            "stylers": [{
-                "hue": "#ff0000"
-            }, {
-                "saturation": -100
-            }, {
-                "lightness": 99
-            }]
-        }, {
-            "featureType": "road",
-            "elementType": "geometry.stroke",
-            "stylers": [{
-                "color": "#808080"
-            }, {
-                "lightness": 54
-            }]
-        }, {
-            "featureType": "landscape.man_made",
-            "elementType": "geometry.fill",
-            "stylers": [{
-                "color": "#ece2d9"
-            }]
-        }, {
-            "featureType": "poi.park",
-            "elementType": "geometry.fill",
-            "stylers": [{
-                "color": "#ccdca1"
-            }]
-        }, {
-            "featureType": "road",
-            "elementType": "labels.text.fill",
-            "stylers": [{
-                "color": "#767676"
-            }]
-        }, {
-            "featureType": "road",
-            "elementType": "labels.text.stroke",
-            "stylers": [{
-                "color": "#ffffff"
-            }]
-        }, {
-            "featureType": "poi",
-            "stylers": [{
-                "visibility": "off"
-            }]
-        }, {
-            "featureType": "landscape.natural",
-            "elementType": "geometry.fill",
-            "stylers": [{
-                "visibility": "on"
-            }, {
-                "color": "#b8cb93"
-            }]
-        }, {
-            "featureType": "poi.park",
-            "stylers": [{
-                "visibility": "on"
-            }]
-        }, {
-            "featureType": "poi.sports_complex",
-            "stylers": [{
-                "visibility": "on"
-            }]
-        }, {
-            "featureType": "poi.medical",
-            "stylers": [{
-                "visibility": "on"
-            }]
-        }, {
-            "featureType": "poi.business",
-            "stylers": [{
-                "visibility": "simplified"
-            }]
-        }]
-
-    };
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        title: "Hello World!"
-    });
-
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
   }
 
 }
