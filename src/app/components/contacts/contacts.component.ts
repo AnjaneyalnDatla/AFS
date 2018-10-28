@@ -45,6 +45,8 @@ export class ContactsComponent implements OnInit {
       homePhone: new FormControl(),
       cellPhone: new FormControl(),
       faxNumber: new FormControl(),
+      primaryEmail: new FormControl(),
+      secondaryEmail: new FormControl(),
       additionalComments: new FormControl(),
   });
 
@@ -54,13 +56,15 @@ export class ContactsComponent implements OnInit {
   
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
+  createCardTitle= "Create Contact";
+  editCardTitle= "Edit Contact";
   constructor() { }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+   // this.dataSource.paginator = this.paginator;
   }
 
   saveContact(){

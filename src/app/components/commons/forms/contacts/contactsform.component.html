@@ -1,0 +1,136 @@
+<!--<div class="main-content">
+  <div class="container-fluid">-->
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header card-header-rose card-header-text">
+        <div class="card-text">
+          <h4 class="card-title">{{cardTitle}}</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <form class="contact-form" *ngIf="contactForm" name="form" [formGroup]="contactForm" (ngSubmit)="onFormSubmit(contactForm.value)">
+          <div class="row">
+            <label class="col-md-2 col-form-label">Company Info</label>
+            <div class="col-sm-3">
+              <mat-radio-group formControlName="isCompany">
+                <mat-radio-button value="vendor">Vendor ?</mat-radio-button>&nbsp;
+                <mat-radio-button value="customer">Customer ?</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Company Name" formControlName="companyName">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-2 col-form-label">Name</label>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Fist Name" type="text" formControlName="firstName">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Middle Name" type="text" formControlName="middleName">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Last Name" type="text" formControlName="lastName">
+              </mat-form-field>
+            </div>
+          </div>
+          <fieldset formGroupName="address">
+            <div class="row">
+              <label class="col-md-2 col-form-label">Address</label>
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Street Address" type="text" formControlName="streetAddress">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Nearest Landmark" type="text" formControlName="landMark">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="City" type="text" formControlName="city">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label"></label>
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="State" type="text" formControlName="state">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Country" type="text" formControlName="country">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Postal Code" type="text" formControlName="postalCode">
+                </mat-form-field>
+              </div>
+            </div>
+          </fieldset>
+          <div class="row">
+            <label class="col-md-2 col-form-label">Communications</label>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Cell Phone" type="text" formControlName="cellPhone">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Home Phone" type="text" formControlName="homePhone">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Fax" type="text" formControlName="faxNumber">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-2 col-form-label"></label>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Primary Email" type="text" formControlName="primaryEmail">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Secondary Email" type="text" formControlName="secondaryEmail">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-2 col-form-label">Additional Information</label>
+            <div class="col-md-9">
+              <mat-form-field class="example-full-width">
+                <textarea matInput placeholder="Any Additional Comments" formControlName="additionalComments"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 ml-3">
+              <button mat-raised-button type="submit" class="btn btn-success">Save</button>
+              <button mat-raised-button type="submit" class="btn btn-danger">Cancel</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!--  </div>
+</div> -->

@@ -13,6 +13,9 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 import { AccountComponent } from '../../account/account.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SortedTableComponent } from '../../commons/tables/sorted-tables/sortedtable.component';
+import { WizardComponent } from '../../commons/wizard/wizard.component';
+import { ContactsFormComponent } from '../../commons/forms/contacts/contactsform.component';
+import { AccountsFormComponent } from '../../commons/forms/accounts/accountsform.component';
 
 
 import {
@@ -70,6 +73,9 @@ import{
     NotificationsComponent,
     AccountComponent,
     SortedTableComponent,
+    WizardComponent,
+    ContactsFormComponent,
+    AccountsFormComponent,
   ]
 })
 
