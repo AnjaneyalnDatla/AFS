@@ -17,13 +17,13 @@
                         </div>
                   <form class="sale-form" name="form" [formGroup]="salesForm" (ngSubmit)="onFormSubmit(salesForm.value)">
                       <div class="row">
-                        <div class="col-md-4 ml-4 pt-3">
+                        <div class="col-md-3 ml-4 pt-3">
                           <mat-radio-group formControlName="personType" (change)="toggleData($event)">
                             <mat-radio-button value="vendor">Vendor ?</mat-radio-button>&nbsp;
                             <mat-radio-button value="customer">Customer ?</mat-radio-button>
                           </mat-radio-group>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                           <mat-form-field>
                             <mat-select placeholder="Vendors/Customer" formControlName="personTypeValue">
                               <mat-option *ngFor="let person of persons" [value]="person.value">
@@ -32,6 +32,12 @@
                             </mat-select>
                           </mat-form-field>
                         </div>
+                        <div class="col-md-4 offset-sm-1">
+                          <div><strong>Ramesh</strong></div>
+                          <div>25 Prestwick Way</div>
+                          <div>South Plainfield, NJ 08820</div>
+                          <div>Email: ramesh@gmail.com</div>
+                          <div>+1 555-444-1234</div></div>
                       </div>
                       <div class="row">
                         <div class="col-md-10 ml-4">
@@ -60,14 +66,14 @@
                                   <input matInput placeholder="Product Name" type="text" formControlName="name">
                                 </mat-form-field></td>
                                 <td><mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Quantity" type="text" formControlName="quantity">
+                                    <input matInput placeholder="Quantity" type="text" formControlName="quantity" (change)="getTotal(i)">
                                   </mat-form-field></td>
                               <td><mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Price" type="text" formControlName="price">
+                                  <input matInput placeholder="Price" type="text" formControlName="price" (change)="getTotal(i)">
                                 </mat-form-field></td>                              
-                                <td><mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Total" type="text" formControlName="total">
-                                  </mat-form-field></td>
+                                <td>
+                                    {{productItem.total}}
+                                </td>
                               <td><button mat-raised-button type="button" matTooltip="Add New" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon"
                                 (click)="removeProduct(i);">
                                 <i class="material-icons">delete</i>
@@ -92,12 +98,10 @@
                                   <td class="right">$8.497,00</td>
                                 </tr>
                                 <tr>
-                                  <td class="left"><strong>Discount (20%)</strong></td>
-                                  <td class="right">$1,699,40</td>
-                                </tr>
-                                <tr>
-                                  <td class="left"><strong>VAT (10%)</strong></td>
-                                  <td class="right">$679,76</td>
+                                  <td class="left"><strong>Tax</strong></td>
+                                  <td class="right"><mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Tax" type="text" formControlName="tax">
+                                    </mat-form-field></td>
                                 </tr>
                                 <tr>
                                   <td class="left"><strong>Total</strong></td>
