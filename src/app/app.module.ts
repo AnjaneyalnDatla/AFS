@@ -15,6 +15,7 @@ import { LoginLayoutComponent } from './components/layouts/login-layout/login-la
 import { AuthenticationService } from './_services/authentication.service';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { SalesService } from './_services/sales.service';
+import { ContactsService } from './_services/contacts.service';
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import { SalesService } from './_services/sales.service';
     AdminLayoutComponent,
 	  LoginLayoutComponent,
   ],
-  providers: [AuthenticationService,SalesService],
+  providers: [AuthenticationService,SalesService, ContactsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

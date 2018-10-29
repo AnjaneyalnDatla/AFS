@@ -11,7 +11,7 @@ export class SalesService {
     ) { }
 
     getVendorList() {
-        let url = `${environment.sale_contextroot}` + `${environment.sale_vendor_list_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sale_vendor_list_url}`
         
         return this.http.get<any>(url, {
             headers: {
@@ -23,7 +23,7 @@ export class SalesService {
     }
 
     getCustomerList() {
-        let url = `${environment.sale_contextroot}` + `${environment.sale_vendor_list_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sale_vendor_list_url}`
         
         return this.http.get<any>(url, {
             headers: {
@@ -35,7 +35,7 @@ export class SalesService {
     }
 
     getProductTypes() {
-        let url = `${environment.sale_contextroot}` + `${environment.sale_vendor_list_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sale_vendor_list_url}`
         
         return this.http.get<any>(url, {
             headers: {

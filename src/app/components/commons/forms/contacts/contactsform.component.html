@@ -20,10 +20,33 @@
             </div>
             <div class="col-sm-3">
               <mat-form-field class="example-full-width">
+                <input matInput placeholder="ID" formControlName="supplementalId">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
                 <input matInput placeholder="Company Name" formControlName="companyName">
               </mat-form-field>
             </div>
           </div>
+          <div class="row">
+              <label class="col-md-2 col-form-label"></label>
+              <div class="col-sm-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Goverment Id" formControlName="idNumber">
+                  </mat-form-field>
+                </div>
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Government Id Type" formControlName="idType">
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Designation" formControlName="designation">
+                </mat-form-field>
+              </div>
+            </div>
           <div class="row">
             <label class="col-md-2 col-form-label">Name</label>
             <div class="col-md-3">
@@ -75,7 +98,7 @@
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Postal Code" type="text" formControlName="postalCode">
+                  <input matInput placeholder="Postal Code" type="number" formControlName="postalCode">
                 </mat-form-field>
               </div>
             </div>
@@ -84,17 +107,17 @@
             <label class="col-md-2 col-form-label">Communications</label>
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Cell Phone" type="text" formControlName="cellPhone">
+                <input matInput placeholder="Cell Phone" type="number" formControlName="cellPhone">
               </mat-form-field>
             </div>
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Home Phone" type="text" formControlName="homePhone">
+                <input matInput placeholder="Home Phone" type="number" formControlName="homePhone">
               </mat-form-field>
             </div>
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Fax" type="text" formControlName="faxNumber">
+                <input matInput placeholder="Fax" type="number" formControlName="faxNumber">
               </mat-form-field>
             </div>
           </div>
@@ -122,7 +145,7 @@
           <div class="row">
             <div class="col-md-8 ml-3">
               <button mat-raised-button type="submit" class="btn btn-success">Save</button>
-              <button mat-raised-button type="submit" class="btn btn-danger">Cancel</button>
+              <button mat-raised-button type="cancel" class="btn btn-danger">Cancel</button>
             </div>
 
           </div>
