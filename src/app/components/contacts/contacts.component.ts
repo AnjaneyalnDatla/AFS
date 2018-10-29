@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { Contact } from '../../_models/contact';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
 import { User } from '../../_models/user';
 
@@ -29,23 +29,27 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ContactsComponent implements OnInit {
 
   contactForm = new FormGroup({ 
-      isCompany: new FormControl(),
+      isCompany: new FormControl(null,[Validators.required]),
+      supplementalId: new FormControl(),
       companyName: new FormControl(),
-      firstName: new FormControl(),
+      idNumber: new FormControl(null,[Validators.required]),
+      idType: new FormControl(null,[Validators.required]),
+      designation: new FormControl(null,[Validators.required]),
+      firstName: new FormControl(null,[Validators.required]),
       middleName: new FormControl(),
-      lastName: new FormControl(),
+      lastName: new FormControl(null,[Validators.required]),
       address: new FormGroup({
-        streetAddress: new FormControl(),
-        city: new FormControl(),
-        state: new FormControl(),
-        country: new FormControl(),
-        postalCode: new FormControl(),
-        landMark: new FormControl(),
+        streetAddress: new FormControl(null,[Validators.required]),
+        city: new FormControl(null,[Validators.required]),
+        state: new FormControl(null,[Validators.required]),
+        country: new FormControl(null,[Validators.required]),
+        postalCode: new FormControl(null,[Validators.required]),
+        landMark: new FormControl(null,[Validators.required]),
       }),
       homePhone: new FormControl(),
-      cellPhone: new FormControl(),
+      cellPhone: new FormControl(null,[Validators.required]),
       faxNumber: new FormControl(),
-      primaryEmail: new FormControl(),
+      primaryEmail: new FormControl(null,[Validators.required]),
       secondaryEmail: new FormControl(),
       additionalComments: new FormControl(),
   });
@@ -69,6 +73,10 @@ export class ContactsComponent implements OnInit {
 
   saveContact(){
     alert(this.contactForm.value.isCompany);
+  }
+
+  onFormSubmit(){
+      console.log("Inside contacts component" + this.contactForm);
   }
 
 }
