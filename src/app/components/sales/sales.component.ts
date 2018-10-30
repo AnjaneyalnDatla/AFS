@@ -47,27 +47,18 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SalesComponent implements OnInit {
 
-  displayedColumns: string[] = ['id','type', 'name', 'price', 'quantity', 'total'];
+  displayedColumns: string[] = ['Id','Type', 'Name', 'Price', 'Quantity', 'Total'];
   
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
 
-  vendors: Vendor[] = [
-    {value: 'RamRao', viewValue: 'Ram'},
-    {value: 'KrishnaRao', viewValue: 'Krishna'},
-    {value: 'SubbaRao', viewValue: 'Subbu'}
-  ];
+  vendors = [];
+  customers = [];
 
   accounts: Accounts[] = [
     {value: 'cash', viewValue: 'Cash'},
     {value: 'HDFC Checkings', viewValue: 'HDFC CHECKINGS'},
     {value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS'}
-  ];
-
-  customers: Customers[] = [
-    {value: 'ramesh', viewValue: 'Ramesh'},
-    {value: 'suresh', viewValue: 'Suresh'},
-    {value: 'ganesh', viewValue: 'Ganesh'}
   ];
 
   productTypes: ProductType[] = [
@@ -80,6 +71,8 @@ export class SalesComponent implements OnInit {
   productItems = [{ name: '',type: '',quantity: 0,price: 0,total: 0}];
   productObj = {};
   persons = [];
+  contactList = [];
+  personDetails = {};
 
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
@@ -90,12 +83,19 @@ export class SalesComponent implements OnInit {
   
   constructor(private fb: FormBuilder,
     private salesService: SalesService, ) {  
-
+      this.salesForm = this.createSaleForm(fb);    
   }
 
   ngOnInit() {    
-     // To initialize FormGroup  
-     this.salesForm = this.fb.group({  
+    //this.getCustomerList();
+    this.getContactList();
+    //this.getProductTypes();
+    
+  }
+  
+  createSaleForm(fb: FormBuilder){
+    // To initialize FormGroup  
+    return this.fb.group({  
       personType : [null, Validators.required],  
       personTypeValue : [null, Validators.required],  
       productInfo: new FormArray([
@@ -114,7 +114,6 @@ export class SalesComponent implements OnInit {
       additionalComments: []
     }); 
   }
-  
 
   ngAfterViewInit() {
     //this.dataSource.paginator = this.paginator;
@@ -145,11 +144,20 @@ export class SalesComponent implements OnInit {
     console.log(saleItem);
     this.productObj = saleItem;
   }
-  getVendorList(){//load on init
-    this.salesService.getVendorList().subscribe(
+  getContactList(){//load on init
+    this.salesService.getContactList().subscribe(
       data => {
-        this.vendors  =  data;
+        this.contactList  =  data;
         console.log(data);
+        this.contactList.forEach(contact => {
+          console.log(contact);
+          if(contact.isCompany == true){
+            this.vendors.push(contact);
+          }else{
+            this.customers.push(contact);
+          }
+        });
+     
       }
     );
   }
@@ -187,6 +195,23 @@ export class SalesComponent implements OnInit {
     //    console.log(prod);
     //    //prod.get('total').setValue(prod.get('price') * prod.get('quantity');
     //  }
+  }
+
+  displayPersonDetails(value, personType){
+    if( personType.value == 'vendor'){
+      this.filterForDisplay(this.vendors,value);
+    }else{
+      this.filterForDisplay(this.customers,value);
+    }
+
+  }
+
+  filterForDisplay(filterArray,value){
+    filterArray.forEach(contact => {
+      if(contact.id == value){
+        this.personDetails = contact;
+      }
+    });
   }
 
   // Executed When Form Is Submitted  
