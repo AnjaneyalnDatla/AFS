@@ -25,19 +25,19 @@
                         </div>
                         <div class="col-md-3">
                           <mat-form-field>
-                            <mat-select placeholder="Vendors/Customer" formControlName="personTypeValue">
-                              <mat-option *ngFor="let person of persons" [value]="person.value">
-                                {{person.viewValue}}
+                            <mat-select placeholder="Vendors/Customer" formControlName="personTypeValue" (change)="displayPersonDetails($event.value, salesForm.controls.personType)">
+                              <mat-option *ngFor="let person of persons" [value]="person.id">
+                                {{person.firstName}} {{person.lastName}}
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
                         </div>
                         <div class="col-md-4 offset-sm-1">
-                          <div><strong>Ramesh</strong></div>
-                          <div>25 Prestwick Way</div>
-                          <div>South Plainfield, NJ 08820</div>
-                          <div>Email: ramesh@gmail.com</div>
-                          <div>+1 555-444-1234</div></div>
+                          <div><strong>{{personDetails.firstName}} {{personDetails.lastName}}</strong></div>
+                          <div>{{personDetails.streetAddress}}</div>
+                          <div>{{personDetails.city}}, {{personDetails.state}} {{personDetails.postalCode}}</div>
+                          <div>Email: {{personDetails.emailAddress}}</div>
+                          <div>{{personDetails.cellPhone}}</div></div>
                       </div>
                       <div class="row">
                         <div class="col-md-10 ml-4">

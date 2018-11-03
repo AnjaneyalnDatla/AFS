@@ -17,5 +17,6 @@ export const environment = {
   sale_vendor_list_url: 'getVendorList',
   sale_customer_list_url: 'getCustomerList',
   sale_product_types_url: 'getProductTypes',
+  sale_contact_list: 'contacts/getAllContacts',
 };
 

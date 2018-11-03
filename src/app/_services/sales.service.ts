@@ -10,8 +10,8 @@ export class SalesService {
         private http: HttpClient,
     ) { }
 
-    getVendorList() {
-        let url = `${environment.account_contextroot}` + `${environment.sale_vendor_list_url}`
+    getContactList() {
+        let url = `${environment.account_contextroot}` + `${environment.sale_contact_list}`
         
         return this.http.get<any>(url, {
             headers: {
