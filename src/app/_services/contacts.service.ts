@@ -15,8 +15,12 @@ export class ContactsService {
 
     saveContact(contactForm: any) {
         let url = `${environment.account_contextroot}` + `${environment.contact_save_url}`
+        let isCom = false;
+        if(contactForm.isCompany == 'vendor'){
+            isCom = true;
+        }
         let contact = {
-            isCompany: contactForm.isCompany,
+            isCompany: isCom,
             supplementalId: contactForm.supplementalId,
             companyName: contactForm.companyName,
             firstName: contactForm.firstName,
