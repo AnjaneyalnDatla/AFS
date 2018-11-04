@@ -32,18 +32,22 @@
                             </mat-select>
                           </mat-form-field>
                         </div>
-                        <div class="col-md-4 offset-sm-1">
+                        <div class="col-md-4 offset-sm-1" *ngIf="(personDetails | json) != '{}'">
                           <div><strong>{{personDetails.firstName}} {{personDetails.lastName}}</strong></div>
                           <div>{{personDetails.streetAddress}}</div>
                           <div>{{personDetails.city}}, {{personDetails.state}} {{personDetails.postalCode}}</div>
                           <div>Email: {{personDetails.emailAddress}}</div>
-                          <div>{{personDetails.cellPhone}}</div></div>
+                          <div>{{personDetails.cellPhone}}</div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="mb-3"></div>
                       </div>
                       <div class="row">
                         <div class="col-md-10 ml-4">
-                      <table class="table table-clear">
+                      <table class="table table-clear product-table">
                           <thead>
-                            <tr>
+                            <tr style="background: #ececec;">
                               <th>Type</th>
                               <th>Name</th>
                               <th>Qty</th>
@@ -66,13 +70,15 @@
                                   <input matInput placeholder="Product Name" type="text" formControlName="name">
                                 </mat-form-field></td>
                                 <td><mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Quantity" type="text" formControlName="quantity" (change)="getTotal(i)">
+                                    <input matInput placeholder="Quantity" type="number" formControlName="quantity">
                                   </mat-form-field></td>
                               <td><mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Price" type="text" formControlName="price" (change)="getTotal(i)">
+                                  <input matInput placeholder="Price" type="number" formControlName="price">
                                 </mat-form-field></td>                              
                                 <td>
-                                    {{productItem.total}}
+                                  <mat-form-field class="example-full-width"> 
+                                    <input matInput placeholder="Total sum" formControlName="total">
+                                  </mat-form-field>
                                 </td>
                               <td><button mat-raised-button type="button" matTooltip="Add New" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon"
                                 (click)="removeProduct(i);">
@@ -95,17 +101,19 @@
                               <tbody>
                                 <tr>
                                   <td class="left"><strong>Subtotal</strong></td>
-                                  <td class="right">$8.497,00</td>
+                                  <td class="right">{{ subTotal | currency:'USD':'symbol-narrow':'1.2-2'}}
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td class="left"><strong>Tax</strong></td>
                                   <td class="right"><mat-form-field class="example-full-width">
-                                      <input matInput placeholder="Tax" type="text" formControlName="tax">
+                                      <input matInput placeholder="Tax" type="number" formControlName="tax">
                                     </mat-form-field></td>
                                 </tr>
                                 <tr>
                                   <td class="left"><strong>Total</strong></td>
-                                  <td class="right"><strong>$7.477,36</strong></td>
+                                  <td class="right"><strong>{{ totalSum | currency:'USD':'symbol-narrow':'1.2-2'}}
+                                  </strong></td>
                                 </tr>
                               </tbody>
                             </table>

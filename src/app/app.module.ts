@@ -1,6 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CurrencyPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
@@ -40,7 +41,7 @@ import { ContactsService } from './_services/contacts.service';
     AdminLayoutComponent,
 	  LoginLayoutComponent,
   ],
-  providers: [AuthenticationService,SalesService, ContactsService],
+  providers: [AuthenticationService,SalesService, ContactsService, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild,AfterViewInit} from '@angular/core';
 import { MatSort, MatPaginator, MatTableDataSource, MatRadioChange} from '@angular/material';
+import {CurrencyPipe} from '@angular/common';
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 import { SalesService } from '../../_services/sales.service';
@@ -68,11 +69,14 @@ export class SalesComponent implements OnInit {
     {value: 'real_estate', viewValue: 'Real Estate'}
   ];
 
-  productItems = [{ name: '',type: '',quantity: 0,price: 0,total: 0}];
+  productItems = [{ name: '',type: '',quantity: null ,price: null ,total: 0}];
   productObj = {};
   persons = [];
   contactList = [];
   personDetails = {};
+  totalSum: number = 0;
+  subTotal: number = 0;
+  taxValue: number = 0;
 
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
@@ -82,69 +86,117 @@ export class SalesComponent implements OnInit {
   isActive:boolean=true;
   
   constructor(private fb: FormBuilder,
-    private salesService: SalesService, ) {  
-      this.salesForm = this.createSaleForm(fb);    
+    private salesService: SalesService, private currencyPipe: CurrencyPipe,) {  
+      //this.salesForm = this.createSaleForm(fb);    
   }
 
-  ngOnInit() {    
-    //this.getCustomerList();
-    this.getContactList();
-    //this.getProductTypes();
+  ngOnInit() {
+
+    // To initialize FormGroup  
+    this.salesForm = this.fb.group({  
+      personType : ['', Validators.required],  
+      personTypeValue : ['', Validators.required],  
+      productInfo: this.fb.array([
+        this.getProduct()
+      ]),
+      tax: ['' ,Validators.required],
+      paymentAmount: ['' ,Validators.required],
+      paymentDate: ['' ,Validators.required],
+      creditTo: ['' ,Validators.required],
+      additionalComments: [],
+      subTotal: [{value: '', disabled: true}],
+      productsTotal: [{value: '', disabled: true}]
+    }); 
+     // initialize stream on products
+     const myFormValueChanges$ = this.salesForm.controls['productInfo'].valueChanges;
+     // subscribe to the stream so listen to changes on products
+     myFormValueChanges$.subscribe(products => this.updateTotalUnitPrice(products));
+
+     // initialize stream on tax
+     const myTaxValueChanges$ = this.salesForm.get('tax').valueChanges;
+     // subscribe to the stream so listen to changes on tax
+     myTaxValueChanges$.subscribe(tax => this.updateTotalTaxPrice(tax));
+
+     // load dropdowns
+     this.getContactList();
+     this.getCustomerList();
+     this.getProductTypes();
+
     
   }
   
-  createSaleForm(fb: FormBuilder){
-    // To initialize FormGroup  
-    return this.fb.group({  
-      personType : [null, Validators.required],  
-      personTypeValue : [null, Validators.required],  
-      productInfo: new FormArray([
-        new FormGroup({
-          name: new FormControl(),
-          type: new FormControl(),
-          quantity: new FormControl(0),
-          price: new FormControl(0),
-          total: new FormControl(0)
-        })
-      ]),
-      tax: [null ,Validators.required],
-      paymentAmount: [null ,Validators.required],
-      paymentDate: [null ,Validators.required],
-      creditTo: [null ,Validators.required],
-      additionalComments: []
-    }); 
+
+  ngAfterViewInit() {    
   }
 
-  ngAfterViewInit() {
-    //this.dataSource.paginator = this.paginator;
-   // this.dataSource.sort = this.sort;
+  /**
+   * Create form product
+   */
+  private getProduct() {
+    const numberPatern = '^[0-9.,]+$';
+    return this.fb.group({
+      name: ['', Validators.required],
+      type: ['', Validators.required],
+      quantity: [1, [Validators.required, Validators.pattern(numberPatern)]],
+      price: ['', [Validators.required, Validators.pattern(numberPatern)]],
+      total: [{value: '', disabled: true}]
+    });
   }
-  addNewProduct(){
-    //this.productItems.push(this.product);
+
+  private addNewProduct(){   
     const control = <FormArray>this.salesForm.controls['productInfo'];
-    //console.log(control);
-    this.productItems.forEach(x => {
-      control.push(this.fb.group({ 
-        name: x.name, 
-        type: x.type,
-        quantity: x.quantity,
-        price: x.price,
-        total: x.total
-        }))
-    })
+    control.push(this.getProduct());
   }
-  removeProduct(index){
+
+  /**
+   * Update prices as soon as something changed on product info group
+   */
+  private updateTotalUnitPrice(products: any) {
+    // get our products group controll
+    const control = <FormArray>this.salesForm.controls['productInfo'];
+    // before recount total price need to be reset. 
+    this.totalSum = 0;
+    this.subTotal = 0;
+    this.taxValue = this.getTax();
+    for (let i in products) {
+      let totalUnitPrice = (products[i].quantity*products[i].price);
+      // now format total price with angular currency pipe
+      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'USD', 'symbol-narrow', '1.2-2');
+      // update total sum field on unit and do not emit event myFormValueChanges$ in this case on products
+      control.at(+i).get('total').setValue(totalUnitPriceFormatted, {onlySelf: true, emitEvent: false});
+      // update total price for all products
+      this.subTotal += totalUnitPrice;      
+    }
+    this.totalSum = this.subTotal + this.taxValue;
+  }
+
+  /**
+   * Update total price as soon as tax changed 
+   */
+  private updateTotalTaxPrice(tax : number){
+    // now format tax price with angular currency pipe
+    let taxPriceFormatted = this.currencyPipe.transform(tax, 'USD', 'symbol-narrow', '1.2-2');
+     
+    this.totalSum = this.subTotal + tax;
+  }
+
+  private getTax(){
+    return this.salesForm.get('tax').value;
+  }
+
+
+  private removeProduct(index){
    const control = <FormArray>this.salesForm.controls['productInfo'];
    control.removeAt(index);
   }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  editSaleItem(saleItem){
+  private editSaleItem(saleItem){
     console.log(saleItem);
     this.productObj = saleItem;
   }
-  getContactList(){//load on init
+  private getContactList(){//load on init
     this.salesService.getContactList().subscribe(
       data => {
         this.contactList  =  data;
@@ -161,7 +213,7 @@ export class SalesComponent implements OnInit {
       }
     );
   }
-  getCustomerList(){//load on init
+  private getCustomerList(){//load on init
     this.salesService.getCustomerList().subscribe(
       data => {
         this.customers  =  data;
@@ -169,7 +221,7 @@ export class SalesComponent implements OnInit {
       }
     );
   }
-  getProductTypes(){//load on init
+  private getProductTypes(){//load on init
     this.salesService.getProductTypes().subscribe(
       data => {
         this.productTypes  =  data;
@@ -177,27 +229,15 @@ export class SalesComponent implements OnInit {
       }
     );
   }
-  toggleData($event: MatRadioChange){ 
+  private toggleData($event: MatRadioChange){ 
     if($event.value === 'vendor'){
       this.persons = this.vendors;
     }else{
       this.persons = this.customers;
     }
   }
-  //calculates total for an item
-  getTotal(index) {
-    //update the total form field with the new sum calculated (price * quantity)
-    const control = <FormArray>this.salesForm.get('productInfo');
-    
-    // console.log(control);
-    //  for(let i = 0; i < control.length; i++) {
-    //    const prod = control.get('price')
-    //    console.log(prod);
-    //    //prod.get('total').setValue(prod.get('price') * prod.get('quantity');
-    //  }
-  }
 
-  displayPersonDetails(value, personType){
+  private displayPersonDetails(value, personType){
     if( personType.value == 'vendor'){
       this.filterForDisplay(this.vendors,value);
     }else{
@@ -206,7 +246,7 @@ export class SalesComponent implements OnInit {
 
   }
 
-  filterForDisplay(filterArray,value){
+  private filterForDisplay(filterArray,value){
     filterArray.forEach(contact => {
       if(contact.id == value){
         this.personDetails = contact;
