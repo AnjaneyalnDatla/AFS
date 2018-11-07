@@ -48,7 +48,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SalesComponent implements OnInit {
 
-  displayedColumns: string[] = ['Id','Type', 'Name', 'Price', 'Quantity', 'Total'];
+  displayedColumns: string[] = ['id','user_name', 'department_name', 'name', 'price', 'quantity', 'amount'];
   
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
@@ -69,7 +69,7 @@ export class SalesComponent implements OnInit {
     {value: 'real_estate', viewValue: 'Real Estate'}
   ];
 
-  productItems = [{ name: '',type: '',quantity: null ,price: null ,total: 0}];
+  //productItems = [{ name: '',type: '',quantity: null ,price: null ,total: 0}];
   productObj = {};
   persons = [];
   contactList = [];
@@ -78,7 +78,7 @@ export class SalesComponent implements OnInit {
   subTotal: number = 0;
   taxValue: number = 0;
 
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<PeriodicElement>();
 
   salesForm: FormGroup;  
   personType:string='';  
@@ -119,14 +119,26 @@ export class SalesComponent implements OnInit {
 
      // load dropdowns
      this.getContactList();
-     this.getCustomerList();
+     //this.getCustomerList();
      this.getProductTypes();
+
+     this.loadSalesList();
 
     
   }
   
 
   ngAfterViewInit() {    
+  }
+
+  private loadSalesList() {
+    this.salesService.getAllSales().subscribe(
+      data => {
+        //this.customers  =  data;
+        this.dataSource.data = data;
+        console.log(data);
+      }
+    );
   }
 
   /**
@@ -258,6 +270,15 @@ export class SalesComponent implements OnInit {
   onFormSubmit(form:NgForm)  
   {  
     console.log(form);  
+    this.salesService.saveSale(form).subscribe(
+      data => {        
+        console.log(data);
+      }
+    );
   }  
+
+  private resetForm() { 
+    this.salesForm.reset();
+} 
 
 }

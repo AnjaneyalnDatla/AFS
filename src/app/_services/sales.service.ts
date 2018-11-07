@@ -46,4 +46,40 @@ export class SalesService {
         })
     }
 
+    saveSales() {
+        let url = `${environment.account_contextroot}` + `${environment.save_sale_url}`
+        
+        return this.http.post<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+
+    getAllSales() {
+        let url = `${environment.account_contextroot}` + `${environment.sales_list_url}`
+        
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+    
+    saveSale(formData){
+        let url = `${environment.account_contextroot}` + `${environment.save_sale_url}`
+        
+        return this.http.post<any>(url, formData, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+
 }
