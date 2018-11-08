@@ -19,7 +19,7 @@ pipeline{
 		}
         stage("Create build"){
 			steps{
-				sh "npm run build-dev"
+				sh "npm run build-qa"
 			}
 		}
 		stage("Create Docker Image"){
