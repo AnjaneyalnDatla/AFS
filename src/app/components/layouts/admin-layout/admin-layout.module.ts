@@ -6,7 +6,6 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { SalesComponent } from '../../sales/sales.component';
 import { PurchasesComponent } from '../../purchases/purchases.component';
-import { ProductsAndServicesComponent } from '../../productandservices/productandservices.component';
 import { ContactsComponent } from '../../contacts/contacts.component';
 import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
@@ -67,7 +66,6 @@ import{
     DashboardComponent,
     SalesComponent,
     PurchasesComponent,
-    ProductsAndServicesComponent,
     ContactsComponent,
     ReportsComponent,
     NotificationsComponent,

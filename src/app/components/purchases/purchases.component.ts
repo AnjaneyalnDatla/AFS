@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
+import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 
 export interface Vendor {
   value: string;
@@ -7,11 +8,6 @@ export interface Vendor {
 }
 
 export interface Accounts {
-  value: string;
-  viewValue: string;
-}
-
-export interface Students {
   value: string;
   viewValue: string;
 }
@@ -45,23 +41,18 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
   { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
 ];
-const vendors: Vendor[] = [
+const VENDORS: Vendor[] = [
   { value: 'RamRao', viewValue: 'Ram' },
   { value: 'KrishnaRao', viewValue: 'Krishna' },
   { value: 'SubbaRao', viewValue: 'Subbu' }
 ];
 
-const accounts: Accounts[] = [
+const ACCOUNTS: Accounts[] = [
   { value: 'cash', viewValue: 'Cash' },
   { value: 'HDFC Checkings', viewValue: 'HDFC CHECKINGS' },
   { value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS' }
 ];
 
-const students: Students[] = [
-  { value: 'ramesh', viewValue: 'Ramesh' },
-  { value: 'suresh', viewValue: 'Suresh' },
-  { value: 'ganesh', viewValue: 'Ganesh' }
-];
 
 @Component({
   selector: 'app-purchases',
@@ -71,22 +62,59 @@ const students: Students[] = [
 export class PurchasesComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  productItems = [];
-  product: { name: '',type: '',price: '',quantity: 0,total:0}
+  product: { name: '', type: '', price: '', quantity: 0, total: 0 }
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  vendors = VENDORS;
+  accounts = ACCOUNTS;
 
-  constructor() { }
+  purchaseForm = this.fb.group({  
+    purchaseFrom : ['', Validators.required],  
+    purchaseDt : ['', Validators.required],
+    deliveryTo : ['', Validators.required],  
+    deliveryDt : ['', Validators.required],
+    debitFrom : ['', Validators.required],
+    productItems: this.fb.array([
+      this.getProduct()
+    ]),
+    additionalComments : ['', Validators.required],
+    subtotal : ['', Validators.required],
+    tax : ['', Validators.required],
+    shipping : ['', Validators.required],
+    other : ['', Validators.required],
+    total : ['', Validators.required],
+  });
+  
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() { }
   ngAfterViewInit() { }
 
-  addNewProduct(){
-    this.productItems.push(this.product);
-   
+  addNewProduct() {
+    const control = <FormArray>this.purchaseForm.controls['productItems'];
+    control.push(this.getProduct());
+
   }
-  removeProduct(index){
-   this.productItems.splice(index,1);
+  removeProduct(index) {
+    const control = <FormArray>this.purchaseForm.controls['productItems'];
+    control.removeAt(index);
   }
+
+  private getProduct() {
+    const numberPatern = '^[0-9.,]+$';
+    return this.fb.group({
+      type: ['', Validators.required],
+      name: ['', Validators.required],
+      pricePerUnit: [1, [Validators.required, Validators.pattern(numberPatern)]],
+      quantity: ['', [Validators.required, Validators.pattern(numberPatern)]],
+      total: [{value: '', disabled: true}]
+    });
+  }
+
+   // Executed When Form Is Submitted  
+   onFormSubmit(form:NgForm)  
+   {  
+     console.log(form);  
+   }  
 
 
 }

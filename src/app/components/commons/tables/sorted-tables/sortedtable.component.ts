@@ -18,4 +18,9 @@ export class SortedTableComponent implements OnInit {
   ngAfterViewInit() {
    this.dataSource.paginator = this.paginator;
   }
+  
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
 }
