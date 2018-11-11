@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild,AfterViewInit} from '@angular/core';
-import { MatSort, MatPaginator, MatTableDataSource, MatRadioChange} from '@angular/material';
+import { Component, OnInit, Input} from '@angular/core';
+import { MatTableDataSource, MatRadioChange} from '@angular/material';
 import {CurrencyPipe} from '@angular/common';
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 import { SalesService } from '../../_services/sales.service';
+declare var $: any;
 
 export interface Vendor {
   value: string;
@@ -34,13 +35,6 @@ export interface PeriodicElement {
   total: number;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, type: 'Electronics', name: 'Dell Laptop', price: 50000, quantity: '4', total: 200000},
-  {id: 2, type: 'Furniture', name: 'Tables', price: 2000, quantity: '50', total: 100000},
-  {id: 3, type: 'Food', name: 'Chicken', price: 700, quantity: '10', total: 700},
-  {id: 4, type: 'Real Estate', name: 'Land', price: 1345888, quantity: '1', total: 1345888}
-];
-
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -52,6 +46,7 @@ export class SalesComponent implements OnInit {
   
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
+  
 
   vendors = [];
   customers = [];
@@ -200,7 +195,10 @@ export class SalesComponent implements OnInit {
 
   private removeProduct(index){
    const control = <FormArray>this.salesForm.controls['productInfo'];
-   control.removeAt(index);
+   if(control.length > 1)
+    control.removeAt(index);
+   else
+    alert("Unable to delete. There should be atleast one product to create a sale.")
   }
   
   private editSaleItem(saleItem){

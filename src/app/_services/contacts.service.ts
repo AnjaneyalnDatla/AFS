@@ -33,12 +33,12 @@ export class ContactsService {
             //temporarily assigning primary email to email field
             emailAddress: contactForm.primaryEmail,
             
-            streetAddress: contactForm.streetAddress,
-            city: contactForm.city,
-            state: contactForm.state,
-            country: contactForm.country,
-            postalCode: contactForm.postalCode,
-            landMark: contactForm.landMark,
+            streetAddress: contactForm.address.streetAddress,
+            city: contactForm.address.city,
+            state: contactForm.address.state,
+            country: contactForm.address.country,
+            postalCode: contactForm.address.postalCode,
+            landMark: contactForm.address.landMark,
             additionalComments: contactForm.additionalComments,
             idType: contactForm.idType,
             idNumber: contactForm.idNumber,
