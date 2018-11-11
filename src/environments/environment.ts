@@ -14,7 +14,7 @@ export const environment = {
 
   // Context Paths
   identity_validate_url: 'validate',
-  contact_save_url: 'contacts',
+  contact_save_url: 'contacts/saveContact',
   sale_vendor_list_url: 'contacts/getVendorList',
   sale_customer_list_url: 'contacts/getCustomerList',
   sale_product_types_url: 'contacts/getProductTypes',

@@ -72,8 +72,8 @@ export class SalesService {
     
     saveSale(formData){
         let url = `${environment.account_contextroot}` + `${environment.save_sale_url}`
-        
-        return this.http.post<any>(url, formData, {
+        console.log(JSON.stringify(formData))
+        return this.http.post<any>(url, JSON.stringify(formData), {
             headers: {
                 "Content-Type": "application/json"
             }

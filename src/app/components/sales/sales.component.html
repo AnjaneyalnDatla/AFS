@@ -45,6 +45,7 @@
                       </div>
                       <div class="row">
                         <div class="col-md-10 ml-4">
+                          <div class="table-responsive">
                       <table class="table table-clear product-table">
                           <thead>
                             <tr style="background: #ececec;">
@@ -80,7 +81,8 @@
                                     <input matInput placeholder="Total sum" formControlName="total">
                                   </mat-form-field>
                                 </td>
-                              <td><button mat-raised-button type="button" matTooltip="Add New" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon"
+                              <td><button mat-raised-button type="button" matTooltip="Delete" [matTooltipPosition]="'above'" 
+                                class="btn btn-danger btn-link btn-sm btn-just-icon" 
                                 (click)="removeProduct(i);">
                                 <i class="material-icons">delete</i>
                               </button></td></ng-container>
@@ -88,10 +90,11 @@
                           </tbody>
                         </table>
                       </div>
+                      </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 ml-4">
-                        <button class="btn btn-success" (click)="addNewProduct();">
+                        <button type="button" class="btn btn-success" (click)="addNewProduct();">
                             <i class="fa fa-plus"></i> Add New Line Item
                             <div class="ripple-container"></div>
                           </button>
@@ -150,7 +153,7 @@
                       <div class="row">
                           <div class="col-md-10 ml-3">
                             <button mat-raised-button type="submit" class="btn btn-success">Save</button>&nbsp;
-                            <button mat-raised-button  class="btn btn-success" (click)="resetForm();">Reset</button>
+                            <button mat-raised-button  type="button" class="btn btn-success" (click)="resetForm();">Reset</button>
                             </div>
                            
                         </div>
@@ -175,7 +178,7 @@
   
                 <div class="col-md-6">
                   <div class="mat-elevation-z8">
-                    
+                    <app-sortedtable [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-sortedtable>
                   </div>
                 </div>
               </div>
