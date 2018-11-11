@@ -58,7 +58,7 @@
                             </tr>
                           </thead>
                           <tbody formArrayName="productInfo">
-                            <tr *ngFor="let productItem of salesForm.controls.productInfo.controls;let i = index">
+                            <tr *ngFor="let productItem of salesForm.get('productInfo');let i = index">
                               <ng-container formGroupName="{{i}}">
                                 <td>
                                   <mat-form-field>
