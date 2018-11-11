@@ -6,8 +6,8 @@
 export const environment = {
     production: false,
     // Context Roots
-    identity_contextroot: 'http://206.189.197.225:8080/identity/',
-    account_contextroot: 'http://206.189.197.225:8082/accounts/',
+    identity_contextroot: 'http://206.189.197.225:8085/identity/',
+    account_contextroot: 'http://206.189.197.225:8086/accounts/',
   
   
     // Context Paths
