@@ -9,52 +9,56 @@
                         </div>
                     </div>
                     <div class="card-body">
-                            <div class="row">
-                                    <div class="mat-elevation-z1 col-md-11 ml-4">
-                                            <div class="col-md-4 ml-4">
-                                                    <div class="row">
-                                                            <div class="mt-3"></div>
-                                                          </div>
-                                                          <form class="sale-form" name="form" [formGroup]="reportForm">
-                                                          <div class="row">
-                                                                <mat-select placeholder="Report Type" formControlName="reportTypeValue">
-                                                                    <mat-option *ngFor="let report of reportTypes" [value]="report.value">
-                                                                      {{report.viewValue}}
-                                                                    </mat-option>
-                                                                  </mat-select>
-                                                          </div>
-                                                          <div class="row">
-                                                               <mat-form-field>
-                                                                    <input matInput [matDatepicker]="picker" placeholder="Start Date" formControlName="reportStartDate">
-                                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                                    <mat-datepicker #picker></mat-datepicker>
-                                                                  </mat-form-field>
-                                                          </div>
-                                                          <div class="row">
-                                                                <mat-form-field>
-                                                                     <input matInput [matDatepicker]="picker1" placeholder="End Date" formControlName="reportEndDate">
-                                                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                                                     <mat-datepicker #picker1></mat-datepicker>
-                                                                   </mat-form-field>
-                                                           </div>
-                                                           </form>
-                                                           <div class="row">
-                                                                <button mat-raised-button color="primary" (click)="exportAsExcel()">Download as PDF</button>&nbsp;
-                                                                <button mat-raised-button color="primary" (click)="exportAsExcel()">Export as Excel</button>
-                                                           </div>
-                                                          <div class="row">
-                                                                <div class="mb-3"></div>
-                                                              </div>
-                                                              <div class="clearfix"></div>
-                                               
-                                                </div>
+                        <div class="row">
+                            <div class="mat-elevation-z1 col-md-11 ml-4">
+                                <div class="col-md-4 ml-4">
+                                    <div class="row">
+                                        <div class="mt-3"></div>
                                     </div>
+                                    <form class="sale-form" name="form" [formGroup]="reportForm">
+                                        <div class="row">
+                                            <mat-select placeholder="Report Type" formControlName="reportTypeValue">
+                                                <mat-option *ngFor="let report of reportTypes" [value]="report.value">
+                                                    {{report.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                        <div class="row">
+                                            <mat-form-field>
+                                                <input matInput [matDatepicker]="picker" placeholder="Start Date"
+                                                    formControlName="reportStartDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row">
+                                            <mat-form-field>
+                                                <input matInput [matDatepicker]="picker1" placeholder="End Date"
+                                                    formControlName="reportEndDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </form>
+                                    <div class="row">
+                                        <button mat-raised-button color="primary" (click)="exportAsExcel()">Download as
+                                            PDF</button>&nbsp;
+                                        <button mat-raised-button color="primary" (click)="exportAsExcel()">Export as
+                                            Excel</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
 
-
+                                </div>
                             </div>
+
+
+                        </div>
                         <div class="row">
                             <div class="col-md-11 ml-4">
-                                    <app-sortedtable [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-sortedtable>
+                                <app-sortedtable [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-sortedtable>
                             </div>
                         </div>
                     </div>

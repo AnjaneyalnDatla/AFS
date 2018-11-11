@@ -75,7 +75,22 @@ export class SalesComponent implements OnInit {
 
   dataSource = new MatTableDataSource<PeriodicElement>();
 
-  salesForm: FormGroup;  
+  //salesForm: FormGroup;  
+  // To initialize FormGroup  
+  salesForm = this.fb.group({  
+    personType : ['', Validators.required],  
+    personTypeValue : ['', Validators.required],  
+    productInfo: this.fb.array([
+      this.getProduct()
+    ]),
+    tax: ['' ,Validators.required],
+    paymentAmount: ['' ,Validators.required],
+    paymentDate: ['' ,Validators.required],
+    creditTo: ['' ,Validators.required],
+    additionalComments: [],
+    subTotal: [{value: '', disabled: true}],
+    productsTotal: [{value: '', disabled: true}]
+  }); 
   personType:string='';  
   personTypeValue:string=''; 
   isActive:boolean=true;
@@ -87,21 +102,7 @@ export class SalesComponent implements OnInit {
 
   ngOnInit() {
 
-    // To initialize FormGroup  
-    this.salesForm = this.fb.group({  
-      personType : ['', Validators.required],  
-      personTypeValue : ['', Validators.required],  
-      productInfo: this.fb.array([
-        this.getProduct()
-      ]),
-      tax: ['' ,Validators.required],
-      paymentAmount: ['' ,Validators.required],
-      paymentDate: ['' ,Validators.required],
-      creditTo: ['' ,Validators.required],
-      additionalComments: [],
-      subTotal: [{value: '', disabled: true}],
-      productsTotal: [{value: '', disabled: true}]
-    }); 
+    
      // initialize stream on products
      const myFormValueChanges$ = this.salesForm.controls['productInfo'].valueChanges;
      // subscribe to the stream so listen to changes on products
@@ -150,7 +151,7 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  private addNewProduct(){   
+  addNewProduct(){   
     const control = <FormArray>this.salesForm.controls['productInfo'];
     control.push(this.getProduct());
   }
@@ -237,7 +238,7 @@ export class SalesComponent implements OnInit {
       }
     );
   }
-  private toggleData($event: MatRadioChange){ 
+  toggleData($event: MatRadioChange){ 
     if($event.value === 'vendor'){
       this.persons = this.vendors;
     }else{
@@ -245,7 +246,7 @@ export class SalesComponent implements OnInit {
     }
   }
 
-  private displayPersonDetails(value, personType){
+  displayPersonDetails(value, personType){
     if( personType.value == 'vendor'){
       this.filterForDisplay(this.vendors,value);
     }else{
@@ -273,7 +274,7 @@ export class SalesComponent implements OnInit {
     );
   }  
 
-  private resetForm() { 
+  resetForm() { 
     this.salesForm.reset();
 } 
 
