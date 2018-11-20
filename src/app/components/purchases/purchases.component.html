@@ -41,22 +41,18 @@
                     <div class="row">
                       <div class="col-md-2 ml-4">
                         <mat-form-field>
-                          <mat-select placeholder="Purchasing Date" formControlName="purchaseDt">
-                            <mat-option *ngFor="let vendor of vendors" [value]="vendor.value">
-                              {{vendor.viewValue}}
-                            </mat-option>
-                          </mat-select>
+                          <input matInput [matDatepicker]="picker" placeholder="Purchase Date" formControlName="purchaseDt">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                       </div>
                       <div class="col-md-7">
                       </div>
                       <div class="col-md-2">
                         <mat-form-field>
-                          <mat-select placeholder="Deliver Date" formControlName="deliveryDt">
-                            <mat-option *ngFor="let vendor of vendors" [value]="vendor.value">
-                              {{vendor.viewValue}}
-                            </mat-option>
-                          </mat-select>
+                          <input matInput [matDatepicker]="dPicker" placeholder="Delivery Date" formControlName="deliveryDt">
+                          <mat-datepicker-toggle matSuffix [for]="dPicker"></mat-datepicker-toggle>
+                          <mat-datepicker #dPicker></mat-datepicker>
                         </mat-form-field>
                       </div>
                     </div>

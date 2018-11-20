@@ -12,6 +12,17 @@ export class ContactsService {
         private http: HttpClient,
     ) { }
 
+    getContactList() {
+        let url = `${environment.account_contextroot}` + `${environment.contact_list}`
+        
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
 
     saveContact(contactForm: any) {
         let url = `${environment.account_contextroot}` + `${environment.contact_save_url}`

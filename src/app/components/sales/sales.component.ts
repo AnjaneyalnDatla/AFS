@@ -4,6 +4,8 @@ import {CurrencyPipe} from '@angular/common';
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 import { SalesService } from '../../_services/sales.service';
+import { ContactsService } from '../../_services/contacts.service';
+
 declare var $: any;
 
 export interface Vendor {
@@ -94,7 +96,8 @@ export class SalesComponent implements OnInit {
   isActive:boolean=true;
   
   constructor(private fb: FormBuilder,
-    private salesService: SalesService, private currencyPipe: CurrencyPipe,) {  
+    private salesService: SalesService, private currencyPipe: CurrencyPipe,
+    private contactsService: ContactsService,) {  
       //this.salesForm = this.createSaleForm(fb);    
   }
 
@@ -211,7 +214,7 @@ export class SalesComponent implements OnInit {
     this.productObj = saleItem;
   }
   private getContactList(){//load on init
-    this.salesService.getContactList().subscribe(
+    this.contactsService.getContactList().subscribe(
       data => {
         this.contactList  =  data;
         console.log(data);
