@@ -80,9 +80,7 @@ export class SalesComponent implements OnInit {
   salesForm = this.fb.group({  
     personType : ['', Validators.required],  
     personTypeValue : ['', Validators.required],  
-    productInfo: this.fb.array([
-      this.getProduct()
-    ]),
+    productInfo: this.fb.array([]),
     tax: ['' ,Validators.required],
     paymentAmount: ['' ,Validators.required],
     paymentDate: ['' ,Validators.required],
@@ -151,6 +149,13 @@ export class SalesComponent implements OnInit {
     });
   }
 
+  get productInfoForms() {
+    return this.salesForm.get('productInfo') as FormArray;
+  }
+
+  addProductInfoForms() {
+    this.productInfoForms.push(this.getProduct());
+  }
   addNewProduct(){   
     const control = <FormArray>this.salesForm.controls['productInfo'];
     control.push(this.getProduct());

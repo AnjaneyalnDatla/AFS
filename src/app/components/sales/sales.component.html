@@ -58,7 +58,7 @@
                             </tr>
                           </thead>
                           <tbody formArrayName="productInfo">
-                            <tr *ngFor="let productItem of salesForm.get('productInfo');let i = index">
+                            <tr *ngFor="let productItem of productInfoForms.controls;let i = index">
                               <ng-container formGroupName="{{i}}">
                                 <td>
                                   <mat-form-field>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-4 ml-4">
-                        <button type="button" class="btn btn-success" (click)="addNewProduct();">
+                        <button type="button" class="btn btn-success" (click)="addProductInfoForms();">
                           <i class="fa fa-plus"></i> Add New Line Item
                           <div class="ripple-container"></div>
                         </button>
