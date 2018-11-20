@@ -37,7 +37,7 @@ export class SalesService {
     }
 
     saveSales() {
-        let url = `${environment.account_contextroot}` + `${environment.save_sale_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sales_resource}`
         
         return this.http.post<any>(url, {
             headers: {
@@ -49,7 +49,7 @@ export class SalesService {
     }
 
     getAllSales() {
-        let url = `${environment.account_contextroot}` + `${environment.sales_list_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sales_resource}`
         
         return this.http.get<any>(url, {
             headers: {
@@ -61,7 +61,7 @@ export class SalesService {
     }
     
     saveSale(formData){
-        let url = `${environment.account_contextroot}` + `${environment.save_sale_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sales_resource}`
         console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {
             headers: {

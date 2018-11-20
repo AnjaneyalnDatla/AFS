@@ -13,7 +13,7 @@ export class ContactsService {
     ) { }
 
     getContactList() {
-        let url = `${environment.account_contextroot}` + `${environment.contact_list}`
+        let url = `${environment.account_contextroot}` + `${environment.contacts_resource}`
         
         return this.http.get<any>(url, {
             headers: {
@@ -25,7 +25,7 @@ export class ContactsService {
     }
 
     saveContact(contactForm: any) {
-        let url = `${environment.account_contextroot}` + `${environment.contact_save_url}`
+        let url = `${environment.account_contextroot}` + `${environment.contacts_resource}`
         let isCom = false;
         if(contactForm.isCompany == 'vendor'){
             isCom = true;

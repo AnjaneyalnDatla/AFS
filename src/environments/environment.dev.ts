@@ -12,12 +12,11 @@ export const environment = {
 
   // Context Paths
   identity_validate_url: 'validate',
-  contact_save_url: 'contacts/saveContact',
   sale_vendor_list_url: 'contacts/getVendorList',
   sale_customer_list_url: 'contacts/getCustomerList',
   sale_product_types_url: 'contacts/getProductTypes',
-  contact_list: 'contacts',
-  save_sale_url: 'transactions/saveTransaction',
-  sales_list_url: 'transactions/getAllTransactions'
+  sales_resource: 'sales',
+  contacts_resource: 'contacts',
+  transactions_resource: 'transactions'
   };
   
