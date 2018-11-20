@@ -87,6 +87,9 @@ export class PurchasesComponent implements OnInit {
       total: ['', Validators.required],
     });
 
+    /** Updating the purchasefrom and delivery to drop downs */
+    this.getContactList();
+
   }
   ngAfterViewInit() { }
 
@@ -106,6 +109,7 @@ export class PurchasesComponent implements OnInit {
     control.removeAt(index);
   }
 
+  /** Adding FormArray Elements */
   private getProduct() {
     const numberPatern = '^[0-9.,]+$';
     return this.fb.group({
@@ -117,7 +121,7 @@ export class PurchasesComponent implements OnInit {
     });
   }
 
-  /** ProductItem remove */
+  /** Reference Data contactlist*/
   private getContactList() {//load on init
     this.contactsService.getContactList().subscribe(
       data => {
