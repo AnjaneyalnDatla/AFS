@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
-import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl, Form } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl, Form } from '@angular/forms';
+import { ContactsService } from '../../_services/contacts.service';
 
 export interface Vendor {
   value: string;
@@ -41,11 +42,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
   { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
 ];
-const VENDORS: Vendor[] = [
-  { value: 'RamRao', viewValue: 'Ram' },
-  { value: 'KrishnaRao', viewValue: 'Krishna' },
-  { value: 'SubbaRao', viewValue: 'Subbu' }
-];
+
 
 const ACCOUNTS: Accounts[] = [
   { value: 'cash', viewValue: 'Cash' },
@@ -61,43 +58,49 @@ const ACCOUNTS: Accounts[] = [
 })
 export class PurchasesComponent implements OnInit {
 
-  tableHeaders: string[] = ['type', 'name', 'pricePerUnit', 'quantity','total'];
+  tableHeaders: string[] = ['type', 'name', 'pricePerUnit', 'quantity', 'total'];
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   product: { name: '', type: '', price: '', quantity: 0, total: 0 }
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  vendors = VENDORS;
+  
   accounts = ACCOUNTS;
 
+  contactList = [];
+
   purchaseForm: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private contactsService: ContactsService) { }
 
   ngOnInit() {
-    this.purchaseForm = this.fb.group({  
-      purchaseFrom : ['', Validators.required],  
-      purchaseDt : ['', Validators.required],
-      deliveryTo : ['', Validators.required],  
-      deliveryDt : ['', Validators.required],
-      debitFrom : ['', Validators.required],
-      productItems : this.fb.array([]),
-      additionalComments : ['', Validators.required],
-      subtotal : ['', Validators.required],
-      tax : ['', Validators.required],
-      shipping : ['', Validators.required],
-      other : ['', Validators.required],
-      total : ['', Validators.required],
+    this.purchaseForm = this.fb.group({
+      purchaseFrom: ['', Validators.required],
+      purchaseDt: ['', Validators.required],
+      deliveryTo: ['', Validators.required],
+      deliveryDt: ['', Validators.required],
+      debitFrom: ['', Validators.required],
+      productItems: this.fb.array([]),
+      additionalComments: ['', Validators.required],
+      subtotal: ['', Validators.required],
+      tax: ['', Validators.required],
+      shipping: ['', Validators.required],
+      other: ['', Validators.required],
+      total: ['', Validators.required],
     });
 
-   }
+  }
   ngAfterViewInit() { }
 
+  /** ProductItem get */
   get productItemForms() {
     return this.purchaseForm.get('productItems') as FormArray;
   }
 
+  /** ProductItem add */
   addProductItems() {
     this.productItemForms.push(this.getProduct());
   }
 
+  /** ProductItem remove */
   removeProduct(index) {
     const control = <FormArray>this.purchaseForm.controls['productItems'];
     control.removeAt(index);
@@ -110,14 +113,23 @@ export class PurchasesComponent implements OnInit {
       name: ['', Validators.required],
       pricePerUnit: ['', [Validators.required, Validators.pattern(numberPatern)]],
       quantity: ['', [Validators.required, Validators.pattern(numberPatern)]],
-      total: [{value: '', disabled: true}]
+      total: [{ value: '', disabled: true }]
     });
   }
 
-   onFormSubmit(form:NgForm)  
-   {  
-     console.log(form);  
-   }  
+  /** ProductItem remove */
+  private getContactList() {//load on init
+    this.contactsService.getContactList().subscribe(
+      data => {
+        this.contactList = data;
+        console.log(data);
+      }
+    );
+  }
+
+  onFormSubmit(form: NgForm) {
+    console.log(form);
+  }
 
 
 }

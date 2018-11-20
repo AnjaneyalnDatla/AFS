@@ -31,7 +31,7 @@
                       <div class="col-md-2">
                         <mat-form-field>
                           <mat-select placeholder="Deliver To" formControlName="deliveryTo">
-                            <mat-option *ngFor="let vendor of vendors" [value]="vendor.value">
+                            <mat-option *ngFor="let contact of contactList" [value]="vendor.firstName">
                               {{vendor.viewValue}}
                             </mat-option>
                           </mat-select>
