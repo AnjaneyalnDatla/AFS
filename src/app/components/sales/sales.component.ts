@@ -94,6 +94,7 @@ export class SalesComponent implements OnInit {
   personType:string='';  
   personTypeValue:string=''; 
   isActive:boolean=true;
+  showInvoice:boolean=false;
   
   constructor(private fb: FormBuilder,
     private salesService: SalesService, private currencyPipe: CurrencyPipe,
@@ -271,6 +272,10 @@ export class SalesComponent implements OnInit {
     });
   }
 
+  displayInvoice(val){
+    this.showInvoice = val;
+  }
+
   // Executed When Form Is Submitted  
   onFormSubmit(form:NgForm)  
   {  
@@ -278,8 +283,10 @@ export class SalesComponent implements OnInit {
     this.salesService.saveSale(form).subscribe(
       data => {        
         console.log(data);
+        //this.displayInvoice(true);
       }
     );
+    this.displayInvoice(true);
   }  
 
   resetForm() { 

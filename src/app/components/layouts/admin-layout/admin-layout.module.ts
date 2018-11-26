@@ -15,6 +15,7 @@ import { SortedTableComponent } from '../../commons/tables/sorted-tables/sortedt
 import { WizardComponent } from '../../commons/wizard/wizard.component';
 import { ContactsFormComponent } from '../../commons/forms/contacts/contactsform.component';
 import { AccountsFormComponent } from '../../commons/forms/accounts/accountsform.component';
+import { InvoiceComponent } from '../../commons/forms/accounts/invoice.component';
 
 
 import {
@@ -33,6 +34,7 @@ import {
   MatRadioModule,
   MatSortModule,
   MatTabsModule,
+  MatIconModule,
 } from '@angular/material';
 
 import{
@@ -61,6 +63,7 @@ import{
     MatSortModule,
     MatTabsModule,
     HttpClientModule,
+    MatIconModule,
   ],
   declarations: [
     DashboardComponent,
@@ -74,6 +77,7 @@ import{
     WizardComponent,
     ContactsFormComponent,
     AccountsFormComponent,
+    InvoiceComponent
   ]
 })
 

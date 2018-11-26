@@ -9,7 +9,8 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="row">
+            <app-invoice *ngIf="showInvoice"></app-invoice>
+            <div class="row" *ngIf="!showInvoice">
               <div class="col-md-12">
                 <div class="mat-elevation-z8">
                   <div class="row">
@@ -33,6 +34,7 @@
                         </mat-form-field>
                       </div>
                       <div class="col-md-4 offset-sm-1" *ngIf="(personDetails | json) != '{}'">
+                          <div *ngIf="personDetails.companyName != ''"><strong>{{personDetails.companyName}}</strong></div>
                         <div><strong>{{personDetails.firstName}} {{personDetails.lastName}}</strong></div>
                         <div>{{personDetails.streetAddress}}</div>
                         <div>{{personDetails.city}}, {{personDetails.state}}
