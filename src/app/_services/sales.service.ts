@@ -25,7 +25,7 @@ export class SalesService {
     }
 
     getProductTypes() {
-        let url = `${environment.account_contextroot}` + `${environment.sale_vendor_list_url}`
+        let url = `${environment.account_contextroot}` + `${environment.products_resource}`
         
         return this.http.get<any>(url, {
             headers: {

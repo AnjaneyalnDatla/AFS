@@ -10,13 +10,14 @@ export const environment = {
   account_contextroot: 'http://localhost:8082/accounts/',
 
 
-  // Context Paths
-  identity_validate_url: 'validate',
-  sale_vendor_list_url: 'contacts/getVendorList',
-  sale_customer_list_url: 'contacts/getCustomerList',
-  sale_product_types_url: 'contacts/getProductTypes',
-  sales_resource: 'sales',
-  contacts_resource: 'contacts',
-  transactions_resource: 'transactions'
+    // Context Paths
+    identity_validate_url: 'validate',
+    sale_vendor_list_url: 'contacts/getAllContactsByAccntType1',
+    sale_customer_list_url: 'contacts/getAllContactsByAccntType1',
+    sale_product_types_url: 'contacts/getProductTypes',
+    sales_resource: 'sales',
+    contacts_resource: 'contacts',
+    transactions_resource: 'transactions',
+    products_resource: 'products'
   };
   

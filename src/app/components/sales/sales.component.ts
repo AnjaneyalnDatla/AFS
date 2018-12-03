@@ -5,6 +5,7 @@ import {CurrencyPipe} from '@angular/common';
 import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 import { SalesService } from '../../_services/sales.service';
 import { ContactsService } from '../../_services/contacts.service';
+import { Transaction } from '../../_models/transactions';
 
 declare var $: any;
 
@@ -31,7 +32,7 @@ export interface ProductType {
 export interface PeriodicElement {
   id: number;
   name: string;
-  type: string;
+  productId: string;
   price: number;
   quantity: string;
   total: number;
@@ -59,12 +60,14 @@ export class SalesComponent implements OnInit {
     {value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS'}
   ];
 
-  productTypes: ProductType[] = [
-    {value: 'electronics', viewValue: 'Electronics'},
-    {value: 'furniture', viewValue: 'Furniture'},
-    {value: 'food', viewValue: 'Food'},
-    {value: 'real_estate', viewValue: 'Real Estate'}
-  ];
+  // productTypes: ProductType[] = [
+  //   {value: '4', viewValue: 'Electronics'},
+  //   {value: 'furniture', viewValue: 'Furniture'},
+  //   {value: 'food', viewValue: 'Food'},
+  //   {value: 'real_estate', viewValue: 'Real Estate'}
+  // ];
+
+  productTypes: ProductType[] = [];
 
   //productItems = [{ name: '',type: '',quantity: null ,price: null ,total: 0}];
   productObj = {};
@@ -82,14 +85,19 @@ export class SalesComponent implements OnInit {
   salesForm = this.fb.group({  
     personType : ['', Validators.required],  
     personTypeValue : ['', Validators.required],  
-    productInfo: this.fb.array([]),
+    lineItems: this.fb.array([]),
     tax: ['' ,Validators.required],
     paymentAmount: ['' ,Validators.required],
     paymentDate: ['' ,Validators.required],
     creditTo: ['' ,Validators.required],
     additionalComments: [],
     subTotal: [{value: '', disabled: true}],
-    productsTotal: [{value: '', disabled: true}]
+    productsTotal: [{value: '', disabled: true}],
+    accounts: [{id:1}],
+    userId: 'admin@admin.com',
+    userName: 'Kaushik Gollapalli',
+    departmentId: '1',
+    departmentName: 'Computer Science'
   }); 
   personType:string='';  
   personTypeValue:string=''; 
@@ -106,7 +114,7 @@ export class SalesComponent implements OnInit {
 
     
      // initialize stream on products
-     const myFormValueChanges$ = this.salesForm.controls['productInfo'].valueChanges;
+     const myFormValueChanges$ = this.salesForm.controls['lineItems'].valueChanges;
      // subscribe to the stream so listen to changes on products
      myFormValueChanges$.subscribe(products => this.updateTotalUnitPrice(products));
 
@@ -146,7 +154,7 @@ export class SalesComponent implements OnInit {
     const numberPatern = '^[0-9.,]+$';
     return this.fb.group({
       name: ['', Validators.required],
-      type: ['', Validators.required],
+      products: this.fb.group({id: ['', Validators.required]}), 
       quantity: [1, [Validators.required, Validators.pattern(numberPatern)]],
       price: ['', [Validators.required, Validators.pattern(numberPatern)]],
       total: [{value: '', disabled: true}]
@@ -154,14 +162,14 @@ export class SalesComponent implements OnInit {
   }
 
   get productInfoForms() {
-    return this.salesForm.get('productInfo') as FormArray;
+    return this.salesForm.get('lineItems') as FormArray;
   }
 
   addProductInfoForms() {
     this.productInfoForms.push(this.getProduct());
   }
   addNewProduct(){   
-    const control = <FormArray>this.salesForm.controls['productInfo'];
+    const control = <FormArray>this.salesForm.controls['lineItems'];
     control.push(this.getProduct());
   }
 
@@ -170,7 +178,7 @@ export class SalesComponent implements OnInit {
    */
   private updateTotalUnitPrice(products: any) {
     // get our products group controll
-    const control = <FormArray>this.salesForm.controls['productInfo'];
+    const control = <FormArray>this.salesForm.controls['lineItems'];
     // before recount total price need to be reset. 
     this.totalSum = 0;
     this.subTotal = 0;
@@ -203,7 +211,7 @@ export class SalesComponent implements OnInit {
 
 
   private removeProduct(index){
-   const control = <FormArray>this.salesForm.controls['productInfo'];
+   const control = <FormArray>this.salesForm.controls['lineItems'];
    if(control.length > 1)
     control.removeAt(index);
    else
@@ -276,17 +284,24 @@ export class SalesComponent implements OnInit {
     this.showInvoice = val;
   }
 
+  private prepareSave(form): Transaction {
+    return new Transaction().deserialize(form);
+  }
+
   // Executed When Form Is Submitted  
   onFormSubmit(form:NgForm)  
   {  
-    console.log(form);  
+    console.log(form);
+    //const transaction = this.prepareSave(form); 
+   // console.log(transaction);
+
     this.salesService.saveSale(form).subscribe(
       data => {        
         console.log(data);
         //this.displayInvoice(true);
       }
     );
-    this.displayInvoice(true);
+   // this.displayInvoice(true);
   }  
 
   resetForm() { 

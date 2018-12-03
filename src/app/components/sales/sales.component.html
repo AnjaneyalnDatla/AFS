@@ -59,14 +59,14 @@
                               <th>Delete</th>
                             </tr>
                           </thead>
-                          <tbody formArrayName="productInfo">
+                          <tbody formArrayName="lineItems">
                             <tr *ngFor="let productItem of productInfoForms.controls;let i = index">
                               <ng-container formGroupName="{{i}}">
                                 <td>
-                                  <mat-form-field>
-                                    <mat-select placeholder="Product Type" formControlName="type">
-                                      <mat-option *ngFor="let productType of productTypes" [value]="productType.value">
-                                        {{productType.viewValue}}
+                                  <mat-form-field formGroupName="products">
+                                    <mat-select placeholder="Product Type" formControlName="id">
+                                      <mat-option *ngFor="let productType of productTypes" [value]="productType.id">
+                                        {{productType.name}}
                                       </mat-option>
                                     </mat-select>
                                   </mat-form-field>
