@@ -94,10 +94,11 @@ export class SalesComponent implements OnInit {
     subTotal: [{value: '', disabled: true}],
     productsTotal: [{value: '', disabled: true}],
     accounts: [{id:1}],
-    userId: 'admin@admin.com',
-    userName: 'Kaushik Gollapalli',
+    user_id: '3',
+    user_name: 'Kaushik Gollapalli',
     departmentId: '1',
-    departmentName: 'Computer Science'
+    departmentName: 'Computer Science',
+    transaction_number: '1234'
   }); 
   personType:string='';  
   personTypeValue:string=''; 
