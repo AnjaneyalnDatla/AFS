@@ -49,7 +49,7 @@ export class SalesService {
     }
 
     getAllSales() {
-        let url = `${environment.account_contextroot}` + `${environment.sales_resource}`
+        let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
         
         return this.http.get<any>(url, {
             headers: {
@@ -71,5 +71,36 @@ export class SalesService {
             return response;
         })
     }
+
+    getSale(transactionId){
+        let url = `${environment.account_contextroot}` + `${environment.sale_get_url}`
+        console.log(JSON.stringify(transactionId));
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            params: {
+                "transactionNumber" : transactionId 
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+
+    getLineItems(transactionId){
+        let url = `${environment.account_contextroot}` + `${environment.sale_lineItems_url}`
+        console.log(JSON.stringify(transactionId));
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            params: {
+                "transactionNumber" : transactionId 
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+    
 
 }

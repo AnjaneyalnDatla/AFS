@@ -59,7 +59,14 @@ const ACCOUNTS: Accounts[] = [
 export class PurchasesComponent implements OnInit {
 
   tableHeaders: string[] = ['type', 'name', 'pricePerUnit', 'quantity', 'total'];
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  //displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  columns = [
+    { columnDef: 'position', header: 'Position',    cell: (element: any) => `${element.position}` },
+    { columnDef: 'name',     header: 'Name',   cell: (element: any) => `${element.name}`     },
+  ];
+
+  displayedColumns = this.columns.map(c => c.columnDef);
+
   product: { name: '', type: '', price: '', quantity: 0, total: 0 }
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   

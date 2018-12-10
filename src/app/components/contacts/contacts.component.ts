@@ -54,7 +54,13 @@ export class ContactsComponent implements OnInit {
       additionalComments: new FormControl(),
   });
 
-  displayedColumns: string[] = ['position', 'name'];
+  //displayedColumns: string[] = ['position', 'name'];
+  columns = [
+    { columnDef: 'position', header: 'Position',    cell: (element: any) => `${element.position}` },
+    { columnDef: 'name',     header: 'Name',   cell: (element: any) => `${element.name}`     },
+  ];
+
+  displayedColumns = this.columns.map(c => c.columnDef);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   

@@ -31,6 +31,16 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ReportsComponent implements OnInit {
   displayedColumns: string[] = ['id', 'type', 'name', 'price', 'quantity', 'total'];
+  columns = [
+    { columnDef: 'id', header: 'Id',    cell: (element: any) => `${element.id}` },
+    { columnDef: 'type',     header: 'Type',   cell: (element: any) => `${element.type}` },
+    { columnDef: 'name', header: 'Name',    cell: (element: any) => `${element.name}` },
+    { columnDef: 'price',     header: 'Price',   cell: (element: any) => `${element.price}` },
+    { columnDef: 'quantity', header: 'Quantity',    cell: (element: any) => `${element.quantity}` },
+    { columnDef: 'total',     header: 'Total',   cell: (element: any) => `${element.total}` },
+  ];
+
+  //displayedColumns = this.columns.map(c => c.columnDef);
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   reportTypes: ReportType[] = [
     { value: 'sales', viewValue: 'Sales' },

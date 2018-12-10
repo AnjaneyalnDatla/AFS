@@ -6,6 +6,7 @@ import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/mater
   templateUrl: './sortedtable.component.html',
 })
 export class SortedTableComponent implements OnInit {
+  @Input() columns: any[];
   @Input() displayedColumns: string[];
   @Input() dataSource: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -22,4 +23,7 @@ export class SortedTableComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  //displayedColumns = this.columns.map(c => c.columnDef);
+  
 }

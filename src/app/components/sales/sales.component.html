@@ -9,7 +9,7 @@
             </div>
           </div>
           <div class="card-body">
-            <app-invoice *ngIf="showInvoice"></app-invoice>
+            <app-invoice *ngIf="showInvoice" [invoiceData]="invoiceObject" ></app-invoice>
             <div class="row" *ngIf="!showInvoice">
               <div class="col-md-12">
                 <div class="mat-elevation-z8">
@@ -88,7 +88,7 @@
                                 </td>
                                 <td>
                                   <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Total sum" formControlName="total">
+                                    <input matInput placeholder="Total sum" formControlName="amountCurr">
                                   </mat-form-field>
                                 </td>
                                 <td><button mat-raised-button type="button" matTooltip="Delete" [matTooltipPosition]="'above'"
@@ -189,14 +189,27 @@
         <div class="row">
           <!-- Table to display sales list -->
           <div class="col-md-6">
-            <app-sortedtable [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-sortedtable>
+            <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"></app-sortedtable>
+            <button mat-raised-button type="button" class="btn btn-success" (click)="getSale();">View</button>
           </div>
-
-           <div class="col-md-6">
-                  <div class="mat-elevation-z8">
-                    <app-sortedtable [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-sortedtable>
-                  </div>
-                </div> 
+          <div class="col-md-6">
+          <div class="card">
+              <div class="card-header card-header-rose card-header-text">
+                <div class="card-text">
+                  <h4 class="card-title">View Sale</h4>
+                </div>
+              </div>
+              <div class="card-body">
+                  <div class="col-md-12">
+                          <app-invoice *ngIf="viewInvoice" [invoiceData]="editInvoiceObject" ></app-invoice>
+                          <div *ngIf="!viewInvoice" class="alert alert-info" role="alert">
+                              <strong>Select Invoice to view the transaction details.</strong>
+                            </div>
+              </div> 
+                </div>
+                </div>
+              </div>
+           
         </div>
       </div>
     </div>

@@ -1,6 +1,4 @@
-import { Component, Input } from '@angular/core';
-
-declare var $: any;
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-invoice',
@@ -8,11 +6,28 @@ declare var $: any;
     styleUrls: ['./invoice.component.css']
 })
 
-export class InvoiceComponent {
+export class InvoiceComponent implements OnInit {
+    @Input() invoiceData: any;
+    subTotal: number;
+    total: number;
+    tax: number;
+    totalUnitPrice : number;
 
     constructor() { 
     }
 
+    ngOnInit() {
+        this.calculateTotals();
+    }
+
+    calculateTotals(){
+        for (let lineItem of this.invoiceData.lineItems) {
+            this.totalUnitPrice += lineItem.quantity * lineItem.price;
+            this.subTotal += this.totalUnitPrice; 
+        }
+        this.total = this.subTotal + this.tax;
+            
+    }
     onPrint(){
         window.print();
     }

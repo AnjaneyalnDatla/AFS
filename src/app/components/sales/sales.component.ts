@@ -38,6 +38,11 @@ export interface PeriodicElement {
   total: number;
 }
 
+export interface Columns {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -45,7 +50,16 @@ export interface PeriodicElement {
 })
 export class SalesComponent implements OnInit {
 
-  displayedColumns: string[] = ['id','user_name', 'department_name', 'name', 'price', 'quantity', 'amount'];
+  // displayedColumns: Columns[] = [{value: 'transaction_number', viewValue: 'Transaction Id'},{value: 'departmentName', viewValue: 'Department'},
+  // {value: 'user_name', viewValue: 'User Name'}];
+
+  columns = [
+    { columnDef: 'transaction_number', header: 'Transaction No.',    cell: (element: any) => `${element.transaction_number}` },
+    { columnDef: 'departmentName',     header: 'Department',   cell: (element: any) => `${element.departmentName}`     },
+    { columnDef: 'user_name',   header: 'User Name', cell: (element: any) => `${element.user_name}`   },
+  ];
+
+  displayedColumns = this.columns.map(c => c.columnDef);
   
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
@@ -77,6 +91,8 @@ export class SalesComponent implements OnInit {
   totalSum: number = 0;
   subTotal: number = 0;
   taxValue: number = 0;
+  invoiceObject = {};
+  editInvoiceObject = {};
 
   dataSource = new MatTableDataSource<PeriodicElement>();
 
@@ -97,13 +113,13 @@ export class SalesComponent implements OnInit {
     user_id: '3',
     user_name: 'Kaushik Gollapalli',
     departmentId: '1',
-    departmentName: 'Computer Science',
-    transaction_number: '1234'
+    departmentName: 'Computer Science'
   }); 
   personType:string='';  
   personTypeValue:string=''; 
   isActive:boolean=true;
   showInvoice:boolean=false;
+  viewInvoice:boolean=false;
   
   constructor(private fb: FormBuilder,
     private salesService: SalesService, private currencyPipe: CurrencyPipe,
@@ -154,11 +170,13 @@ export class SalesComponent implements OnInit {
   private getProduct() {
     const numberPatern = '^[0-9.,]+$';
     return this.fb.group({
+      line_item_no: this.productInfoForms.length + 1,  //set line_item_no with the index number
       name: ['', Validators.required],
       products: this.fb.group({id: ['', Validators.required]}), 
       quantity: [1, [Validators.required, Validators.pattern(numberPatern)]],
       price: ['', [Validators.required, Validators.pattern(numberPatern)]],
-      total: [{value: '', disabled: true}]
+      amount: [''],
+      amountCurr: [{value: '', disabled: true}]
     });
   }
 
@@ -189,7 +207,8 @@ export class SalesComponent implements OnInit {
       // now format total price with angular currency pipe
       let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'USD', 'symbol-narrow', '1.2-2');
       // update total sum field on unit and do not emit event myFormValueChanges$ in this case on products
-      control.at(+i).get('total').setValue(totalUnitPriceFormatted, {onlySelf: true, emitEvent: false});
+      control.at(+i).get('amountCurr').setValue(totalUnitPriceFormatted, {onlySelf: true, emitEvent: false});
+      control.at(+i).get('amount').setValue(totalUnitPrice, {onlySelf: true, emitEvent: false});
       // update total price for all products
       this.subTotal += totalUnitPrice;      
     }
@@ -299,11 +318,34 @@ export class SalesComponent implements OnInit {
     this.salesService.saveSale(form).subscribe(
       data => {        
         console.log(data);
-        //this.displayInvoice(true);
+        this.invoiceObject = data;
+        this.displayInvoice(true);
       }
     );
    // this.displayInvoice(true);
   }  
+
+  getSale(transactionNumber){
+    transactionNumber = 77;
+    this.salesService.getSale(transactionNumber).subscribe(
+      data => {        
+        console.log(data);
+        this.editInvoiceObject = data[0];
+        this.getLineItems(transactionNumber);
+      }
+    );
+  }
+
+  getLineItems(transactionNumber){
+    //transactionNumber = 77;
+    this.salesService.getLineItems(transactionNumber).subscribe(
+      data => {        
+        console.log(data);
+        this.editInvoiceObject['lineItems'] = data;
+        this.viewInvoice = true;
+      }
+    );
+  }
 
   resetForm() { 
     this.salesForm.reset();
