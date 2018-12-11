@@ -303,9 +303,9 @@ export class SalesComponent implements OnInit {
     this.showInvoice = val;
   }
 
-  private prepareSave(form): Transaction {
-    return new Transaction().deserialize(form);
-  }
+  // private prepareSave(form): Transaction {
+  //   return new Transaction().deserialize(form);
+  // }
 
   // Executed When Form Is Submitted  
   onFormSubmit(form:NgForm)  
