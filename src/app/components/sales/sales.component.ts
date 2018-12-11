@@ -5,7 +5,6 @@ import {CurrencyPipe} from '@angular/common';
 import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
 import { SalesService } from '../../_services/sales.service';
 import { ContactsService } from '../../_services/contacts.service';
-import { Transaction } from '../../_models/transactions';
 
 declare var $: any;
 
