@@ -1,48 +1,15 @@
-import { Component, OnInit, Input} from '@angular/core';
-import { MatTableDataSource, MatRadioChange} from '@angular/material';
-import {CurrencyPipe} from '@angular/common';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatTableDataSource, MatRadioChange } from '@angular/material';
+import { CurrencyPipe } from '@angular/common';
 // Must import to use Forms functionality  
-import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl } from '@angular/forms';
 import { TransactionsService } from '../../_services/transactions.service';
 import { ContactsService } from '../../_services/contacts.service';
 import { CommonService } from '../../_services/common.service';
-
+import { DropDown } from '../../_models/dropdown';
+import { PeriodicElement } from '../../_models/periodicelement';
 
 declare var $: any;
-
-export interface Vendor {
-  value: string;
-  viewValue: string;
-}
-
-export interface Accounts {
-  value: string;
-  viewValue: string;
-}
-
-export interface Customers {
-  value: string;
-  viewValue: string;
-}
-
-export interface ProductType {
-  value: string;
-  viewValue: string;
-}
-
-export interface PeriodicElement {
-  id: number;
-  name: string;
-  productId: string;
-  price: number;
-  quantity: string;
-  total: number;
-}
-
-export interface Columns {
-  value: string;
-  viewValue: string;
-}
 
 @Component({
   selector: 'app-sales',
@@ -51,28 +18,21 @@ export interface Columns {
 })
 export class SalesComponent implements OnInit {
 
- 
+
   columns = [
-    { columnDef: 'transaction_number', header: 'Transaction No.',    cell: (element: any) => `${element.transaction_number}` },
-    { columnDef: 'departmentName',     header: 'Department',   cell: (element: any) => `${element.departmentName}`     },
-    { columnDef: 'user_name',   header: 'User Name', cell: (element: any) => `${element.user_name}`   },
+    { columnDef: 'transaction_number', header: 'Transaction No.', cell: (element: any) => `${element.transaction_number}` },
+    { columnDef: 'departmentName', header: 'Department', cell: (element: any) => `${element.departmentName}` },
+    { columnDef: 'user_name', header: 'User Name', cell: (element: any) => `${element.user_name}` },
   ];
 
   displayedColumns = this.columns.map(c => c.columnDef);
-  
+
 
   vendors = [];
   customers = [];
 
-  accounts: Accounts[] = [
-    {value: 'cash', viewValue: 'Cash'},
-    {value: 'HDFC Checkings', viewValue: 'HDFC CHECKINGS'},
-    {value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS'}
-  ];
 
- 
-
-  productTypes: ProductType[] = [];
+  productTypes: DropDown[];
 
   productObj = {};
   persons = [];
@@ -85,63 +45,142 @@ export class SalesComponent implements OnInit {
   editInvoiceObject = {};
 
   dataSource = new MatTableDataSource<PeriodicElement>();
- 
-  salesForm = this.fb.group({  
-    personType : ['', Validators.required],  
-    personTypeValue : ['', Validators.required],  
+
+  salesForm = this.fb.group({
+    personType: ['', Validators.required],
+    personTypeValue: ['', Validators.required],
     lineItems: this.fb.array([]),
-    tax: ['' ,Validators.required],
-    paymentAmount: ['' ,Validators.required],
-    paymentDate: ['' ,Validators.required],
-    creditTo: ['' ,Validators.required],
+    tax: ['', Validators.required],
+    paymentAmount: ['', Validators.required],
+    paymentDate: ['', Validators.required],
+    creditTo: ['', Validators.required],
     additionalComments: [],
-    subTotal: [{value: '', disabled: true}],
-    productsTotal: [{value: '', disabled: true}],
-    accounts: [{id:1}],
+    subTotal: [{ value: '', disabled: true }],
+    productsTotal: [{ value: '', disabled: true }],
+    accounts: [{ id: 1 }],
     user_id: '3',
     user_name: 'Kaushik Gollapalli',
     departmentId: '1',
     departmentName: 'Computer Science'
-  }); 
-  personType:string='';  
-  personTypeValue:string=''; 
-  isActive:boolean=true;
-  showInvoice:boolean=false;
-  viewInvoice:boolean=false;
-  
+  });
+  personType: string = '';
+  personTypeValue: string = '';
+  isActive: boolean = true;
+  showInvoice: boolean = false;
+  viewInvoice: boolean = false;
+
   constructor(private fb: FormBuilder,
-    private  transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
+    private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
     private contactsService: ContactsService,
-    private commonService: CommonService) {  
-      //this.salesForm = this.createSaleForm(fb);    
+    private commonService: CommonService) {
+    //this.salesForm = this.createSaleForm(fb);    
   }
 
   ngOnInit() {
 
-    
-     // initialize stream on products
-     const myFormValueChanges$ = this.salesForm.controls['lineItems'].valueChanges;
-     // subscribe to the stream so listen to changes on products
-     myFormValueChanges$.subscribe(products => this.updateTotalUnitPrice(products));
 
-     // initialize stream on tax
-     const myTaxValueChanges$ = this.salesForm.get('tax').valueChanges;
-     // subscribe to the stream so listen to changes on tax
-     myTaxValueChanges$.subscribe(tax => this.updateTotalTaxPrice(tax));
+    // initialize stream on products
+    const myFormValueChanges$ = this.salesForm.controls['lineItems'].valueChanges;
+    // subscribe to the stream so listen to changes on products
+    myFormValueChanges$.subscribe(products => this.updateTotalUnitPrice(products));
 
-     // load dropdowns
-     this.getContactList();
-     //this.getCustomerList();
-     this.getProductTypes();
+    // initialize stream on tax
+    const myTaxValueChanges$ = this.salesForm.get('tax').valueChanges;
+    // subscribe to the stream so listen to changes on tax
+    myTaxValueChanges$.subscribe(tax => this.updateTotalTaxPrice(tax));
 
-     this.loadSalesList();
+    // load dropdowns
+    this.getContactList();
+    //this.getCustomerList();
+    this.getProductTypes();
+    this.loadSalesList();
 
-    
   }
-  
 
-  ngAfterViewInit() {    
+
+  ngAfterViewInit() {
   }
+
+
+
+  get productInfoForms() {
+    return this.salesForm.get('lineItems') as FormArray;
+  }
+
+  addProductInfoForms() {
+    this.productInfoForms.push(this.getProduct());
+  }
+  addNewProduct() {
+    const control = <FormArray>this.salesForm.controls['lineItems'];
+    control.push(this.getProduct());
+  }
+
+  toggleData($event: MatRadioChange) {
+    if ($event.value === 'vendor') {
+      this.persons = this.vendors;
+    } else {
+      this.persons = this.customers;
+    }
+  }
+
+  displayPersonDetails(value, personType) {
+    if (personType.value == 'vendor') {
+      this.filterForDisplay(this.vendors, value);
+    } else {
+      this.filterForDisplay(this.customers, value);
+    }
+
+  }
+
+  displayInvoice(val) {
+    this.showInvoice = val;
+  }
+
+
+  // Executed When Form Is Submitted  
+  onFormSubmit(form: NgForm) {
+    console.log(form);
+
+    this.transactionsService.saveSale(form).subscribe(
+      data => {
+        console.log(data);
+        this.invoiceObject = data;
+        this.displayInvoice(true);
+      }
+    );
+    // this.displayInvoice(true);
+  }
+
+  getSale(transactionNumber) {
+    transactionNumber = 77;
+    this.transactionsService.getSale(transactionNumber).subscribe(
+      data => {
+        console.log(data);
+        this.editInvoiceObject = data[0];
+        this.getLineItems(transactionNumber);
+      }
+    );
+  }
+
+  getLineItems(transactionNumber) {
+    //transactionNumber = 77;
+    this.transactionsService.getLineItems(transactionNumber).subscribe(
+      data => {
+        console.log(data);
+        this.editInvoiceObject['lineItems'] = data;
+        this.viewInvoice = true;
+      }
+    );
+  }
+
+  resetForm() {
+    this.salesForm.reset();
+  }
+
+
+
+
+  /******************************* PRIVATE AREA ***********************************************************/
 
   private loadSalesList() {
     this.transactionsService.getAllSales().subscribe(
@@ -161,24 +200,12 @@ export class SalesComponent implements OnInit {
     return this.fb.group({
       line_item_no: this.productInfoForms.length + 1,  //set line_item_no with the index number
       name: ['', Validators.required],
-      products: this.fb.group({id: ['', Validators.required]}), 
+      products: this.fb.group({ id: ['', Validators.required] }),
       quantity: [1, [Validators.required, Validators.pattern(numberPatern)]],
       price: ['', [Validators.required, Validators.pattern(numberPatern)]],
       amount: [''],
-      amountCurr: [{value: '', disabled: true}]
+      amountCurr: [{ value: '', disabled: true }]
     });
-  }
-
-  get productInfoForms() {
-    return this.salesForm.get('lineItems') as FormArray;
-  }
-
-  addProductInfoForms() {
-    this.productInfoForms.push(this.getProduct());
-  }
-  addNewProduct(){   
-    const control = <FormArray>this.salesForm.controls['lineItems'];
-    control.push(this.getProduct());
   }
 
   /**
@@ -192,14 +219,14 @@ export class SalesComponent implements OnInit {
     this.subTotal = 0;
     this.taxValue = this.getTax();
     for (let i in products) {
-      let totalUnitPrice = (products[i].quantity*products[i].price);
+      let totalUnitPrice = (products[i].quantity * products[i].price);
       // now format total price with angular currency pipe
       let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'USD', 'symbol-narrow', '1.2-2');
       // update total sum field on unit and do not emit event myFormValueChanges$ in this case on products
-      control.at(+i).get('amountCurr').setValue(totalUnitPriceFormatted, {onlySelf: true, emitEvent: false});
-      control.at(+i).get('amount').setValue(totalUnitPrice, {onlySelf: true, emitEvent: false});
+      control.at(+i).get('amountCurr').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
+      control.at(+i).get('amount').setValue(totalUnitPrice, { onlySelf: true, emitEvent: false });
       // update total price for all products
-      this.subTotal += totalUnitPrice;      
+      this.subTotal += totalUnitPrice;
     }
     this.totalSum = this.subTotal + this.taxValue;
   }
@@ -207,137 +234,66 @@ export class SalesComponent implements OnInit {
   /**
    * Update total price as soon as tax changed 
    */
-  private updateTotalTaxPrice(tax : number){
+  private updateTotalTaxPrice(tax: number) {
     // now format tax price with angular currency pipe
     let taxPriceFormatted = this.currencyPipe.transform(tax, 'USD', 'symbol-narrow', '1.2-2');
-     
+
     this.totalSum = this.subTotal + tax;
   }
 
-  private getTax(){
+  private getTax() {
     return this.salesForm.get('tax').value;
   }
 
 
-  private removeProduct(index){
-   const control = <FormArray>this.salesForm.controls['lineItems'];
-   if(control.length > 1)
-    control.removeAt(index);
-   else
-    alert("Unable to delete. There should be atleast one product to create a sale.")
+  private removeProduct(index) {
+    const control = <FormArray>this.salesForm.controls['lineItems'];
+    if (control.length > 1)
+      control.removeAt(index);
+    else
+      alert("Unable to delete. There should be atleast one product to create a sale.")
   }
-  
-  private editSaleItem(saleItem){
+
+  private editSaleItem(saleItem) {
     console.log(saleItem);
     this.productObj = saleItem;
   }
-  private getContactList(){//load on init
+  private getContactList() {//load on init
     this.contactsService.getContactList().subscribe(
       data => {
-        this.contactList  =  data;
+        this.contactList = data;
         console.log(data);
         this.contactList.forEach(contact => {
           console.log(contact);
-          if(contact.isCompany == true){
+          if (contact.isCompany == true) {
             this.vendors.push(contact);
-          }else{
+          } else {
             this.customers.push(contact);
           }
         });
-     
+
       }
     );
   }
-  private getCustomerList(){//load on init
-    this.contactsService.getContactList().subscribe(
-      data => {
-        this.customers  =  data;
-        console.log(data);
-      }
-    );
-  }
-  private getProductTypes(){//load on init
+
+  private getProductTypes() {//load on init
     this.commonService.getProductTypes().subscribe(
       data => {
-        this.productTypes  =  data;
+        this.productTypes = data;
         console.log(data);
       }
     );
   }
-  toggleData($event: MatRadioChange){ 
-    if($event.value === 'vendor'){
-      this.persons = this.vendors;
-    }else{
-      this.persons = this.customers;
-    }
-  }
 
-  displayPersonDetails(value, personType){
-    if( personType.value == 'vendor'){
-      this.filterForDisplay(this.vendors,value);
-    }else{
-      this.filterForDisplay(this.customers,value);
-    }
 
-  }
-
-  private filterForDisplay(filterArray,value){
+  private filterForDisplay(filterArray, value) {
     filterArray.forEach(contact => {
-      if(contact.id == value){
+      if (contact.id == value) {
         this.personDetails = contact;
       }
     });
   }
 
-  displayInvoice(val){
-    this.showInvoice = val;
-  }
 
-  // private prepareSave(form): Transaction {
-  //   return new Transaction().deserialize(form);
-  // }
-
-  // Executed When Form Is Submitted  
-  onFormSubmit(form:NgForm)  
-  {  
-    console.log(form);
-    //const transaction = this.prepareSave(form); 
-   // console.log(transaction);
-
-    this.transactionsService.saveSale(form).subscribe(
-      data => {        
-        console.log(data);
-        this.invoiceObject = data;
-        this.displayInvoice(true);
-      }
-    );
-   // this.displayInvoice(true);
-  }  
-
-  getSale(transactionNumber){
-    transactionNumber = 77;
-    this.transactionsService.getSale(transactionNumber).subscribe(
-      data => {        
-        console.log(data);
-        this.editInvoiceObject = data[0];
-        this.getLineItems(transactionNumber);
-      }
-    );
-  }
-
-  getLineItems(transactionNumber){
-    //transactionNumber = 77;
-    this.transactionsService.getLineItems(transactionNumber).subscribe(
-      data => {        
-        console.log(data);
-        this.editInvoiceObject['lineItems'] = data;
-        this.viewInvoice = true;
-      }
-    );
-  }
-
-  resetForm() { 
-    this.salesForm.reset();
-} 
 
 }

@@ -125,15 +125,7 @@ export class PurchasesComponent implements OnInit {
     console.log(form);
   }
 
-
-
-
-
-
-
-
-
-
+  /******************************* PRIVATE AREA ***********************************************************/
   /** Adding FormArray Elements */
   private getProduct() {
     const numberPatern = '^[0-9.,]+$';
