@@ -3,8 +3,10 @@ import { MatTableDataSource, MatRadioChange} from '@angular/material';
 import {CurrencyPipe} from '@angular/common';
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators ,FormsModule,NgForm, FormArray, FormControl } from '@angular/forms';
-import { SalesService } from '../../_services/sales.service';
+import { TransactionsService } from '../../_services/transactions.service';
 import { ContactsService } from '../../_services/contacts.service';
+import { CommonService } from '../../_services/common.service';
+
 
 declare var $: any;
 
@@ -49,9 +51,7 @@ export interface Columns {
 })
 export class SalesComponent implements OnInit {
 
-  // displayedColumns: Columns[] = [{value: 'transaction_number', viewValue: 'Transaction Id'},{value: 'departmentName', viewValue: 'Department'},
-  // {value: 'user_name', viewValue: 'User Name'}];
-
+ 
   columns = [
     { columnDef: 'transaction_number', header: 'Transaction No.',    cell: (element: any) => `${element.transaction_number}` },
     { columnDef: 'departmentName',     header: 'Department',   cell: (element: any) => `${element.departmentName}`     },
@@ -59,9 +59,6 @@ export class SalesComponent implements OnInit {
   ];
 
   displayedColumns = this.columns.map(c => c.columnDef);
-  
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
   
 
   vendors = [];
@@ -73,16 +70,10 @@ export class SalesComponent implements OnInit {
     {value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS'}
   ];
 
-  // productTypes: ProductType[] = [
-  //   {value: '4', viewValue: 'Electronics'},
-  //   {value: 'furniture', viewValue: 'Furniture'},
-  //   {value: 'food', viewValue: 'Food'},
-  //   {value: 'real_estate', viewValue: 'Real Estate'}
-  // ];
+ 
 
   productTypes: ProductType[] = [];
 
-  //productItems = [{ name: '',type: '',quantity: null ,price: null ,total: 0}];
   productObj = {};
   persons = [];
   contactList = [];
@@ -94,9 +85,7 @@ export class SalesComponent implements OnInit {
   editInvoiceObject = {};
 
   dataSource = new MatTableDataSource<PeriodicElement>();
-
-  //salesForm: FormGroup;  
-  // To initialize FormGroup  
+ 
   salesForm = this.fb.group({  
     personType : ['', Validators.required],  
     personTypeValue : ['', Validators.required],  
@@ -121,8 +110,9 @@ export class SalesComponent implements OnInit {
   viewInvoice:boolean=false;
   
   constructor(private fb: FormBuilder,
-    private salesService: SalesService, private currencyPipe: CurrencyPipe,
-    private contactsService: ContactsService,) {  
+    private  transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
+    private contactsService: ContactsService,
+    private commonService: CommonService) {  
       //this.salesForm = this.createSaleForm(fb);    
   }
 
@@ -154,7 +144,7 @@ export class SalesComponent implements OnInit {
   }
 
   private loadSalesList() {
-    this.salesService.getAllSales().subscribe(
+    this.transactionsService.getAllSales().subscribe(
       data => {
         //this.customers  =  data;
         this.dataSource.data = data;
@@ -259,7 +249,7 @@ export class SalesComponent implements OnInit {
     );
   }
   private getCustomerList(){//load on init
-    this.salesService.getCustomerList().subscribe(
+    this.contactsService.getContactList().subscribe(
       data => {
         this.customers  =  data;
         console.log(data);
@@ -267,7 +257,7 @@ export class SalesComponent implements OnInit {
     );
   }
   private getProductTypes(){//load on init
-    this.salesService.getProductTypes().subscribe(
+    this.commonService.getProductTypes().subscribe(
       data => {
         this.productTypes  =  data;
         console.log(data);
@@ -314,7 +304,7 @@ export class SalesComponent implements OnInit {
     //const transaction = this.prepareSave(form); 
    // console.log(transaction);
 
-    this.salesService.saveSale(form).subscribe(
+    this.transactionsService.saveSale(form).subscribe(
       data => {        
         console.log(data);
         this.invoiceObject = data;
@@ -326,7 +316,7 @@ export class SalesComponent implements OnInit {
 
   getSale(transactionNumber){
     transactionNumber = 77;
-    this.salesService.getSale(transactionNumber).subscribe(
+    this.transactionsService.getSale(transactionNumber).subscribe(
       data => {        
         console.log(data);
         this.editInvoiceObject = data[0];
@@ -337,7 +327,7 @@ export class SalesComponent implements OnInit {
 
   getLineItems(transactionNumber){
     //transactionNumber = 77;
-    this.salesService.getLineItems(transactionNumber).subscribe(
+    this.transactionsService.getLineItems(transactionNumber).subscribe(
       data => {        
         console.log(data);
         this.editInvoiceObject['lineItems'] = data;

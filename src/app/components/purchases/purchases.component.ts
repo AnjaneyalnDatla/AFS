@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl, Form } from '@angular/forms';
 import { ContactsService } from '../../_services/contacts.service';
+import { CommonService } from '../../_services/common.service';
+import { DropDown } from '../../_models/dropdown';
 
 export interface Vendor {
   value: string;
@@ -68,6 +70,7 @@ export class PurchasesComponent implements OnInit {
   displayedColumns = this.columns.map(c => c.columnDef);
 
   product: { name: '', type: '', price: '', quantity: 0, total: 0 }
+  productTypes: DropDown[];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   
   accounts = ACCOUNTS;
@@ -76,7 +79,8 @@ export class PurchasesComponent implements OnInit {
 
   purchaseForm: FormGroup;
   constructor(private fb: FormBuilder,
-    private contactsService: ContactsService) { }
+    private contactsService: ContactsService,
+    private commonService: CommonService) { }
 
   ngOnInit() {
     this.purchaseForm = this.fb.group({
@@ -96,6 +100,7 @@ export class PurchasesComponent implements OnInit {
 
     /** Updating the purchasefrom and delivery to drop downs */
     this.getContactList();
+    this.getProductTypes();
 
   }
   ngAfterViewInit() { }
@@ -115,6 +120,19 @@ export class PurchasesComponent implements OnInit {
     const control = <FormArray>this.purchaseForm.controls['productItems'];
     control.removeAt(index);
   }
+
+  onFormSubmit(form: NgForm) {
+    console.log(form);
+  }
+
+
+
+
+
+
+
+
+
 
   /** Adding FormArray Elements */
   private getProduct() {
@@ -138,9 +156,12 @@ export class PurchasesComponent implements OnInit {
     );
   }
 
-  onFormSubmit(form: NgForm) {
-    console.log(form);
+  private getProductTypes(){//load on init
+    this.commonService.getProductTypes().subscribe(
+      data => {
+        this.productTypes  =  data;
+        console.log(data);
+      }
+    );
   }
-
-
 }

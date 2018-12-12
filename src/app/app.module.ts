@@ -15,8 +15,9 @@ import { AdminLayoutComponent } from './components/layouts/admin-layout/admin-la
 import { LoginLayoutComponent } from './components/layouts/login-layout/login-layout.component';
 import { AuthenticationService } from './_services/authentication.service';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import { SalesService } from './_services/sales.service';
+import { TransactionsService } from './_services/transactions.service';
 import { ContactsService } from './_services/contacts.service';
+import { CommonService } from './_services/common.service';
 
 @NgModule({
   imports: [
@@ -41,7 +42,7 @@ import { ContactsService } from './_services/contacts.service';
     AdminLayoutComponent,
 	  LoginLayoutComponent,
   ],
-  providers: [AuthenticationService,SalesService, ContactsService, CurrencyPipe],
+  providers: [AuthenticationService,TransactionsService, ContactsService, CommonService,CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -99,8 +99,8 @@
                         <div class="col-md-2 ml-3">
                           <mat-form-field>
                             <mat-select formControlName="type">
-                              <mat-option *ngFor="let student of students" [value]="student.value">
-                                {{student.viewValue}}
+                              <mat-option *ngFor="let productType of productTypes" [value]="productType.id">
+                                {{productType.name}}
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
