@@ -32,4 +32,11 @@ export class InvoiceComponent implements OnInit {
         window.print();
     }
 
+    openPdf(){        
+    }
+
+    displayInvoice(val){
+
+    }
+
 }
