@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-invoice',
@@ -8,10 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class InvoiceComponent implements OnInit {
     @Input() invoiceData: any;
-    subTotal: number;
-    total: number;
-    tax: number;
-    totalUnitPrice : number;
+    subTotal: number = 0;
+    total: number = 0;
+    tax: number = 0;
+    totalUnitPrice : number = 0;
+
+    @Output() calculate = new EventEmitter();
 
     constructor() { 
     }
@@ -20,8 +22,13 @@ export class InvoiceComponent implements OnInit {
         this.calculateTotals();
     }
 
+    ngOnChanges(changes) {
+        //this.calculateTotals();
+      }
+
     calculateTotals(){
         for (let lineItem of this.invoiceData.lineItems) {
+            this.totalUnitPrice = 0;
             this.totalUnitPrice += lineItem.quantity * lineItem.price;
             this.subTotal += this.totalUnitPrice; 
         }

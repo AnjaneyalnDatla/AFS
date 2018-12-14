@@ -25,14 +25,11 @@ export class TransactionsService {
 
     /** Get specific sale by Id */
     getSale(transactionId){
-        let url = `${environment.account_contextroot}` + `${environment.sale_get_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sale_get_url}` + '/' +transactionId
         console.log(JSON.stringify(transactionId));
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
-            },
-            params: {
-                "transactionNumber" : transactionId 
             }
         }).map(response => {
             return response;
@@ -41,14 +38,11 @@ export class TransactionsService {
 
     /** Get LineItems for a sale*/
     getLineItems(transactionId){
-        let url = `${environment.account_contextroot}` + `${environment.sale_lineItems_url}`
+        let url = `${environment.account_contextroot}` + `${environment.sale_lineItems_url}`+ '/' +transactionId
         console.log(JSON.stringify(transactionId));
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
-            },
-            params: {
-                "transactionNumber" : transactionId 
             }
         }).map(response => {
             return response;
@@ -66,6 +60,11 @@ export class TransactionsService {
         }).map(response => {
             return response;
         })
+    }
+
+    /** Delete Sale */
+    deleteSale(transactionId){
+
     }
     
 

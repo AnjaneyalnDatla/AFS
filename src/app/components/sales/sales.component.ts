@@ -18,22 +18,23 @@ declare var $: any;
 })
 export class SalesComponent implements OnInit {
 
-
+// Table columns 
   columns = [
     { columnDef: 'transaction_number', header: 'Transaction No.', cell: (element: any) => `${element.transaction_number}` },
     { columnDef: 'departmentName', header: 'Department', cell: (element: any) => `${element.departmentName}` },
     { columnDef: 'user_name', header: 'User Name', cell: (element: any) => `${element.user_name}` },
+    { columnDef: 'actions',   header: 'Actions', cell: (element: any) => `${element.actions}`   },
   ];
 
   displayedColumns = this.columns.map(c => c.columnDef);
 
+  dataSource = new MatTableDataSource<PeriodicElement>();
 
+
+//declarations
   vendors = [];
   customers = [];
-
-
   productTypes: DropDown[];
-
   productObj = {};
   persons = [];
   contactList = [];
@@ -43,9 +44,12 @@ export class SalesComponent implements OnInit {
   taxValue: number = 0;
   invoiceObject = {};
   editInvoiceObject = {};
-
-  dataSource = new MatTableDataSource<PeriodicElement>();
-
+  personType: string = '';
+  personTypeValue: string = '';
+  isActive: boolean = true;
+  showInvoice: boolean = false;
+  viewInvoice: boolean = false;
+  
   salesForm = this.fb.group({
     personType: ['', Validators.required],
     personTypeValue: ['', Validators.required],
@@ -63,11 +67,7 @@ export class SalesComponent implements OnInit {
     departmentId: '1',
     departmentName: 'Computer Science'
   });
-  personType: string = '';
-  personTypeValue: string = '';
-  isActive: boolean = true;
-  showInvoice: boolean = false;
-  viewInvoice: boolean = false;
+
 
   constructor(private fb: FormBuilder,
     private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
@@ -77,7 +77,6 @@ export class SalesComponent implements OnInit {
   }
 
   ngOnInit() {
-
 
     // initialize stream on products
     const myFormValueChanges$ = this.salesForm.controls['lineItems'].valueChanges;
@@ -152,7 +151,7 @@ export class SalesComponent implements OnInit {
   }
 
   getSale(transactionNumber) {
-    transactionNumber = 77;
+    //transactionNumber = 77;
     this.transactionsService.getSale(transactionNumber).subscribe(
       data => {
         console.log(data);
@@ -171,6 +170,10 @@ export class SalesComponent implements OnInit {
         this.viewInvoice = true;
       }
     );
+  }
+
+  deleteSale(transactionNumber){
+
   }
 
   resetForm() {

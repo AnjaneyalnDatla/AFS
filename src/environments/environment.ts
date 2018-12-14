@@ -11,8 +11,8 @@ export const environment = {
 
   // Context Paths
   identity_validate_url: 'validate',
-  sale_vendor_list_url: 'contacts/getAllContactsByAccntType1',
-  sale_customer_list_url: 'contacts/getAllContactsByAccntType1',
+  sale_vendor_list_url: 'contacts/getAllContactsByAccntType',
+  sale_customer_list_url: 'contacts/getAllContactsByAccntType',
   sale_product_types_url: 'contacts/getProductTypes',
   sale_get_url: 'transactions/transactionNumber',
   sale_lineItems_url: 'transactions/lineItems',
