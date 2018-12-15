@@ -8,6 +8,8 @@ import { ContactsService } from '../../_services/contacts.service';
 import { CommonService } from '../../_services/common.service';
 import { DropDown } from '../../_models/dropdown';
 import { PeriodicElement } from '../../_models/periodicelement';
+import { AuthenticationService } from '../../_services/authentication.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -32,6 +34,7 @@ export class SalesComponent implements OnInit {
 
 
 //declarations
+  userDetails: {};
   vendors = [];
   customers = [];
   productTypes: DropDown[];
@@ -62,21 +65,42 @@ export class SalesComponent implements OnInit {
     subTotal: [{ value: '', disabled: true }],
     productsTotal: [{ value: '', disabled: true }],
     accounts: [{ id: 1 }],
-    user_id: '3',
-    user_name: 'Kaushik Gollapalli',
-    departmentId: '1',
-    departmentName: 'Computer Science'
+    user_id: 0,
+    user_name: '',
+    departmentId: 0,
+    departmentName: ''
   });
 
 
   constructor(private fb: FormBuilder,
     private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
     private contactsService: ContactsService,
-    private commonService: CommonService) {
+    private commonService: CommonService,
+    private authenticationService: AuthenticationService,
+    private router: Router) {
     //this.salesForm = this.createSaleForm(fb);    
   }
 
   ngOnInit() {
+    //get logged in user details from local storage 
+    // and set userId, userName, DepartmentId and DepartmentName
+    this.userDetails = this.authenticationService.getLoginUser();
+    if(this.userDetails != null){
+      this.salesForm.controls["user_id"].setValue(
+        this.userDetails['id']
+      );
+      this.salesForm.controls["user_name"].setValue(
+        this.userDetails['userName']
+      );
+      this.salesForm.controls["departmentId"].setValue(
+        this.userDetails['person']['department']['id']
+      );
+      this.salesForm.controls["departmentName"].setValue(
+        this.userDetails['person']['department']['name']
+      );
+    }else{
+      return this.router.navigate(['/login'])
+    }
 
     // initialize stream on products
     const myFormValueChanges$ = this.salesForm.controls['lineItems'].valueChanges;

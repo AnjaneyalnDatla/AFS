@@ -34,4 +34,11 @@ export class AuthenticationService {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
     }
+
+    getLoginUser(){
+        if(localStorage.getItem('currentUser')!=null)
+            return JSON.parse(localStorage.getItem('currentUser'));
+        else
+            return null;
+    }
 }
