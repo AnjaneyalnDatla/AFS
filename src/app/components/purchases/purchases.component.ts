@@ -3,7 +3,7 @@ import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/mater
 import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl, Form } from '@angular/forms';
 import { ContactsService } from '../../_services/contacts.service';
 import { CommonService } from '../../_services/common.service';
-import { DropDown } from '../../_models/dropdown';
+import { DropDown } from '../../_models/common/dropdown';
 
 export interface Vendor {
   value: string;

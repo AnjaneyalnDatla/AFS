@@ -49,8 +49,23 @@ export class TransactionsService {
         })
     }
 
+    /** Get Unique transaction number for a sale*/
+    getTransactionNumber(){
+        let url = `${environment.account_contextroot}` + `${environment.transactions_resource}` + '/transactionNumber/new';
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+
     /** Save Sale */
     saveSale(formData){
+
+        let transactionNumber = this.getTransactionNumber().subscribe();
+        
         let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
         console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {

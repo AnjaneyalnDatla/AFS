@@ -19,6 +19,7 @@ export const environment = {
   sales_resource: 'sales',
   contacts_resource: 'contacts',
   transactions_resource: 'transactions',
-  products_resource: 'products'
+  products_resource: 'products',
+  accounts_resource: 'account'
 };
 

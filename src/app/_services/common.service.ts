@@ -23,4 +23,15 @@ export class CommonService {
             return response;
         })
     }
+
+    getOrganisationAccounts() {
+        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}` + '/organisationAccounts'
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
 }

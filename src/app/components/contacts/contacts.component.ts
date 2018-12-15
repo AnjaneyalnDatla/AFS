@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import { Contact } from '../../_models/contact';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
 import { User } from '../../_models/user';

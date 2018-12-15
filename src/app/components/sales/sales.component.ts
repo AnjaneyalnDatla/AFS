@@ -2,12 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatTableDataSource, MatRadioChange } from '@angular/material';
 import { CurrencyPipe } from '@angular/common';
 // Must import to use Forms functionality  
-import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { TransactionsService } from '../../_services/transactions.service';
 import { ContactsService } from '../../_services/contacts.service';
 import { CommonService } from '../../_services/common.service';
-import { DropDown } from '../../_models/dropdown';
-import { PeriodicElement } from '../../_models/periodicelement';
+import { DropDown } from '../../_models/common/dropdown';
+import { PeriodicElement } from '../../_models/common/periodicelement';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { Router } from '@angular/router';
 
@@ -20,20 +20,21 @@ declare var $: any;
 })
 export class SalesComponent implements OnInit {
 
-// Table columns 
+  // Table columns 
   columns = [
     { columnDef: 'transaction_number', header: 'Transaction No.', cell: (element: any) => `${element.transaction_number}` },
     { columnDef: 'departmentName', header: 'Department', cell: (element: any) => `${element.departmentName}` },
     { columnDef: 'user_name', header: 'User Name', cell: (element: any) => `${element.user_name}` },
-    { columnDef: 'actions',   header: 'Actions', cell: (element: any) => `${element.actions}`   },
+    { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
   ];
 
   displayedColumns = this.columns.map(c => c.columnDef);
 
   dataSource = new MatTableDataSource<PeriodicElement>();
+  transaction: {};
 
 
-//declarations
+  //declarations
   userDetails: {};
   vendors = [];
   customers = [];
@@ -52,7 +53,8 @@ export class SalesComponent implements OnInit {
   isActive: boolean = true;
   showInvoice: boolean = false;
   viewInvoice: boolean = false;
-  
+  organisationAccounts = [];
+
   salesForm = this.fb.group({
     personType: ['', Validators.required],
     personTypeValue: ['', Validators.required],
@@ -85,7 +87,7 @@ export class SalesComponent implements OnInit {
     //get logged in user details from local storage 
     // and set userId, userName, DepartmentId and DepartmentName
     this.userDetails = this.authenticationService.getLoginUser();
-    if(this.userDetails != null){
+    if (this.userDetails != null) {
       this.salesForm.controls["user_id"].setValue(
         this.userDetails['id']
       );
@@ -98,7 +100,7 @@ export class SalesComponent implements OnInit {
       this.salesForm.controls["departmentName"].setValue(
         this.userDetails['person']['department']['name']
       );
-    }else{
+    } else {
       return this.router.navigate(['/login'])
     }
 
@@ -117,7 +119,7 @@ export class SalesComponent implements OnInit {
     //this.getCustomerList();
     this.getProductTypes();
     this.loadSalesList();
-
+    this.getOrganisationAccounts();
   }
 
 
@@ -161,9 +163,15 @@ export class SalesComponent implements OnInit {
 
 
   // Executed When Form Is Submitted  
-  onFormSubmit(form: NgForm) {
-    console.log(form);
+  onFormSubmit(form: any) {
+    console.log("UI FORM");
+    console.log(form.lineItems);
+    this.createTaxLineItem(form);
+    console.log("MANIPULATED FORM" + form.lineItems);
 
+    this.getFormData(form);
+    console.log(this.transaction);
+    console.log("asdasdasdas")
     this.transactionsService.saveSale(form).subscribe(
       data => {
         console.log(data);
@@ -196,7 +204,7 @@ export class SalesComponent implements OnInit {
     );
   }
 
-  deleteSale(transactionNumber){
+  deleteSale(transactionNumber) {
 
   }
 
@@ -312,6 +320,15 @@ export class SalesComponent implements OnInit {
     );
   }
 
+  private getOrganisationAccounts() {//load on init
+    this.commonService.getOrganisationAccounts().subscribe(
+      data => {
+        this.organisationAccounts = data;
+        console.log(data);
+      }
+    );
+  }
+
 
   private filterForDisplay(filterArray, value) {
     filterArray.forEach(contact => {
@@ -321,6 +338,42 @@ export class SalesComponent implements OnInit {
     });
   }
 
+  private getFormData(form: any) {
+    this.transaction = {
+      user_id: this.salesForm.controls['user_id'].value,
+      user_name: this.salesForm.controls['user_name'].value,
+      departmentId: this.salesForm.controls['departmentId'].value,
+      departmentName: this.salesForm.controls['departmentName'].value,
+      lineItems: form.lineItems,
+      accounts: {
+        id: "TO BE SET",
+        contacts: "TO BE SET",
+        accountBalances: "TO BE SET",
+        account_type: "TO BE SET",
+      },
+      headers: {
+        headerdate: "TO BE SET",
+        headerTypes: {
+          "id": "TO BE SET",
+        },
+        accounts: {
+          contacts: "TO BE SET",
+          accountBalances: "TO BE SET",
+          account_type: "TO BE SET",
+        },
+      },
+    }
+  }
+
+  private createTaxLineItem(form: any) {
+    form.lineItems.push({
+      line_item_no: form.lineItems.length + 1,  //set line_item_no with the index number
+      name: "TAX",
+      quantity: 1,
+      price: form.tax,
+      amount: form.tax
+    });
+  }
 
 
 }
