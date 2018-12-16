@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatTableDataSource, MatRadioChange } from '@angular/material';
 import { CurrencyPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import * as _ from 'lodash';
+
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { TransactionsService } from '../../_services/transactions.service';
@@ -32,7 +35,7 @@ export class SalesComponent implements OnInit {
 
   dataSource = new MatTableDataSource<PeriodicElement>();
   transaction: {};
-
+  @Input() account: any;
 
   //declarations
   userDetails: {};
@@ -43,6 +46,7 @@ export class SalesComponent implements OnInit {
   persons = [];
   contactList = [];
   personDetails = {};
+
   totalSum: number = 0;
   subTotal: number = 0;
   taxValue: number = 0;
@@ -76,6 +80,7 @@ export class SalesComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe,
     private contactsService: ContactsService,
     private commonService: CommonService,
     private authenticationService: AuthenticationService,
@@ -164,15 +169,10 @@ export class SalesComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    console.log("UI FORM");
-    console.log(form.lineItems);
     this.createTaxLineItem(form);
-    console.log("MANIPULATED FORM" + form.lineItems);
-
     this.getFormData(form);
-    console.log(this.transaction);
-    console.log("asdasdasdas")
-    this.transactionsService.saveSale(form).subscribe(
+    console.log(JSON.stringify(this.transaction));
+    this.transactionsService.saveSale(this.transaction).subscribe(
       data => {
         console.log(data);
         this.invoiceObject = data;
@@ -290,16 +290,13 @@ export class SalesComponent implements OnInit {
   }
 
   private editSaleItem(saleItem) {
-    console.log(saleItem);
     this.productObj = saleItem;
   }
   private getContactList() {//load on init
     this.contactsService.getContactList().subscribe(
       data => {
         this.contactList = data;
-        console.log(data);
         this.contactList.forEach(contact => {
-          console.log(contact);
           if (contact.isCompany == true) {
             this.vendors.push(contact);
           } else {
@@ -315,57 +312,97 @@ export class SalesComponent implements OnInit {
     this.commonService.getProductTypes().subscribe(
       data => {
         this.productTypes = data;
-        console.log(data);
       }
     );
   }
 
   private getOrganisationAccounts() {//load on init
-    this.commonService.getOrganisationAccounts().subscribe(
+    //OrganisationAccounts do not have contact ID. this needs to be refactored
+    this.commonService.getAccountsByContactId("0").subscribe(
       data => {
         this.organisationAccounts = data;
-        console.log(data);
+      }
+    );
+  }
+
+  private getAccountsByContactId(contactId: String) {//load on init
+    //OrganisationAccounts do not have contact ID. this needs to be refactored
+    console.log(contactId);
+    return this.commonService.getAccountsByContactId(contactId).subscribe(
+      data => {
+        this.account = data;
       }
     );
   }
 
 
+
   private filterForDisplay(filterArray, value) {
     filterArray.forEach(contact => {
       if (contact.id == value) {
+        this.getAccountsByContactId(contact.id);
+        console.log(JSON.stringify(this.account));
+        this.salesForm.controls['accounts'].setValue(this.account);
+        console.log(JSON.stringify(this.account));
+        console.log(JSON.stringify(contact));
         this.personDetails = contact;
       }
     });
   }
 
   private getFormData(form: any) {
+    /** Modify Account Balance */
+    console.log(JSON.stringify(this.account));
+    var saleAccount:any = {};
+    this.account.forEach(
+      acc=>{
+        if(acc.account_type.accountCategory.id === 1){
+          saleAccount = acc;
+        }
+      }
+    );
+    console.log(JSON.stringify(saleAccount));
+    let accountBalance;
+    saleAccount.accountBalances.forEach(
+      accB => {
+        if(accB.isActive === true){
+          accountBalance = _.cloneDeep(accB);
+        }
+      }
+    );
+    console.log(JSON.stringify(accountBalance));
+    accountBalance.id = null;
+    accountBalance.beginning_balance = accountBalance.current_balance;
+    accountBalance.current_balance = accountBalance.current_balance - this.totalSum;
+    accountBalance.current_balance_date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    accountBalance.isActive = true;
+
+    saleAccount.accountBalances.forEach(
+      accBal => { accBal.isActive = false; }
+    );
+    saleAccount.accountBalances.push(accountBalance);
+
     this.transaction = {
       user_id: this.salesForm.controls['user_id'].value,
       user_name: this.salesForm.controls['user_name'].value,
       departmentId: this.salesForm.controls['departmentId'].value,
       departmentName: this.salesForm.controls['departmentName'].value,
       lineItems: form.lineItems,
-      accounts: {
-        id: "TO BE SET",
-        contacts: "TO BE SET",
-        accountBalances: "TO BE SET",
-        account_type: "TO BE SET",
-      },
-      headers: {
-        headerdate: "TO BE SET",
+      accounts: saleAccount,
+      header: {
+        headernumber: 1,
+        headerdate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
         headerTypes: {
-          "id": "TO BE SET",
+          id: 1,
+          name: "Invoice",
         },
-        accounts: {
-          contacts: "TO BE SET",
-          accountBalances: "TO BE SET",
-          account_type: "TO BE SET",
-        },
+        accounts: saleAccount,
       },
     }
   }
 
   private createTaxLineItem(form: any) {
+    console.log(form.tax);
     form.lineItems.push({
       line_item_no: form.lineItems.length + 1,  //set line_item_no with the index number
       name: "TAX",

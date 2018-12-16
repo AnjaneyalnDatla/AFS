@@ -63,9 +63,6 @@ export class TransactionsService {
 
     /** Save Sale */
     saveSale(formData){
-
-        let transactionNumber = this.getTransactionNumber().subscribe();
-        
         let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
         console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {

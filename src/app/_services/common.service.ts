@@ -24,13 +24,15 @@ export class CommonService {
         })
     }
 
-    getOrganisationAccounts() {
-        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}` + '/organisationAccounts'
+    getAccountsByContactId(id: String): Observable<any> {
+        console.log("CALLING")
+        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}` + '/contact/'+ id;
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
             }
         }).map(response => {
+            console.log(response);
             return response;
         })
     }
