@@ -8,17 +8,26 @@ declare interface RouteInfo {
     type: string;
     iconType: string;
     class: string;
-    children: childArry[];
+    collapse?: string,
+    children?: childArry[];
 }
 declare interface childArry {
     path: string;
     title: string;
     icon: string;
     class: string;
+    ab: string;
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Dashboard', type: 'link', iconType: 'dashboard', class: '', children: [] },
-    { path: '/sales', title: 'Sales', type: 'link', iconType: 'shop_two', class: '', children: [] },
+    {
+        path: '/sales', title: 'Sales', type: 'sub', iconType: 'shop_two', class: '', collapse: 'components',
+        children: [
+            { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
+            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' },
+            { path: 'edit', title: 'Edit', icon: 'shop_two', class: '', ab: 'E' },
+        ]
+    },
     { path: '/purchases', title: 'Purchases', type: 'link', iconType: 'shopping_cart', class: '', children: [] },
     { path: '/contacts', title: 'Contacts', type: 'link', iconType: 'person', class: '', children: [] },
     { path: '/account', title: 'Accounts', type: 'link', iconType: 'account_balance', class: '', children: [] },

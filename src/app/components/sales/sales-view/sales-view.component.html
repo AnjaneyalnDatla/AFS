@@ -1,0 +1,11 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
+                    (onView)="getSale($event)" (onDelete)="deleteSale($event)"></app-sortedtable>
+
+            </div>
+        </div>
+    </div>
+</div>

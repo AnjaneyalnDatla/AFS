@@ -1,0 +1,20 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-text">
+                        <div class="card-text">
+                            <h4 class="card-title">Edit Sale</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <app-invoice *ngIf="viewInvoice" [invoiceData]="editInvoiceObject"></app-invoice>
+                        <div *ngIf="!viewInvoice" class="alert alert-info" role="alert">
+                            <strong>Select Invoice to view the transaction details.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

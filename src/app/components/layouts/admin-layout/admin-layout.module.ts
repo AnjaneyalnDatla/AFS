@@ -11,12 +11,12 @@ import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { AccountComponent } from '../../account/account.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SortedTableComponent } from '../../commons/tables/sorted-tables/sortedtable.component';
+//import { SortedTableComponent } from '../../commons/tables/sorted-tables/sortedtable.component';
 import { WizardComponent } from '../../commons/wizard/wizard.component';
 import { ContactsFormComponent } from '../../commons/forms/contacts/contactsform.component';
 import { AccountsFormComponent } from '../../commons/forms/accounts/accountsform.component';
-import { InvoiceComponent } from '../../commons/forms/accounts/invoice.component';
-
+//import { InvoiceComponent } from '../../commons/forms/accounts/invoice.component';
+import {SharedModule} from '../../../components/commons/shared.module';
 
 import {
   MatButtonModule,
@@ -64,6 +64,7 @@ import{
     MatTabsModule,
     HttpClientModule,
     MatIconModule,
+    SharedModule,
   ],
   declarations: [
     DashboardComponent,
@@ -73,11 +74,25 @@ import{
     ReportsComponent,
     NotificationsComponent,
     AccountComponent,
-    SortedTableComponent,
+    //SortedTableComponent,
     WizardComponent,
     ContactsFormComponent,
     AccountsFormComponent,
-    InvoiceComponent
+    //InvoiceComponent
+  ],
+  exports: [
+    DashboardComponent,
+    SalesComponent,
+    PurchasesComponent,
+    ContactsComponent,
+    ReportsComponent,
+    NotificationsComponent,
+    AccountComponent,
+    //SortedTableComponent,
+    WizardComponent,
+    ContactsFormComponent,
+    AccountsFormComponent,
+    //InvoiceComponent
   ]
 })
 
