@@ -28,7 +28,13 @@ export const ROUTES: RouteInfo[] = [
             { path: 'edit', title: 'Edit', icon: 'shop_two', class: '', ab: 'E' },
         ]
     },
-    { path: '/purchases', title: 'Purchases', type: 'link', iconType: 'shopping_cart', class: '', children: [] },
+    {
+        path: '/purchases', title: 'Purchases', type: 'sub', iconType: 'shopping_cart', class: '', collapse: 'purchases',
+        children: [
+            { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
+            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
+        ]
+    },
     { path: '/contacts', title: 'Contacts', type: 'link', iconType: 'person', class: '', children: [] },
     { path: '/account', title: 'Accounts', type: 'link', iconType: 'account_balance', class: '', children: [] },
     { path: '/reports', title: 'Reports', type: 'link', iconType: 'bar_chart', class: '', children: [] },
