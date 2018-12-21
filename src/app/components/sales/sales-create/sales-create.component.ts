@@ -175,7 +175,7 @@ export class SalesCreateComponent implements OnInit {
     this.transactionsService.saveSale(this.transaction).subscribe(
       data => {
         console.log(data);
-        this.invoiceObject = data;
+        this.invoiceObject = this.transaction;
         this.displayInvoice(true);
       }
     );
@@ -321,6 +321,8 @@ export class SalesCreateComponent implements OnInit {
     this.commonService.getAccountsByContactId("0").subscribe(
       data => {
         this.organisationAccounts = data;
+        console.log("organisationAccounts");
+        console.log(JSON.stringify(this.organisationAccounts));
       }
     );
   }
@@ -331,6 +333,8 @@ export class SalesCreateComponent implements OnInit {
     return this.commonService.getAccountsByContactId(contactId).subscribe(
       data => {
         this.account = data;
+        console.log("account");
+        console.log(JSON.stringify(this.account));
       }
     );
   }
