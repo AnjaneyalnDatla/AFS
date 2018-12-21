@@ -4,11 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { SalesRoutes } from './sales.routing';
+import { PurchasesRoutes } from './purchases.routing';
 
-import { SalesCreateComponent } from './sales-create/sales-create.component';
-import { SalesViewComponent } from './sales-view/sales-view.component';
-import { SalesEditComponent } from './sales-edit/sales-edit.component'
+import { PurchasesCreateComponent } from './purchases-create/purchases-create.component';
+import { PurchasesViewComponent } from './purchases-view/purchases-view.component';
 import { SharedModule } from '../../components/commons/shared.module';
 
 import {
@@ -32,7 +31,7 @@ import {
   @NgModule({
     imports: [
       CommonModule,
-      RouterModule.forChild(SalesRoutes),
+      RouterModule.forChild(PurchasesRoutes),
       FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -55,10 +54,9 @@ import {
     SharedModule,
     ],
     declarations: [
-        SalesCreateComponent,
-        SalesViewComponent,
-        SalesEditComponent,
+        PurchasesCreateComponent,
+        PurchasesViewComponent,
     ]
   })
   
-export class SalesModule {}
+export class PurchasesModule {}
