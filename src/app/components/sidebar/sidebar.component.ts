@@ -35,8 +35,20 @@ export const ROUTES: RouteInfo[] = [
             { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
         ]
     },
-    { path: '/contacts', title: 'Contacts', type: 'link', iconType: 'person', class: '', children: [] },
-    { path: '/account', title: 'Accounts', type: 'link', iconType: 'account_balance', class: '', children: [] },
+    {
+        path: '/contacts', title: 'Contacts', type: 'sub', iconType: 'person', class: '', collapse: 'contacts',
+        children: [
+            { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
+            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
+        ]
+    },
+    {
+        path: '/account', title: 'Accounts', type: 'sub', iconType: 'account_balance', class: '', collapse: 'accounts',
+        children: [
+            { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
+            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
+        ]
+    },
     { path: '/reports', title: 'Reports', type: 'link', iconType: 'bar_chart', class: '', children: [] },
 ];
 

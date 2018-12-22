@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { InvoiceComponent } from '../commons/forms/accounts/invoice.component';
 import { SortedTableComponent } from '../commons/tables/sorted-tables/sortedtable.component';
+import { AccountsFormComponent } from '../commons/forms/accounts/accountsform.component';
+import { ContactsFormComponent } from '../commons/forms/contacts/contactsform.component';
 
 
 import {
@@ -49,11 +51,15 @@ import {
   ],
   declarations: [
     InvoiceComponent,
-    SortedTableComponent
+    SortedTableComponent,
+    AccountsFormComponent,
+    ContactsFormComponent
   ],
   exports: [
     InvoiceComponent,
-    SortedTableComponent
+    SortedTableComponent,
+    AccountsFormComponent,
+    ContactsFormComponent
   ]
 })
 export class SharedModule { }

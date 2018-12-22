@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { ContactsComponent } from '../../contacts/contacts.component';
 import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import { AccountComponent } from '../../account/account.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',                component: DashboardComponent },
@@ -14,8 +12,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'purchases',
       loadChildren: '../../purchases/purchases.module#PurchasesModule'
     },
-    { path: 'contacts',                 component: ContactsComponent },
+    { path: 'contacts',
+      loadChildren: '../../contacts/contacts.module#ContactsModule'
+    },
     { path: 'reports',                  component: ReportsComponent },
     { path: 'notifications',            component: NotificationsComponent },
-    { path: 'account',                  component: AccountComponent },
+    { path: 'account',
+      loadChildren: '../../account/account.module#AccountModule'
+    }
 ];
