@@ -1,9 +1,15 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl, Form } from '@angular/forms';
+import { CurrencyPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ContactsService } from '../../../_services/contacts.service';
 import { CommonService } from '../../../_services/common.service';
 import { DropDown } from '../../../_models/common/dropdown';
+import { TransactionsService } from '../../../_services/transactions.service';
+import { AuthenticationService } from '../../../_services/authentication.service';
+import { Router } from '@angular/router';
+
 
 export interface Vendor {
   value: string;
@@ -21,30 +27,6 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
-];
-
 
 const ACCOUNTS: Accounts[] = [
   { value: 'cash', viewValue: 'Cash' },
@@ -69,34 +51,95 @@ export class PurchasesCreateComponent implements OnInit {
 
   displayedColumns = this.columns.map(c => c.columnDef);
 
-  product: { name: '', type: '', price: '', quantity: 0, total: 0 }
-  productTypes: DropDown[];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  product: { name: '', type: '', price: '', quantity: 0, total: 0 };
+
+  dataSource = new MatTableDataSource<PeriodicElement>();
   
   accounts = ACCOUNTS;
 
+  //declarations
+  userDetails: {};
+  vendors = [];
+  customers = [];
+  productTypes: DropDown[];
+  productObj = {};
+  persons = [];
   contactList = [];
+  personDetails = {};
 
-  purchaseForm: FormGroup;
+  totalSum: number = 0;
+  subTotal: number = 0;
+  taxValue: number = 0;
+  invoiceObject = {};
+  editInvoiceObject = {};
+  personType: string = '';
+  personTypeValue: string = '';
+  isActive: boolean = true;
+  showInvoice: boolean = false;
+  viewInvoice: boolean = false;
+  organisationAccounts = [];
+
+  purchaseForm = this.fb.group({
+    purchaseFrom: ['', Validators.required],
+    purchaseDt: ['', Validators.required],
+    deliveryTo: ['', Validators.required],
+    deliveryDt: ['', Validators.required],
+    debitFrom: ['', Validators.required],
+    personType: ['', Validators.required],
+    personTypeValue: ['', Validators.required],
+    lineItems: this.fb.array([]),
+    tax: ['', Validators.required],
+    paymentAmount: ['', Validators.required],
+    paymentDate: ['', Validators.required],
+    creditTo: ['', Validators.required],
+    additionalComments: [],
+    subTotal: [{ value: '', disabled: true }],
+    productsTotal: [{ value: '', disabled: true }],
+    accounts: [{ id: 1 }],
+    user_id: 0,
+    user_name: '',
+    departmentId: 0,
+    departmentName: ''
+  });
+
   constructor(private fb: FormBuilder,
+    private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe, private router: Router,
     private contactsService: ContactsService,
-    private commonService: CommonService) { }
+    private commonService: CommonService,private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.purchaseForm = this.fb.group({
-      purchaseFrom: ['', Validators.required],
-      purchaseDt: ['', Validators.required],
-      deliveryTo: ['', Validators.required],
-      deliveryDt: ['', Validators.required],
-      debitFrom: ['', Validators.required],
-      productItems: this.fb.array([]),
-      additionalComments: ['', Validators.required],
-      subtotal: ['', Validators.required],
-      tax: ['', Validators.required],
-      shipping: ['', Validators.required],
-      other: ['', Validators.required],
-      total: ['', Validators.required],
-    });
+    
+    //get logged in user details from local storage 
+    // and set userId, userName, DepartmentId and DepartmentName
+    this.userDetails = this.authenticationService.getLoginUser();
+    if (this.userDetails != null) {
+      this.purchaseForm.controls["user_id"].setValue(
+        this.userDetails['id']
+      );
+      this.purchaseForm.controls["user_name"].setValue(
+        this.userDetails['userName']
+      );
+      this.purchaseForm.controls["departmentId"].setValue(
+        this.userDetails['person']['department']['id']
+      );
+      this.purchaseForm.controls["departmentName"].setValue(
+        this.userDetails['person']['department']['name']
+      );
+    } else {
+      return this.router.navigate(['/login'])
+    }
+
+    // initialize stream on products
+    const myFormValueChanges$ = this.purchaseForm.controls['lineItems'].valueChanges;
+    // subscribe to the stream so listen to changes on products
+    myFormValueChanges$.subscribe(products => this.updateTotalUnitPrice(products));
+
+    // initialize stream on tax
+    const myTaxValueChanges$ = this.purchaseForm.get('tax').valueChanges;
+    // subscribe to the stream so listen to changes on tax
+    myTaxValueChanges$.subscribe(tax => this.updateTotalTaxPrice(tax));
+
 
     /** Updating the purchasefrom and delivery to drop downs */
     this.getContactList();
@@ -105,20 +148,17 @@ export class PurchasesCreateComponent implements OnInit {
   }
   ngAfterViewInit() { }
 
-  /** ProductItem get */
-  get productItemForms() {
-    return this.purchaseForm.get('productItems') as FormArray;
+
+  get productInfoForms() {
+    return this.purchaseForm.get('lineItems') as FormArray;
   }
 
-  /** ProductItem add */
-  addProductItems() {
-    this.productItemForms.push(this.getProduct());
+  addProductInfoForms() {
+    this.productInfoForms.push(this.getProduct());
   }
-
-  /** ProductItem remove */
-  removeProduct(index) {
-    const control = <FormArray>this.purchaseForm.controls['productItems'];
-    control.removeAt(index);
+  addNewProduct() {
+    const control = <FormArray>this.purchaseForm.controls['lineItems'];
+    control.push(this.getProduct());
   }
 
   onFormSubmit(form: NgForm) {
@@ -156,4 +196,42 @@ export class PurchasesCreateComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Update prices as soon as something changed on product info group
+   */
+  private updateTotalUnitPrice(products: any) {
+    // get our products group controll
+    const control = <FormArray>this.purchaseForm.controls['lineItems'];
+    // before recount total price need to be reset. 
+    this.totalSum = 0;
+    this.subTotal = 0;
+    this.taxValue = this.getTax();
+    for (let i in products) {
+      let totalUnitPrice = (products[i].quantity * products[i].price);
+      // now format total price with angular currency pipe
+      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'USD', 'symbol-narrow', '1.2-2');
+      // update total sum field on unit and do not emit event myFormValueChanges$ in this case on products
+      control.at(+i).get('amountCurr').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
+      control.at(+i).get('amount').setValue(totalUnitPrice, { onlySelf: true, emitEvent: false });
+      // update total price for all products
+      this.subTotal += totalUnitPrice;
+    }
+    this.totalSum = this.subTotal + this.taxValue;
+  }
+
+  /**
+   * Update total price as soon as tax changed 
+   */
+  private updateTotalTaxPrice(tax: number) {
+    // now format tax price with angular currency pipe
+    let taxPriceFormatted = this.currencyPipe.transform(tax, 'USD', 'symbol-narrow', '1.2-2');
+
+    this.totalSum = this.subTotal + tax;
+  }
+
+  private getTax() {
+    return this.purchaseForm.get('tax').value;
+  }
+
 }
