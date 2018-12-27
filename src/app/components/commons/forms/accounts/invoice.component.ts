@@ -1,4 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { TransactionsService } from '../../../../_services/transactions.service';
 
 @Component({
     selector: 'app-invoice',
@@ -7,7 +8,10 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 })
 
 export class InvoiceComponent implements OnInit {
-    @Input() invoiceData: any;
+    
+    @Input() transactionNumber: any;
+    displayData: any;
+    isLoaded:boolean = false;
     subTotal: number = 0;
     total: number = 0;
     tax: number = 0;
@@ -15,20 +19,21 @@ export class InvoiceComponent implements OnInit {
 
     @Output() calculate = new EventEmitter();
 
-    constructor() { 
+    constructor(private transactionsService: TransactionsService) { 
+       
     }
 
     ngOnInit() {
-        this.calculateTotals();
+        this.getSale(this.transactionNumber);
     }
 
     ngOnChanges(changes) {
-        console.log(JSON.stringify(this.invoiceData))
+        console.log(JSON.stringify(this.displayData))
         //this.calculateTotals();
       }
 
     calculateTotals(){
-        for (let lineItem of this.invoiceData.lineItems) {
+        for (let lineItem of this.displayData.lineItems) {
             this.totalUnitPrice = 0;
             this.totalUnitPrice += lineItem.quantity * lineItem.price;
             this.subTotal += this.totalUnitPrice; 
@@ -46,5 +51,19 @@ export class InvoiceComponent implements OnInit {
     displayInvoice(val){
 
     }
+
+    getSale(transactionNumber) {
+        //transactionNumber = 77;
+        console.log("EVENT");
+        console.log(transactionNumber);
+        this.transactionsService.getSale(transactionNumber).subscribe(
+          data => {
+            console.log(data);
+            this.displayData = data[0];
+            this.calculateTotals();
+            this.isLoaded = true;
+          }
+        );
+      }
 
 }

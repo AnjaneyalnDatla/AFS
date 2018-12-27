@@ -9,6 +9,7 @@ export class SortedTableComponent implements OnInit {
   @Input() columns: any[];
   @Input() displayedColumns: string[];
   @Input() dataSource: any;
+  @Input() pageOptions: any[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @Output() onView = new EventEmitter();

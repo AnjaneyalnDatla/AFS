@@ -24,8 +24,7 @@ export const ROUTES: RouteInfo[] = [
         path: '/sales', title: 'Sales', type: 'sub', iconType: 'shop_two', class: '', collapse: 'components',
         children: [
             { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
-            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' },
-            { path: 'edit', title: 'Edit', icon: 'shop_two', class: '', ab: 'E' },
+            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
         ]
     },
     {

@@ -23,26 +23,15 @@ declare var $: any;
 })
 export class SalesCreateComponent implements OnInit {
 
-  // Table columns 
-  columns = [
-    { columnDef: 'transaction_number', header: 'Transaction No.', cell: (element: any) => `${element.transaction_number}` },
-    { columnDef: 'departmentName', header: 'Department', cell: (element: any) => `${element.departmentName}` },
-    { columnDef: 'user_name', header: 'User Name', cell: (element: any) => `${element.user_name}` },
-    { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
-  ];
-
-  displayedColumns = this.columns.map(c => c.columnDef);
-
-  dataSource = new MatTableDataSource<PeriodicElement>();
+  
   transaction: {};
-  @Input() account: any;
 
   //declarations
   userDetails: {};
   vendors = [];
   customers = [];
   productTypes: DropDown[];
-  productObj = {};
+
   persons = [];
   contactList = [];
   personDetails = {};
@@ -51,19 +40,16 @@ export class SalesCreateComponent implements OnInit {
   subTotal: number = 0;
   taxValue: number = 0;
   invoiceObject = {};
-  editInvoiceObject = {};
-  personType: string = '';
-  personTypeValue: string = '';
-  isActive: boolean = true;
   showInvoice: boolean = false;
-  viewInvoice: boolean = false;
   organisationAccounts = [];
+  transactionNumber:String;
 
   salesForm = this.fb.group({
     contact: this.fb.group({
       isCompany: ['', Validators.required],
-      id : ['', Validators.required],
+      id: ['', Validators.required],
     }),
+    transaction_number: ['', Validators.required],
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
     paymentAmount: ['', Validators.required],
@@ -72,7 +58,7 @@ export class SalesCreateComponent implements OnInit {
     subTotal: [{ value: '', disabled: true }],
     productsTotal: [{ value: '', disabled: true }],
     accounts: this.fb.group({
-      id : ['', Validators.required],
+      id: ['', Validators.required],
     }),
     transactionType: this.fb.group({
       "id": 1,
@@ -132,7 +118,6 @@ export class SalesCreateComponent implements OnInit {
     this.getContactList();
     //this.getCustomerList();
     this.getProductTypes();
-    this.loadSalesList();
     this.getAccounts();
   }
 
@@ -181,40 +166,14 @@ export class SalesCreateComponent implements OnInit {
     console.log("FORM DATA");
     form.paymentAmount = this.totalSum;
     console.log(JSON.stringify(form));
-    this.transactionsService.saveSale(form).subscribe(
+    this.transactionsService.saveTransaction(form).subscribe(
       data => {
-        console.log(data);
-        this.invoiceObject = form;
+        console.log(JSON.stringify(data));
+        this.transactionNumber = data.transaction_number;
         this.displayInvoice(true);
       }
     );
     // this.displayInvoice(true);
-  }
-
-  getSale(transactionNumber) {
-    //transactionNumber = 77;
-    this.transactionsService.getSale(transactionNumber).subscribe(
-      data => {
-        console.log(data);
-        this.editInvoiceObject = data[0];
-        this.getLineItems(transactionNumber);
-      }
-    );
-  }
-
-  getLineItems(transactionNumber) {
-    //transactionNumber = 77;
-    this.transactionsService.getLineItems(transactionNumber).subscribe(
-      data => {
-        console.log(data);
-        this.editInvoiceObject['lineItems'] = data;
-        this.viewInvoice = true;
-      }
-    );
-  }
-
-  deleteSale(transactionNumber) {
-
   }
 
   resetForm() {
@@ -226,15 +185,6 @@ export class SalesCreateComponent implements OnInit {
 
   /******************************* PRIVATE AREA ***********************************************************/
 
-  private loadSalesList() {
-    this.transactionsService.getAllSales().subscribe(
-      data => {
-        //this.customers  =  data;
-        this.dataSource.data = data;
-        console.log(data);
-      }
-    );
-  }
 
   /**
    * Create form product
@@ -298,9 +248,6 @@ export class SalesCreateComponent implements OnInit {
       alert("Unable to delete. There should be atleast one product to create a sale.")
   }
 
-  private editSaleItem(saleItem) {
-    this.productObj = saleItem;
-  }
   private getContactList() {//load on init
     this.contactsService.getContactList().subscribe(
       data => {

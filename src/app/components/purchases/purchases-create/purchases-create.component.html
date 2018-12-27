@@ -9,7 +9,8 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="row">
+            <app-invoice *ngIf="showInvoice" [transactionNumber]="transactionNumber"></app-invoice>
+            <div class="row" *ngIf="!showInvoice">
               <div class="col-md-12">
                 <div class="mat-elevation-z8">
                   <div class="row">
@@ -17,58 +18,30 @@
                   </div>
 
                   <form class="purchase-form" name="form" [formGroup]="purchaseForm" (ngSubmit)="onFormSubmit(purchaseForm.value)">
-                    <div class="row">
-                      <div class="col-md-2 ml-4">
-                        <mat-form-field>
-                          <mat-select placeholder="Purchasing From" formControlName="purchaseFrom">
-                            <mat-option *ngFor="let contact of contactList" [value]="contact.id">
-                              {{contact.firstName + ' ' + contact.lastName}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
+                    <fieldset formGroupName="contact">
+                      <div class="row">
+                        <div class="col-md-2 ml-4">
+                          <mat-form-field>
+                            <mat-select placeholder="Purchasing From" formControlName="id" (change)="displayPersonDetails($event.value)">
+                              <mat-option *ngFor="let contact of contactList" [value]="contact.id">
+                                {{contact.firstName + ' ' + contact.lastName}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4 offset-sm-1" *ngIf="(personDetails | json) != '{}'">
+                          <div *ngIf="personDetails.companyName != ''"><strong>{{personDetails.companyName}}</strong></div>
+                          <div><strong>{{personDetails.firstName}} {{personDetails.lastName}}</strong></div>
+                          <div>{{personDetails.streetAddress}}</div>
+                          <div>{{personDetails.city}}, {{personDetails.state}}
+                            {{personDetails.postalCode}}</div>
+                          <div>Email: {{personDetails.emailAddress}}</div>
+                          <div>{{personDetails.cellPhone}}</div>
+                        </div>
                       </div>
-                      <div class="col-md-7">
-                      </div>
-                      <div class="col-md-2">
-                        <mat-form-field>
-                          <mat-select placeholder="Deliver To" formControlName="deliveryTo">
-                            <mat-option *ngFor="let contact of contactList" [value]="contact.id">
-                              {{contact.firstName + ' ' +contact.lastName}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-2 ml-4">
-                        <mat-form-field>
-                          <input matInput [matDatepicker]="picker" placeholder="Purchase Date" formControlName="purchaseDt">
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                      </div>
-                      <div class="col-md-7">
-                      </div>
-                      <div class="col-md-2">
-                        <mat-form-field>
-                          <input matInput [matDatepicker]="dPicker" placeholder="Delivery Date" formControlName="deliveryDt">
-                          <mat-datepicker-toggle matSuffix [for]="dPicker"></mat-datepicker-toggle>
-                          <mat-datepicker #dPicker></mat-datepicker>
-                        </mat-form-field>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-2 ml-4">
-                        <mat-form-field>
-                          <mat-select placeholder="Debit From" formControlName="debitFrom">
-                            <mat-option *ngFor="let account of accounts" [value]="account.value">
-                              {{account.viewValue}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                    </div>
+                    </fieldset>
                     <div class="row">
                       <div class="mb-3"></div>
                     </div>
@@ -89,9 +62,9 @@
                             <tr *ngFor="let productItem of productInfoForms.controls;let i = index">
                               <ng-container formGroupName="{{i}}">
                                 <td>
-                                  <mat-form-field formGroupName="products">
-                                    <mat-select placeholder="Product Type" formControlName="id">
-                                      <mat-option *ngFor="let productType of productTypes" [value]="productType.id">
+                                  <mat-form-field>
+                                    <mat-select placeholder="Product Type" formControlName="products">
+                                      <mat-option *ngFor="let productType of productTypes" [value]="productType">
                                         {{productType.name}}
                                       </mat-option>
                                     </mat-select>
@@ -162,8 +135,34 @@
                       </div>
                     </div>
 
+                    <div class="row">
+                      <div class="col-md-2 ml-4">
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="picker" placeholder="Purchase Date" formControlName="purchaseDt">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-2">
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="dPicker" placeholder="Delivery Date" formControlName="deliveryDt">
+                          <mat-datepicker-toggle matSuffix [for]="dPicker"></mat-datepicker-toggle>
+                          <mat-datepicker #dPicker></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-2">
+                        <fieldset formGroupName="accounts">
+                          <mat-form-field>
+                            <mat-select placeholder="Debit From" formControlName="id">
+                              <mat-option *ngFor="let orgAccounts of organisationAccounts" [value]="orgAccounts.id">
+                                {{orgAccounts.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </fieldset>
+                      </div>
+                    </div>
 
-                    
                     <div class="row">
                       <div class="col-md-10 ml-4">
                         <label>Additional Comments</label>

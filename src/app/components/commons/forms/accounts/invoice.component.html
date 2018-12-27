@@ -1,4 +1,4 @@
-<div id="print-section" class="row">
+<div id="print-section" class="row" *ngIf="isLoaded">
         <div class="col-md-12 clearfix doNotPrint">
             <div class="header-btns">
                     <button mat-icon-button (click)="onPrint()"><mat-icon>print</mat-icon></button>
@@ -8,23 +8,24 @@
             </div>
         </div>
     <div class="col-md-12 heading">
-        INVOICE
+        {{displayData.transactionType.name}}
     </div>
     <div class="col-md-12 branding clearfix">
             <div class="pull-left invoice-number-container">
-                Invoice # {{invoiceData.transaction_number}}
+                <div>{{displayData.transactionType.name}} # {{displayData.transaction_number}}</div>
+                <div>{{displayData.transactionType.name}} Date : {{displayData.paymentDate}}</div>
             </div>
             <div class="pull-right">Company Logo</div>
     </div>
     <div class="col-md-12 Info">
         <div class="col-md-6">
-            <div>Sachin Ramesh Tendulkar</div>
-            <div>SRT Electronics</div>
-            <div>512 Princeton Ct</div>
-            <div>Trenton, NJ
-                08635</div>
-            <div>Email: srtelectronics@gmail.com</div>
-            <div>+1789-209-9098</div>
+            <div>{{displayData.contact.firstName}} {{displayData.contact.lastName}}</div>
+            <div>{{displayData.contact.companyName}}</div>
+            <div>{{displayData.contact.streetAddress}}</div>
+            <div>{{displayData.contact.city}},{{displayData.contact.state}},{{displayData.contact.postalCode}},{{displayData.contact.country}}</div>
+            <div>Email: {{displayData.contact.emailAddress}}</div>
+            <div>Cell : {{displayData.contact.cellPhone}}</div>
+            <div>Home : {{displayData.contact.homePhone}}</div>
         </div>
     </div>
     <div class="col-md-12 Info">
@@ -40,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let lineItem of invoiceData.lineItems;let i = index">
+                    <tr *ngFor="let lineItem of displayData.lineItems;let i = index">
                         <td>{{lineItem.products.name}}</td>
                         <td>{{lineItem.name}}</td>
                         <td>{{lineItem.quantity}}</td>
@@ -76,6 +77,3 @@
             <label>THANK YOU FOR YOUR BUSINESS</label> </div>
 
 </div>
-<div class="row doNotPrint">
-        <button mat-raised-button color="primary" (click)="displayInvoice(false);">Add New Sale</button>
-    </div>

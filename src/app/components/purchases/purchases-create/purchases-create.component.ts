@@ -9,30 +9,8 @@ import { DropDown } from '../../../_models/common/dropdown';
 import { TransactionsService } from '../../../_services/transactions.service';
 import { AuthenticationService } from '../../../_services/authentication.service';
 import { Router } from '@angular/router';
+import { PeriodicElement } from '../../../_models/common/periodicelement';
 
-
-export interface Vendor {
-  value: string;
-  viewValue: string;
-}
-
-export interface Accounts {
-  value: string;
-  viewValue: string;
-}
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ACCOUNTS: Accounts[] = [
-  { value: 'cash', viewValue: 'Cash' },
-  { value: 'HDFC Checkings', viewValue: 'HDFC CHECKINGS' },
-  { value: 'AXIS Checkings', viewValue: 'AXIS CHECKINGS' }
-];
 
 
 @Component({
@@ -42,21 +20,11 @@ const ACCOUNTS: Accounts[] = [
 })
 export class PurchasesCreateComponent implements OnInit {
 
-  tableHeaders: string[] = ['type', 'name', 'pricePerUnit', 'quantity', 'total'];
-  //displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  columns = [
-    { columnDef: 'position', header: 'Position',    cell: (element: any) => `${element.position}` },
-    { columnDef: 'name',     header: 'Name',   cell: (element: any) => `${element.name}`     },
-  ];
-
-  displayedColumns = this.columns.map(c => c.columnDef);
+  
+  transaction: {};
 
   product: { name: '', type: '', price: '', quantity: 0, total: 0 };
-
-  dataSource = new MatTableDataSource<PeriodicElement>();
   
-  accounts = ACCOUNTS;
-
   //declarations
   userDetails: {};
   vendors = [];
@@ -71,31 +39,32 @@ export class PurchasesCreateComponent implements OnInit {
   subTotal: number = 0;
   taxValue: number = 0;
   invoiceObject = {};
-  editInvoiceObject = {};
-  personType: string = '';
-  personTypeValue: string = '';
+  transactionNumber:String;
   isActive: boolean = true;
   showInvoice: boolean = false;
-  viewInvoice: boolean = false;
   organisationAccounts = [];
 
   purchaseForm = this.fb.group({
-    purchaseFrom: ['', Validators.required],
-    purchaseDt: ['', Validators.required],
-    deliveryTo: ['', Validators.required],
-    deliveryDt: ['', Validators.required],
-    debitFrom: ['', Validators.required],
-    personType: ['', Validators.required],
-    personTypeValue: ['', Validators.required],
+    contact: this.fb.group({
+      id: ['', Validators.required],
+    }),
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
     paymentAmount: ['', Validators.required],
     paymentDate: ['', Validators.required],
-    creditTo: ['', Validators.required],
+    deliveryDt: ['', Validators.required],
     additionalComments: [],
     subTotal: [{ value: '', disabled: true }],
     productsTotal: [{ value: '', disabled: true }],
-    accounts: [{ id: 1 }],
+    accounts: this.fb.group({
+      id: ['', Validators.required],
+    }),
+    transactionType: this.fb.group({
+      "id": 7,
+    }),
+    transactionStatus: this.fb.group({
+      "id": 1,
+    }),
     user_id: 0,
     user_name: '',
     departmentId: 0,
@@ -144,6 +113,7 @@ export class PurchasesCreateComponent implements OnInit {
     /** Updating the purchasefrom and delivery to drop downs */
     this.getContactList();
     this.getProductTypes();
+    this.getAccounts();
 
   }
   ngAfterViewInit() { }
@@ -161,8 +131,28 @@ export class PurchasesCreateComponent implements OnInit {
     control.push(this.getProduct());
   }
 
-  onFormSubmit(form: NgForm) {
-    console.log(form);
+
+  displayPersonDetails(value) {
+      this.filterForDisplay(this.contactList, value);
+  }
+
+  displayInvoice(val) {
+    this.showInvoice = val;
+  }
+
+  // Executed When Form Is Submitted  
+  onFormSubmit(form: any) {
+    console.log("FORM DATA");
+    form.paymentAmount = this.totalSum;
+    console.log(JSON.stringify(form));
+    this.transactionsService.saveTransaction(form).subscribe(
+      data => {
+        console.log(JSON.stringify(data));
+        this.transactionNumber = data.transaction_number;
+        this.displayInvoice(true);
+      }
+    );
+    // this.displayInvoice(true);
   }
 
   resetForm() {
@@ -175,11 +165,13 @@ export class PurchasesCreateComponent implements OnInit {
   private getProduct() {
     const numberPatern = '^[0-9.,]+$';
     return this.fb.group({
-      type: ['', Validators.required],
+      line_item_no: this.productInfoForms.length + 1,  //set line_item_no with the index number
       name: ['', Validators.required],
-      pricePerUnit: ['', [Validators.required, Validators.pattern(numberPatern)]],
-      quantity: ['', [Validators.required, Validators.pattern(numberPatern)]],
-      total: [{ value: '', disabled: true }]
+      products: ['', Validators.required],
+      quantity: [1, [Validators.required, Validators.pattern(numberPatern)]],
+      price: ['', [Validators.required, Validators.pattern(numberPatern)]],
+      amount: [''],
+      amountCurr: [{ value: '', disabled: true }]
     });
   }
 
@@ -237,6 +229,26 @@ export class PurchasesCreateComponent implements OnInit {
 
   private getTax() {
     return this.purchaseForm.get('tax').value;
+  }
+
+  private filterForDisplay(filterArray, value) {
+    filterArray.forEach(contact => {
+      if (contact.id == value) {
+        console.log(JSON.stringify(contact));
+        this.personDetails = contact;
+      }
+    });
+  }
+
+  private getAccounts() {//load on init
+    //OrganisationAccounts do not have contact ID. this needs to be refactored
+    this.commonService.getAccounts().subscribe(
+      data => {
+        this.organisationAccounts = data;
+        console.log("Accounts");
+        console.log(JSON.stringify(this.organisationAccounts));
+      }
+    );
   }
 
 }

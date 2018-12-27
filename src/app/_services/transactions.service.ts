@@ -11,8 +11,8 @@ export class TransactionsService {
     ) { }
 
     /** List of Sales  */
-    getAllSales() {
-        let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
+    getTransactions(transctionTypeId) {
+        let url = `${environment.account_contextroot}` + `${environment.transactions_resource}` + '?transactionType='+ transctionTypeId
         
         return this.http.get<any>(url, {
             headers: {
@@ -62,7 +62,7 @@ export class TransactionsService {
     }
 
     /** Save Sale */
-    saveSale(formData){
+    saveTransaction(formData){
         let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
         console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {

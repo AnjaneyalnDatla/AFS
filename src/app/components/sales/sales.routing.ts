@@ -15,10 +15,6 @@ export const SalesRoutes: Routes = [
         {
             path: 'viewAll',
             component: SalesViewComponent
-        },
-        {
-            path: 'edit',
-            component: SalesEditComponent
         }]
     }
 ];

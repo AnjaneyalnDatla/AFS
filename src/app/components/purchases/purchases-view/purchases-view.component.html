@@ -1,9 +1,11 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"></app-sortedtable>
+        <div class="container-fluid">
+            <app-invoice *ngIf="showPurchaseOrder" [transactionNumber]="transactionNumber"></app-invoice>
+            <div class="row" *ngIf="!showPurchaseOrder">
+                <div class="col-md-12">
+                    <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns" [pageOptions]="pageOptions"
+                        (onView)="getPurchase($event)" (onDelete)="deletePurchase($event)"></app-sortedtable>
+                </div>
             </div>
         </div>
     </div>
-</div>
