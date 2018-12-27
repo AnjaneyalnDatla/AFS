@@ -23,6 +23,7 @@ export class InvoiceComponent implements OnInit {
     }
 
     ngOnChanges(changes) {
+        console.log(JSON.stringify(this.invoiceData))
         //this.calculateTotals();
       }
 

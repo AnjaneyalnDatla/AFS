@@ -318,7 +318,7 @@ export class SalesEditComponent implements OnInit {
 
   private getOrganisationAccounts() {//load on init
     //OrganisationAccounts do not have contact ID. this needs to be refactored
-    this.commonService.getAccountsByContactId("0").subscribe(
+    this.commonService.getAccounts().subscribe(
       data => {
         this.organisationAccounts = data;
       }
@@ -328,7 +328,7 @@ export class SalesEditComponent implements OnInit {
   private getAccountsByContactId(contactId: String) {//load on init
     //OrganisationAccounts do not have contact ID. this needs to be refactored
     console.log(contactId);
-    return this.commonService.getAccountsByContactId(contactId).subscribe(
+    return this.commonService.getAccounts().subscribe(
       data => {
         this.account = data;
       }

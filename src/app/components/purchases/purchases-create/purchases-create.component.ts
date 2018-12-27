@@ -165,6 +165,11 @@ export class PurchasesCreateComponent implements OnInit {
     console.log(form);
   }
 
+  resetForm() {
+    this.purchaseForm.reset();
+  }
+
+
   /******************************* PRIVATE AREA ***********************************************************/
   /** Adding FormArray Elements */
   private getProduct() {

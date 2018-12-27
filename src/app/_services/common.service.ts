@@ -24,9 +24,9 @@ export class CommonService {
         })
     }
 
-    getAccountsByContactId(id: String): Observable<any> {
+    getAccounts(): Observable<any> {
         console.log("CALLING")
-        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}` + '/contact/'+ id;
+        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}`
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"

@@ -60,17 +60,26 @@ export class SalesCreateComponent implements OnInit {
   organisationAccounts = [];
 
   salesForm = this.fb.group({
-    personType: ['', Validators.required],
-    personTypeValue: ['', Validators.required],
+    contact: this.fb.group({
+      isCompany: ['', Validators.required],
+      id : ['', Validators.required],
+    }),
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
     paymentAmount: ['', Validators.required],
     paymentDate: ['', Validators.required],
-    creditTo: ['', Validators.required],
     additionalComments: [],
     subTotal: [{ value: '', disabled: true }],
     productsTotal: [{ value: '', disabled: true }],
-    accounts: [{ id: 1 }],
+    accounts: this.fb.group({
+      id : ['', Validators.required],
+    }),
+    transactionType: this.fb.group({
+      "id": 1,
+    }),
+    transactionStatus: this.fb.group({
+      "id": 1,
+    }),
     user_id: 0,
     user_name: '',
     departmentId: 0,
@@ -124,7 +133,7 @@ export class SalesCreateComponent implements OnInit {
     //this.getCustomerList();
     this.getProductTypes();
     this.loadSalesList();
-    this.getOrganisationAccounts();
+    this.getAccounts();
   }
 
 
@@ -146,7 +155,7 @@ export class SalesCreateComponent implements OnInit {
   }
 
   toggleData($event: MatRadioChange) {
-    if ($event.value === 'vendor') {
+    if ($event.value === 'true') {
       this.persons = this.vendors;
     } else {
       this.persons = this.customers;
@@ -154,7 +163,7 @@ export class SalesCreateComponent implements OnInit {
   }
 
   displayPersonDetails(value, personType) {
-    if (personType.value == 'vendor') {
+    if (personType.value == 'true') {
       this.filterForDisplay(this.vendors, value);
     } else {
       this.filterForDisplay(this.customers, value);
@@ -169,13 +178,13 @@ export class SalesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    this.createTaxLineItem(form);
-    this.getFormData(form);
-    console.log(JSON.stringify(this.transaction));
-    this.transactionsService.saveSale(this.transaction).subscribe(
+    console.log("FORM DATA");
+    form.paymentAmount = this.totalSum;
+    console.log(JSON.stringify(form));
+    this.transactionsService.saveSale(form).subscribe(
       data => {
         console.log(data);
-        this.invoiceObject = this.transaction;
+        this.invoiceObject = form;
         this.displayInvoice(true);
       }
     );
@@ -235,7 +244,7 @@ export class SalesCreateComponent implements OnInit {
     return this.fb.group({
       line_item_no: this.productInfoForms.length + 1,  //set line_item_no with the index number
       name: ['', Validators.required],
-      products: this.fb.group({ id: ['', Validators.required] }),
+      products: ['', Validators.required],
       quantity: [1, [Validators.required, Validators.pattern(numberPatern)]],
       price: ['', [Validators.required, Validators.pattern(numberPatern)]],
       amount: [''],
@@ -316,105 +325,24 @@ export class SalesCreateComponent implements OnInit {
     );
   }
 
-  private getOrganisationAccounts() {//load on init
+  private getAccounts() {//load on init
     //OrganisationAccounts do not have contact ID. this needs to be refactored
-    this.commonService.getAccountsByContactId("0").subscribe(
+    this.commonService.getAccounts().subscribe(
       data => {
         this.organisationAccounts = data;
-        console.log("organisationAccounts");
+        console.log("Accounts");
         console.log(JSON.stringify(this.organisationAccounts));
       }
     );
   }
 
-  private getAccountsByContactId(contactId: String) {//load on init
-    //OrganisationAccounts do not have contact ID. this needs to be refactored
-    console.log(contactId);
-    return this.commonService.getAccountsByContactId(contactId).subscribe(
-      data => {
-        this.account = data;
-        console.log("account");
-        console.log(JSON.stringify(this.account));
-      }
-    );
-  }
-
-
-
   private filterForDisplay(filterArray, value) {
     filterArray.forEach(contact => {
       if (contact.id == value) {
-        this.getAccountsByContactId(contact.id);
-        console.log(JSON.stringify(this.account));
-        this.salesForm.controls['accounts'].setValue(this.account);
-        console.log(JSON.stringify(this.account));
         console.log(JSON.stringify(contact));
         this.personDetails = contact;
       }
     });
   }
-
-  private getFormData(form: any) {
-    /** Modify Account Balance */
-    console.log(JSON.stringify(this.account));
-    var saleAccount:any = {};
-    this.account.forEach(
-      acc=>{
-        if(acc.account_type.accountCategory.id === 1){
-          saleAccount = acc;
-        }
-      }
-    );
-    console.log(JSON.stringify(saleAccount));
-    let accountBalance;
-    saleAccount.accountBalances.forEach(
-      accB => {
-        if(accB.isActive === true){
-          accountBalance = _.cloneDeep(accB);
-        }
-      }
-    );
-    console.log(JSON.stringify(accountBalance));
-    accountBalance.id = null;
-    accountBalance.beginning_balance = accountBalance.current_balance;
-    accountBalance.current_balance = accountBalance.current_balance - this.totalSum;
-    accountBalance.current_balance_date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    accountBalance.isActive = true;
-
-    saleAccount.accountBalances.forEach(
-      accBal => { accBal.isActive = false; }
-    );
-    saleAccount.accountBalances.push(accountBalance);
-
-    this.transaction = {
-      user_id: this.salesForm.controls['user_id'].value,
-      user_name: this.salesForm.controls['user_name'].value,
-      departmentId: this.salesForm.controls['departmentId'].value,
-      departmentName: this.salesForm.controls['departmentName'].value,
-      lineItems: form.lineItems,
-      accounts: saleAccount,
-      header: {
-        headernumber: 1,
-        headerdate: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
-        headerTypes: {
-          id: 1,
-          name: "Invoice",
-        },
-        accounts: saleAccount,
-      },
-    }
-  }
-
-  private createTaxLineItem(form: any) {
-    console.log(form.tax);
-    form.lineItems.push({
-      line_item_no: form.lineItems.length + 1,  //set line_item_no with the index number
-      name: "TAX",
-      quantity: 1,
-      price: form.tax,
-      amount: form.tax
-    });
-  }
-
 
 }
