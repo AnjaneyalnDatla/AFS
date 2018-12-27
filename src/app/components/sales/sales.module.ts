@@ -8,7 +8,6 @@ import { SalesRoutes } from './sales.routing';
 
 import { SalesCreateComponent } from './sales-create/sales-create.component';
 import { SalesViewComponent } from './sales-view/sales-view.component';
-import { SalesEditComponent } from './sales-edit/sales-edit.component'
 import { SharedModule } from '../../components/commons/shared.module';
 
 import {
@@ -56,8 +55,7 @@ import {
     ],
     declarations: [
         SalesCreateComponent,
-        SalesViewComponent,
-        SalesEditComponent,
+        SalesViewComponent
     ]
   })
   
