@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, EventEmitter, Input, Output } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
+import { MatPaginator, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-sortedtable',
@@ -11,17 +11,22 @@ export class SortedTableComponent implements OnInit {
   @Input() dataSource: any;
   @Input() pageOptions: any[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Output() onView = new EventEmitter();
   @Output() onDelete = new EventEmitter();
+  
 
   constructor() { 
   }
 
   ngOnInit() {
   }
+  
   ngAfterViewInit() {
    this.dataSource.paginator = this.paginator;
+   this.dataSource.sort = this.sort;
+   this.dataSource.sortingDataAccessor = (data, header) => data[header];
   }
   
   applyFilter(filterValue: string) {

@@ -1,21 +1,25 @@
 <div id="print-section" class="row" *ngIf="isLoaded">
-        <div class="col-md-12 clearfix doNotPrint">
-            <div class="header-btns">
-                    <button mat-icon-button (click)="onPrint()"><mat-icon>print</mat-icon></button>
-                    <button mat-icon-button (click)="openPdf()"><mat-icon class="red600">picture_as_pdf</mat-icon></button>
-                <!-- <i class="material-icons">print</i>&nbsp;
+    <div class="col-md-12 clearfix doNotPrint">
+        <div class="header-btns">
+            <button mat-icon-button (click)="onPrint()">
+                <mat-icon>print</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openPdf()">
+                <mat-icon class="red600">picture_as_pdf</mat-icon>
+            </button>
+            <!-- <i class="material-icons">print</i>&nbsp;
                 <i class="material-icons red600">picture_as_pdf</i> -->
-            </div>
         </div>
+    </div>
     <div class="col-md-12 heading">
         {{displayData.transactionType.name}}
     </div>
     <div class="col-md-12 branding clearfix">
-            <div class="pull-left invoice-number-container">
-                <div>{{displayData.transactionType.name}} # {{displayData.transaction_number}}</div>
-                <div>{{displayData.transactionType.name}} Date : {{displayData.paymentDate}}</div>
-            </div>
-            <div class="pull-right">Company Logo</div>
+        <div class="pull-left invoice-number-container">
+            <div>{{displayData.transactionType.name}} # {{displayData.transaction_number}}</div>
+            <div>{{displayData.transactionType.name}} Date : {{displayData.paymentDate}}</div>
+        </div>
+        <div class="pull-right">Company Logo</div>
     </div>
     <div class="col-md-12 Info">
         <div class="col-md-6">
@@ -73,7 +77,13 @@
             </table>
         </div>
     </div>
-    <div class="col-md-12 footer-info"> 
-            <label>THANK YOU FOR YOUR BUSINESS</label> </div>
+    <div class="col-md-12 footer-info">
+        <label>THANK YOU FOR YOUR BUSINESS</label> 
+    </div>
+    <div class="row">
+            <div class="col-md-10 ml-3">
+              <button mat-raised-button type="button" class="btn btn-success" (click)="goBack();">Back</button>
+            </div>
+    </div>
 
 </div>

@@ -12,9 +12,9 @@
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
         </mat-form-field>
         <div class="mat-elevation-z8">
-          <mat-table #table *ngIf="dataSource" [dataSource]="dataSource">
+          <mat-table #table *ngIf="dataSource" [dataSource]="dataSource" matSort>
             <ng-container *ngFor="let column of columns" matColumnDef="{{column.columnDef}}">
-              <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</mat-header-cell>
               <mat-cell *matCellDef="let row">
                 <span *ngIf="column.header!='Actions'">{{ column.cell(row) }}</span>
                 <span *ngIf="column.header=='Actions'"><button  mat-button  color="primary" (click)="delete(row)"><mat-icon>delete</mat-icon>

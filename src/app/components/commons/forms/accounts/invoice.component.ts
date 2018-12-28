@@ -18,6 +18,8 @@ export class InvoiceComponent implements OnInit {
     totalUnitPrice : number = 0;
 
     @Output() calculate = new EventEmitter();
+    @Output() onBackClick = new EventEmitter();
+
 
     constructor(private transactionsService: TransactionsService) { 
        
@@ -64,6 +66,13 @@ export class InvoiceComponent implements OnInit {
             this.isLoaded = true;
           }
         );
+      }
+
+      goBack(){
+        this.onBackClick.emit();
+        //   if(this.displayData.transactionType.name == 'Invoice'){
+        //     this.router.navigate(["/sales/create"]);
+        //   }
       }
 
 }
