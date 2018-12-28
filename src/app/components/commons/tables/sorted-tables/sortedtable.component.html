@@ -17,8 +17,8 @@
               <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
               <mat-cell *matCellDef="let row">
                 <span *ngIf="column.header!='Actions'">{{ column.cell(row) }}</span>
-                <span *ngIf="column.header=='Actions'"><button  mat-button  color="primary" (click)="delete(row.transaction_number)"><mat-icon>delete</mat-icon>
-                </button>  <button  mat-button  color="primary" (click)="edit(row.transaction_number)"><mat-icon>visibility</mat-icon></button> </span>
+                <span *ngIf="column.header=='Actions'"><button  mat-button  color="primary" (click)="delete(row)"><mat-icon>delete</mat-icon>
+                </button>  <button  mat-button  color="primary" (click)="edit(row)"><mat-icon>visibility</mat-icon></button> </span>
               </mat-cell>
               
               

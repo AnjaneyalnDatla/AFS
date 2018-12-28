@@ -1,25 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
-import { User } from '../../../_models/user';
+import { Component, OnInit} from '@angular/core';
+import { MatTableDataSource} from '@angular/material';
 
-export interface PeriodicElement {
-  position: string;
-  name: string;
-}
+// Must import to use Forms functionality  
+import { ContactsService } from '../../../_services/contacts.service';
+import { PeriodicElement } from '../../../_models/common/periodicelement';
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: '1', name: "Antony" },
-  { position: '2', name: "Mark" },
-  { position: '3', name: "John" },
-  { position: '4', name: "Smith" },
-  { position: '5', name: "Aby" },
-  { position: '6', name: "Tony" },
-  { position: '7', name: "Stark" },
-  { position: '8', name: "Neil" },
-  { position: '9', name: "Roger" },
-  { position: '10', name: "Siddle" },
-];
 @Component({
   selector: 'app-contacts-view',
   templateUrl: './contacts-view.component.html',
@@ -27,61 +12,68 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ContactsViewComponent implements OnInit {
 
-  contactForm = new FormGroup({ 
-      isCompany: new FormControl('',[Validators.required]),
-      supplementalId: new FormControl(),
-      companyName: new FormControl(),
-      idNumber: new FormControl('',[Validators.required]),
-      idType: new FormControl('',[Validators.required]),
-      designation: new FormControl('',[Validators.required]),
-      firstName: new FormControl('',[Validators.required]),
-      middleName: new FormControl(),
-      lastName: new FormControl('',[Validators.required]),
-      address: new FormGroup({
-        streetAddress: new FormControl('',[Validators.required]),
-        city: new FormControl('',[Validators.required]),
-        state: new FormControl('',[Validators.required]),
-        country: new FormControl('',[Validators.required]),
-        postalCode: new FormControl('',[Validators.required]),
-        landMark: new FormControl('',[Validators.required]),
-      }),
-      homePhone: new FormControl(),
-      cellPhone: new FormControl('',[Validators.required]),
-      faxNumber: new FormControl(),
-      primaryEmail: new FormControl('',[Validators.required]),
-      secondaryEmail: new FormControl(),
-      additionalComments: new FormControl(),
-  });
-
-  //displayedColumns: string[] = ['position', 'name'];
+  // Table columns 
   columns = [
-    { columnDef: 'position', header: 'Position',    cell: (element: any) => `${element.position}` },
-    { columnDef: 'name',     header: 'Name',   cell: (element: any) => `${element.name}`     },
+    { columnDef: 'firstName', header: 'First Name', cell: (element: any) => `${element.firstName}` },
+    { columnDef: 'lastName', header: 'Last Name', cell: (element: any) => `${element.lastName}` },
+    { columnDef: 'companyName', header: 'Company Name', cell: (element: any) => `${element.companyName}` },
+    { columnDef: 'isCompany', header: 'Company?', cell: (element: any) => `${element.isCompany}` },
+    { columnDef: 'emailAddress', header: 'Email', cell: (element: any) => `${element.emailAddress}` },
+    { columnDef: 'cellPhone', header: 'Cell Phone', cell: (element: any) => `${element.cellPhone}` },
+    { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
   ];
 
   displayedColumns = this.columns.map(c => c.columnDef);
+  dataSource = new MatTableDataSource<PeriodicElement>();
+  pageOptions = [10, 20, 30];
+  contactId: String ;
+  showContact: boolean = false;
+  isLoaded: boolean = false;
+  cardTitle:String = "View Contact";
+  contactForm:any;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-
-  createCardTitle= "Create Contact";
-  editCardTitle= "Edit Contact";
-  constructor() { }
+  constructor(private contactsService: ContactsService) {
+  }
 
   ngOnInit() {
+    this.loadContactList();
   }
+
 
   ngAfterViewInit() {
-   // this.dataSource.paginator = this.paginator;
   }
 
-  saveContact(){
-    alert(this.contactForm.value.isCompany);
+
+
+  getContact(contact) {
+    console.log("Contact ID = " + JSON.stringify(contact));
+    this.loadContactById(contact.id);
+    this.showContact = true;
   }
 
-  onFormSubmit(){
-      console.log("Inside contacts component" + this.contactForm);
+
+
+  /******************************* PRIVATE AREA ***********************************************************/
+
+  private loadContactList() {
+    this.contactsService.getContactList().subscribe(
+      data => {
+        //this.customers  =  data;
+        this.dataSource.data = data;
+        console.log(data);
+      }
+    );
   }
+
+  private loadContactById(contactId) {
+    this.contactsService.getContactById(contactId).subscribe(
+      data => {
+        console.log(data);
+        this.contactForm = data;
+        this.isLoaded = true;
+      }
+    );
+  }
+
 
 }

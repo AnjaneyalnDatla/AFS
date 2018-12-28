@@ -17,8 +17,8 @@ export class ContactsFormComponent {
     }
 
     onFormSubmit(form: any) {
-        console.log("Inside contactsform component" + this.contactForm.companyName);
-        console.log("Inside contactsform component" + form.companyName);
+        form.current_balance = this.contactForm.current_balance;
+        console.log("Inside contactsform component = " + JSON.stringify(form));
         this.contactsService.saveContact(form).subscribe(
             data => {
                 alert("Contact Saved");

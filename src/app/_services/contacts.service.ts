@@ -14,7 +14,18 @@ export class ContactsService {
 
     getContactList() {
         let url = `${environment.account_contextroot}` + `${environment.contacts_resource}`
-        
+
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+    getContactById(contactId) {
+        let url = `${environment.account_contextroot}` + `${environment.contacts_resource}` + `/id/` + contactId;
+
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
@@ -27,7 +38,7 @@ export class ContactsService {
     saveContact(contactForm: any) {
         let url = `${environment.account_contextroot}` + `${environment.contacts_resource}`
         let isCom = false;
-        if(contactForm.isCompany == 'vendor'){
+        if (contactForm.isCompany == 'vendor') {
             isCom = true;
         }
         let contact = {
@@ -43,7 +54,7 @@ export class ContactsService {
 
             //temporarily assigning primary email to email field
             emailAddress: contactForm.primaryEmail,
-            
+
             streetAddress: contactForm.address.streetAddress,
             city: contactForm.address.city,
             state: contactForm.address.state,

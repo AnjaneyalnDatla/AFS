@@ -1,8 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatPaginator, MatTableDataSource, MatTableModule } from '@angular/material';
-import { User } from '../../../_models/user';
-
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 export interface PeriodicElement {
   position: string;
   name: string;
@@ -27,61 +24,49 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ContactsCreateComponent implements OnInit {
 
-  contactForm = new FormGroup({ 
-      isCompany: new FormControl('',[Validators.required]),
-      supplementalId: new FormControl(),
-      companyName: new FormControl(),
-      idNumber: new FormControl('',[Validators.required]),
-      idType: new FormControl('',[Validators.required]),
-      designation: new FormControl('',[Validators.required]),
-      firstName: new FormControl('',[Validators.required]),
-      middleName: new FormControl(),
-      lastName: new FormControl('',[Validators.required]),
-      address: new FormGroup({
-        streetAddress: new FormControl('',[Validators.required]),
-        city: new FormControl('',[Validators.required]),
-        state: new FormControl('',[Validators.required]),
-        country: new FormControl('',[Validators.required]),
-        postalCode: new FormControl('',[Validators.required]),
-        landMark: new FormControl('',[Validators.required]),
-      }),
-      homePhone: new FormControl(),
-      cellPhone: new FormControl('',[Validators.required]),
-      faxNumber: new FormControl(),
-      primaryEmail: new FormControl('',[Validators.required]),
-      secondaryEmail: new FormControl(),
-      additionalComments: new FormControl(),
+  contactForm = this.fb.group({
+    isCompany: ['', Validators.required],
+    supplementalId: ['', Validators.required],
+    companyName: ['', Validators.required],
+    idNumber: ['', Validators.required],
+    idType: ['', Validators.required],
+    designation: ['', Validators.required],
+    firstName: ['', Validators.required],
+    middleName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    address: this.fb.group({
+      streetAddress: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      country: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      landMark: ['', Validators.required],
+    }),
+    homePhone: ['', Validators.required],
+    cellPhone: ['', Validators.required],
+    faxNumber: ['', Validators.required],
+    primaryEmail: ['', Validators.required],
+    secondaryEmail: ['', Validators.required],
+    additionalComments: ['', Validators.required],
+    current_balance: '0'
   });
 
-  //displayedColumns: string[] = ['position', 'name'];
-  columns = [
-    { columnDef: 'position', header: 'Position',    cell: (element: any) => `${element.position}` },
-    { columnDef: 'name',     header: 'Name',   cell: (element: any) => `${element.name}`     },
-  ];
-
-  displayedColumns = this.columns.map(c => c.columnDef);
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-
-  createCardTitle= "Create Contact";
-  editCardTitle= "Edit Contact";
-  constructor() { }
+  cardTitle = "Create Contact";
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-   // this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
   }
 
-  saveContact(){
+  saveContact() {
     alert(this.contactForm.value.isCompany);
   }
 
-  onFormSubmit(){
-      console.log("Inside contacts component" + this.contactForm);
+  onFormSubmit() {
+    console.log("Inside contacts component" + this.contactForm);
   }
 
 }

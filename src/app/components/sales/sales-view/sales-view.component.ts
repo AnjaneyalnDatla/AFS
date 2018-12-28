@@ -46,11 +46,9 @@ export class SalesViewComponent implements OnInit {
 
 
 
-  getSale(transactionNumber) {
-    //transactionNumber = 77;
-    console.log("EVENT");
-    console.log(transactionNumber);
-    this.transactionNumber = transactionNumber;
+  getSale(transaction) {
+    console.log("TRANSACTION" + JSON.stringify(transaction));
+    this.transactionNumber = transaction.transaction_number;
     this.showInvoice = true;
   }
 

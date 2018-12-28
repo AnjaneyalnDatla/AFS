@@ -44,16 +44,13 @@ export class PurchasesViewComponent implements OnInit {
 
 
 
-  getSale(transactionNumber) {
-    //transactionNumber = 77;
-    console.log("EVENT");
-    console.log(transactionNumber);
-    this.transactionNumber = transactionNumber;
+  getPurchase(transaction) {
+    this.transactionNumber = transaction.transaction_number;
     this.showPurchaseOrder = true;
   }
 
 
-  deleteSale(transactionNumber) {
+  deletePurchase(transactionNumber) {
 
   }
 

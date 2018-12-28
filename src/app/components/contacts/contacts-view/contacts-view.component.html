@@ -1,5 +1,11 @@
 <div class="main-content">
     <div class="container-fluid">
-        <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"></app-sortedtable>
+        <app-contactsform *ngIf="showContact && isLoaded" [cardTitle]="cardTitle" [contactForm]="contactForm"></app-contactsform>
+        <div class="row" *ngIf="!showContact">
+            <div class="col-md-12">
+                <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
+                    [pageOptions]="pageOptions" (onView)="getContact($event)"></app-sortedtable>
+            </div>
+        </div>
     </div>
 </div>
