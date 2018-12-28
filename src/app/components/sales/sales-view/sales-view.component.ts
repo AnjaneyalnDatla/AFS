@@ -54,6 +54,10 @@ export class SalesViewComponent implements OnInit {
     this.showInvoice = true;
   }
 
+  toggleOnBack(){
+    this.showInvoice = false;
+  }
+
 
   deleteSale(transactionNumber) {
 
