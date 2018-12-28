@@ -43,6 +43,7 @@ export class ContactsService {
         }
         let contact = {
             isCompany: isCom,
+            id: contactForm.id,
             supplementalId: contactForm.supplementalId,
             companyName: contactForm.companyName,
             firstName: contactForm.firstName,

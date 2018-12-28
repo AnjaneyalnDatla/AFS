@@ -1,22 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-export interface PeriodicElement {
-  position: string;
-  name: string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: '1', name: "Antony" },
-  { position: '2', name: "Mark" },
-  { position: '3', name: "John" },
-  { position: '4', name: "Smith" },
-  { position: '5', name: "Aby" },
-  { position: '6', name: "Tony" },
-  { position: '7', name: "Stark" },
-  { position: '8', name: "Neil" },
-  { position: '9', name: "Roger" },
-  { position: '10', name: "Siddle" },
-];
 @Component({
   selector: 'app-contacts-create',
   templateUrl: './contacts-create.component.html',
@@ -25,6 +9,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ContactsCreateComponent implements OnInit {
 
   contactForm = this.fb.group({
+    id: ['', Validators.required],
     isCompany: ['', Validators.required],
     supplementalId: ['', Validators.required],
     companyName: ['', Validators.required],
