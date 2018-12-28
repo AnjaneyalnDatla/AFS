@@ -13,6 +13,7 @@ import { DropDown } from '../../../_models/common/dropdown';
 import { PeriodicElement } from '../../../_models/common/periodicelement';
 import { AuthenticationService } from '../../../_services/authentication.service';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 declare var $: any;
 
@@ -23,7 +24,7 @@ declare var $: any;
 })
 export class SalesCreateComponent implements OnInit {
 
-  
+
   transaction: {};
 
   //declarations
@@ -42,7 +43,7 @@ export class SalesCreateComponent implements OnInit {
   invoiceObject = {};
   showInvoice: boolean = false;
   organisationAccounts = [];
-  transactionNumber:String;
+  transactionNumber: String;
 
   salesForm = this.fb.group({
     contact: this.fb.group({
@@ -160,20 +161,38 @@ export class SalesCreateComponent implements OnInit {
     this.showInvoice = val;
   }
 
+  toggleOnBack() {
+    this.resetForm();
+    this.showInvoice = false;
+  }
+
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    console.log("FORM DATA");
-    form.paymentAmount = this.totalSum;
-    console.log(JSON.stringify(form));
-    this.transactionsService.saveTransaction(form).subscribe(
-      data => {
-        console.log(JSON.stringify(data));
-        this.transactionNumber = data.transaction_number;
-        this.displayInvoice(true);
+    swal({
+      title: 'Wish to continue?',
+      text: "Once confirmed, the action is irreversible",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Save',
+      buttonsStyling: false
+    }).then((result) => {
+      if (result.value) {
+        console.log("FORM DATA");
+        form.paymentAmount = this.totalSum;
+        console.log(JSON.stringify(form));
+        this.transactionsService.saveTransaction(form).subscribe(
+          data => {
+            console.log(JSON.stringify(data));
+            this.transactionNumber = data.transaction_number;
+            this.displayInvoice(true);
+          }
+        );
+        // this.displayInvoice(true);
       }
-    );
-    // this.displayInvoice(true);
+    })
   }
 
   resetForm() {
