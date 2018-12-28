@@ -9,7 +9,7 @@
             </div>
           </div>
           <div class="card-body">
-            <app-invoice *ngIf="showInvoice" [transactionNumber]="transactionNumber"></app-invoice>
+            <app-invoice *ngIf="showInvoice" [transactionNumber]="transactionNumber" (onBackClick)="toggleOnBack($event)"></app-invoice>
             <div class="row" *ngIf="!showInvoice">
               <div class="col-md-12">
                 <div class="mat-elevation-z8">
