@@ -9,8 +9,7 @@ import { DropDown } from '../../../_models/common/dropdown';
 import { TransactionsService } from '../../../_services/transactions.service';
 import { AuthenticationService } from '../../../_services/authentication.service';
 import { Router } from '@angular/router';
-import { PeriodicElement } from '../../../_models/common/periodicelement';
-
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -20,11 +19,11 @@ import { PeriodicElement } from '../../../_models/common/periodicelement';
 })
 export class PurchasesCreateComponent implements OnInit {
 
-  
+
   transaction: {};
 
   product: { name: '', type: '', price: '', quantity: 0, total: 0 };
-  
+
   //declarations
   userDetails: {};
   vendors = [];
@@ -39,7 +38,7 @@ export class PurchasesCreateComponent implements OnInit {
   subTotal: number = 0;
   taxValue: number = 0;
   invoiceObject = {};
-  transactionNumber:String;
+  transactionNumber: String;
   isActive: boolean = true;
   showInvoice: boolean = false;
   organisationAccounts = [];
@@ -75,10 +74,10 @@ export class PurchasesCreateComponent implements OnInit {
     private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
     private datePipe: DatePipe, private router: Router,
     private contactsService: ContactsService,
-    private commonService: CommonService,private authenticationService: AuthenticationService) { }
+    private commonService: CommonService, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    
+
     //get logged in user details from local storage 
     // and set userId, userName, DepartmentId and DepartmentName
     this.userDetails = this.authenticationService.getLoginUser();
@@ -133,7 +132,7 @@ export class PurchasesCreateComponent implements OnInit {
 
 
   displayPersonDetails(value) {
-      this.filterForDisplay(this.contactList, value);
+    this.filterForDisplay(this.contactList, value);
   }
 
   displayInvoice(val) {
@@ -142,17 +141,30 @@ export class PurchasesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    console.log("FORM DATA");
-    form.paymentAmount = this.totalSum;
-    console.log(JSON.stringify(form));
-    this.transactionsService.saveTransaction(form).subscribe(
-      data => {
-        console.log(JSON.stringify(data));
-        this.transactionNumber = data.transaction_number;
-        this.displayInvoice(true);
+    swal({
+      title: 'Wish to continue?',
+      text: "Once confirmed, the action is irreversible",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Save',
+      buttonsStyling: false
+    }).then((result) => {
+      if (result.value) {
+        console.log("FORM DATA");
+        form.paymentAmount = this.totalSum;
+        console.log(JSON.stringify(form));
+        this.transactionsService.saveTransaction(form).subscribe(
+          data => {
+            console.log(JSON.stringify(data));
+            this.transactionNumber = data.transaction_number;
+            this.displayInvoice(true);
+          }
+        );
+        // this.displayInvoice(true);
       }
-    );
-    // this.displayInvoice(true);
+    })
   }
 
   resetForm() {
@@ -185,10 +197,10 @@ export class PurchasesCreateComponent implements OnInit {
     );
   }
 
-  private getProductTypes(){//load on init
+  private getProductTypes() {//load on init
     this.commonService.getProductTypes().subscribe(
       data => {
-        this.productTypes  =  data;
+        this.productTypes = data;
         console.log(data);
       }
     );

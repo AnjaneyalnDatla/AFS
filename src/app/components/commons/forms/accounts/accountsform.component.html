@@ -1,3 +1,5 @@
+<!--<div class="main-content">
+  <div class="container-fluid">-->
 <div class="row">
   <div class="col-md-12">
     <div class="card ">
@@ -6,33 +8,58 @@
           <h4 class="card-title">{{cardTitle}}</h4>
         </div>
       </div>
-      <div class="card-body ">
-        <form method="get" action="/" class="form-horizontal">
+      <div class="card-body">
+        <form class="account-form" *ngIf="accountForm" name="form" [formGroup]="accountForm" (ngSubmit)="onFormSubmit(accountForm.value)">
           <div class="row">
-            <label class="col-md-2 col-form-label">Account</label>
-            <div class="col-md-3">
+            <label class="col-md-2 col-form-label">Account Info</label>
+            <div class="col-sm-3">
+              <mat-radio-group formControlName="isActive">
+                <mat-radio-button value="true">Active ?</mat-radio-button>&nbsp;
+                <mat-radio-button value="false">Not Active ?</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col-sm-3">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Account Name" type="text">
+                <input matInput placeholder="Account Name" formControlName="name">
               </mat-form-field>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-3">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Account Type" type="text">
-              </mat-form-field>
-            </div>
-            <div class="col-md-3">
-              <mat-form-field class="example-full-width">
-                <input matInput placeholder="Contact" type="text">
+                <input matInput placeholder="description" formControlName="description">
               </mat-form-field>
             </div>
           </div>
+
           <div class="row">
-            <label class="col-md-2 col-form-label"></label>
-            <div class="col-md-9">
-                <mat-form-field class="example-full-width">
-                    <textarea matInput placeholder="Description"></textarea>
-                  </mat-form-field>
+            <label class="col-md-2 col-form-label">Account Type Info</label>
+            <div class="col-sm-3">
+              <mat-form-field>
+                <mat-select placeholder="Account Type" formControlName="account_type" [(value)]="accountTypeSelected">
+                  <mat-option *ngFor="let accountType of accountTypes" [value]="accountType">
+                    {{accountType.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="current balance" formControlName="currentBalance">
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <mat-form-field>
+              <input matInput type="text" hidden="true" formControlName="id" [value]="accountForm.controls.id">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="col-md-8 ml-3">
+              <button mat-raised-button type="submit" class="btn btn-success">Save</button>
+              <button mat-raised-button type="cancel" class="btn btn-danger">Cancel</button>
+            </div>
+
           </div>
         </form>
       </div>

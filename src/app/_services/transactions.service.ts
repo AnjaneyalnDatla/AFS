@@ -61,7 +61,7 @@ export class TransactionsService {
         })
     }
 
-    /** Save Sale */
+    /** Save Transaction */
     saveTransaction(formData){
         let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
         console.log(JSON.stringify(formData))
