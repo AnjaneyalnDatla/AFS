@@ -9,15 +9,16 @@ export const environment = {
     identity_contextroot: 'http://206.189.197.225:8085/identity/',
     account_contextroot: 'http://206.189.197.225:8086/accounts/',
 
-    // Context Paths
-    identity_validate_url: 'validate',
-    sale_vendor_list_url: 'contacts/getAllContactsByAccntType1',
-    sale_customer_list_url: 'contacts/getAllContactsByAccntType1',
-    sale_product_types_url: 'contacts/getProductTypes',
-    sale_get_url: 'transactions/transactionNumber',
-    sale_lineItems_url: 'transactions/lineItems',
-    sales_resource: 'sales',
-    contacts_resource: 'contacts',
-    transactions_resource: 'transactions',
-    products_resource: 'products'
+  // Context Paths
+  identity_validate_url: 'validate',
+  sale_vendor_list_url: 'contacts/getAllContactsByAccntType1',
+  sale_customer_list_url: 'contacts/getAllContactsByAccntType1',
+  sale_product_types_url: 'contacts/getProductTypes',
+  sale_get_url: 'transactions/transactionNumber',
+  sale_lineItems_url: 'transactions/lineItems',
+  sales_resource: 'sales',
+  contacts_resource: 'contacts',
+  transactions_resource: 'transactions',
+  products_resource: 'products',
+  accounts_resource: 'account'
 };
