@@ -1,0 +1,51 @@
+.ct-chart {
+    position: relative;
+}
+.ct-legend {
+    position: relative;
+    z-index: 10;
+    list-style: none;
+}
+.ct-legend li {
+    position: relative;
+    display: inline !important;
+    padding-left: 23px;
+    cursor: pointer;
+}
+.ct-legend li:before {
+    position: absolute;
+    display: inline !important;
+    left: 0;
+    content: '';
+    border: 3px solid transparent;
+    border-radius: 2px;
+}
+.ct-legend li.inactive:before {
+    background: transparent;
+}
+.ct-legend.ct-legend-inside {
+    position: absolute;
+    display: inline !important;
+    top: 0;
+    right: 0;
+}
+.ct-legend .ct-series-0:before {
+    background-color: #d70206 !important;
+    border-color: #d70206 !important;
+}
+.ct-legend .ct-series-1:before {
+    background-color: #f05b4f !important;
+    border-color: #f05b4f !important;
+}
+.ct-legend .ct-series-2:before {
+    background-color: #f4c63d !important;
+    border-color: #f4c63d !important;
+}
+.ct-legend .ct-series-3:before {
+    background-color: #d17905 !important;
+    border-color: #d17905 !important;
+}
+.ct-legend .ct-series-4:before {
+    background-color: #453d3f !important;
+    border-color: #453d3f !important;
+}

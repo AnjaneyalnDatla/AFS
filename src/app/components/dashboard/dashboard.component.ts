@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import * as MyLegend from 'chartist-plugin-legend';
+import { CommonService } from '../../_services/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,40 +10,15 @@ import * as Chartist from 'chartist';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
-  startAnimationForLineChart(chart){
-      let seq: any, delays: any, durations: any;
-      seq = 0;
-      delays = 80;
-      durations = 500;
+  constructor(private commonService: CommonService,) { 
+    var tester = new MyLegend(); //without this line, you get 'Chartist.plugins undefined'
+  }
 
-      chart.on('draw', function(data) {
-        if(data.type === 'line' || data.type === 'area') {
-          data.element.animate({
-            d: {
-              begin: 600,
-              dur: 700,
-              from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-              to: data.path.clone().stringify(),
-              easing: Chartist.Svg.Easing.easeOutQuint
-            }
-          });
-        } else if(data.type === 'point') {
-              seq++;
-              data.element.animate({
-                opacity: {
-                  begin: seq * delays,
-                  dur: durations,
-                  from: 0,
-                  to: 1,
-                  easing: 'ease'
-                }
-              });
-          }
-      });
-
-      seq = 0;
-  };
+  //declarations
+  accounts: [];
+  seriesData: [];
+  labelData: [];
+  
   startAnimationForBarChart(chart){
       let seq2: any, delays2: any, durations2: any;
 
@@ -66,52 +43,26 @@ export class DashboardComponent implements OnInit {
       seq2 = 0;
   };
   ngOnInit() {
-      /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+    this.getAccounts();
+       /*  **************** Pie Chart ******************** */
 
-      const dataDailySalesChart: any = {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-          series: [
-              [12, 17, 7, 17, 23, 18, 38]
-          ]
-      };
-
-     const optionsDailySalesChart: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-              tension: 0
-          }),
-          low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
-      }
-
-      var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-      this.startAnimationForLineChart(dailySalesChart);
-
-
-      /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-      const dataCompletedTasksChart: any = {
-          labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-          series: [
-              [230, 750, 450, 300, 280, 240, 200, 190]
-          ]
-      };
-
-     const optionsCompletedTasksChart: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-              tension: 0
-          }),
-          low: 0,
-          high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-      }
-
-      var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-      // start animation for the Completed Tasks Chart - Line Chart
-      this.startAnimationForLineChart(completedTasksChart);
-
+    const currentBalances = [45478,29700,1588,24081]
+    const data = {
+      series: currentBalances
+    };
+    const options = {
+      height: 200,
+      distributeSeries: true,
+      labelInterpolationFnc: function (value) {
+        function getSum(total, num) { return total + num; }
+        return Math.round(value / data.series.reduce(getSum) * 100) + '%';
+      },
+      plugins: [Chartist.plugins.legend({
+        legendNames: ['Axis Bank', 'HDFC CHECKINGS', 'ICICI SAVINGS', 'PETTY CASH'],
+        clickable: false,})]
+    };
+  
+     new Chartist.Pie('.ct-chart-pie', data, options);
 
 
       /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
@@ -145,6 +96,19 @@ export class DashboardComponent implements OnInit {
 
       //start animation for the Emails Subscription Chart
       this.startAnimationForBarChart(websiteViewsChart);
+
+      
+  }
+
+  //Private methods
+
+  private getAccounts() {//load on init
+    this.commonService.getAccounts().subscribe(
+      data => {
+        this.accounts = data;
+      }
+    );
+    
   }
 
 }

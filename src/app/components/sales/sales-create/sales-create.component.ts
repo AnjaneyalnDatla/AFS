@@ -146,6 +146,7 @@ export class SalesCreateComponent implements OnInit {
   }
 
   toggleData($event: MatRadioChange) {
+    this.personDetails = {};
     if ($event.value === 'true') {
       this.persons = this.vendors;
     } else {
@@ -202,6 +203,8 @@ export class SalesCreateComponent implements OnInit {
 
   resetForm() {
     this.salesForm.reset();
+    //reset person details
+    this.personDetails = {};
   }
 
 
