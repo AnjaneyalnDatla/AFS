@@ -65,6 +65,19 @@ export class TransactionsService {
     saveTransaction(formData){
         let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
         console.log(JSON.stringify(formData))
+        return this.http.put<any>(url, JSON.stringify(formData), {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+
+      /** Save Transaction */
+      updateTransaction(formData){
+        let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`
+        console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {
             headers: {
                 "Content-Type": "application/json"

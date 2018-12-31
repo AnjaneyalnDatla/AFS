@@ -15,9 +15,9 @@ export class DashboardComponent implements OnInit {
   }
 
   //declarations
-  accounts: [];
-  seriesData: [];
-  labelData: [];
+  accounts:any= [];
+  seriesData:any= [];
+  labelData:any= [];
   
   startAnimationForBarChart(chart){
       let seq2: any, delays2: any, durations2: any;
