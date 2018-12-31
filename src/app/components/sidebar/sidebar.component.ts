@@ -35,6 +35,9 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
     {
+        path: '/payments', title: 'Payments', type: 'link', iconType: 'payment', class: ''
+    },
+    {
         path: '/contacts', title: 'Contacts', type: 'sub', iconType: 'person', class: '', collapse: 'contacts',
         children: [
             { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },

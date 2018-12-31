@@ -45,6 +45,8 @@ export class SalesCreateComponent implements OnInit {
   organisationAccounts = [];
   transactionNumber: String;
 
+
+
   salesForm = this.fb.group({
     contact: this.fb.group({
       isCompany: ['', Validators.required],
@@ -53,26 +55,27 @@ export class SalesCreateComponent implements OnInit {
     transaction_number: ['', Validators.required],
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
+    shipping: ['', Validators.required],
+    other: ['', Validators.required],
     paymentAmount: ['', Validators.required],
-    paymentDate: ['', Validators.required],
+    creationdate: ['', Validators.required],
+    dueDate: ['', Validators.required],
+    deliveryDate: ['', Validators.required],
     additionalComments: [],
     subTotal: [{ value: '', disabled: true }],
     productsTotal: [{ value: '', disabled: true }],
-    accounts: this.fb.group({
-      id: ['', Validators.required],
-    }),
     transactionType: this.fb.group({
       "id": 1,
     }),
     transactionStatus: this.fb.group({
-      "id": 1,
+      "id": 2,
+      "value": "IN-PROGRESS"
     }),
     user_id: 0,
     user_name: '',
     departmentId: 0,
     departmentName: ''
   });
-
 
   constructor(private fb: FormBuilder,
     private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
@@ -88,6 +91,8 @@ export class SalesCreateComponent implements OnInit {
     //get logged in user details from local storage 
     // and set userId, userName, DepartmentId and DepartmentName
     this.userDetails = this.authenticationService.getLoginUser();
+
+    console.log(this.userDetails);
     if (this.userDetails != null) {
       this.salesForm.controls["user_id"].setValue(
         this.userDetails['id']

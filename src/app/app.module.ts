@@ -19,6 +19,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { TransactionsService } from './_services/transactions.service';
 import { ContactsService } from './_services/contacts.service';
 import { CommonService } from './_services/common.service';
+import { RoleGuardService } from './_gaurds/role-guard.service';
+
 
 @NgModule({
   imports: [
@@ -41,9 +43,9 @@ import { CommonService } from './_services/common.service';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-	  LoginLayoutComponent,
+    LoginLayoutComponent,
   ],
-  providers: [AuthenticationService,TransactionsService, ContactsService, CommonService,CurrencyPipe,DatePipe],
+  providers: [AuthenticationService,TransactionsService, ContactsService, CommonService,RoleGuardService,CurrencyPipe,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { Component, Input ,OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CommonService } from '../../../../_services/common.service';
 import { Router } from '@angular/router';
@@ -12,11 +12,12 @@ declare var $: any;
     templateUrl: 'accountsform.component.html'
 })
 
-export class AccountsFormComponent implements OnInit{
+export class AccountsFormComponent implements OnInit {
 
     @Input() accountForm: FormGroup;
     @Input() cardTitle;
     accountTypes: any;
+    isAccountTypesLoaded: boolean;
     accountTypeSelected: any;
 
     constructor(private commonService: CommonService,
@@ -24,14 +25,13 @@ export class AccountsFormComponent implements OnInit{
     }
 
     ngOnInit() {
-        console.log("form value= " + this.accountForm.value);
-        this.accountTypeSelected =  this.accountForm.controls.account_type;
-        console.log("AccountType value= " + this.accountTypeSelected.value);
+        console.log(this.accountForm.controls.account_type.value);
+        this.accountTypeSelected = this.accountForm.controls.account_type.value;
         this.loadAccountsList();
     }
-  
+
     ngAfterViewInit() {
-      // this.dataSource.paginator = this.paginator;
+        // this.dataSource.paginator = this.paginator;
     }
 
     onFormSubmit(form: any) {
@@ -46,7 +46,7 @@ export class AccountsFormComponent implements OnInit{
             buttonsStyling: false
         }).then((result) => {
             if (result.value) {
-                if(form.id === ""){
+                if (form.id === "") {
                     form.id = null;
                 }
                 console.log("contactsform component, FORM ID= " + form.id);
@@ -66,14 +66,18 @@ export class AccountsFormComponent implements OnInit{
 
     /******************************* PRIVATE AREA ***********************************************************/
 
-  private loadAccountsList() {
-    this.commonService.getAccountTypes().subscribe(
-      data => {
-        //this.customers  =  data;
-        this.accountTypes = data;
-        console.log(data);
-      }
-    );
-  }
+    private loadAccountsList() {
+        this.commonService.getAccountTypes().subscribe(
+            data => {
+                //this.customers  =  data;
+                this.accountTypes = data;
+                const defaultSelected = this.accountTypes.find(c => c.id == this.accountTypeSelected.id);
+                console.log(defaultSelected);
+                this.accountForm.get('account_type').setValue(defaultSelected);
+                this.isAccountTypesLoaded = true;
+                console.log(data);
+            }
+        );
+    }
 
 }

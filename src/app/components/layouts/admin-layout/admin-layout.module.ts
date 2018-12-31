@@ -10,6 +10,7 @@ import { ContactsComponent } from '../../contacts/contacts.component';
 import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { AccountComponent } from '../../account/account.component';
+import { PaymentsComponent } from '../../payments/payments.component';
 import { HttpClientModule } from '@angular/common/http';
 //import { SortedTableComponent } from '../../commons/tables/sorted-tables/sortedtable.component';
 import { WizardComponent } from '../../commons/wizard/wizard.component';
@@ -74,10 +75,8 @@ import{
     ReportsComponent,
     NotificationsComponent,
     AccountComponent,
-    //SortedTableComponent,
     WizardComponent,
-    //AccountsFormComponent,
-    //InvoiceComponent
+    PaymentsComponent
   ],
   exports: [
     DashboardComponent,
@@ -87,11 +86,8 @@ import{
     ReportsComponent,
     NotificationsComponent,
     AccountComponent,
-    //SortedTableComponent,
-    WizardComponent,
-    //ContactsFormComponent,
-    //AccountsFormComponent,
-    //InvoiceComponent
+    PaymentsComponent,
+    WizardComponent
   ]
 })
 

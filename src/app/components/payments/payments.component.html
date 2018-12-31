@@ -1,0 +1,121 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-text">
+                        <div class="card-text">
+                            <h4 class="card-title">Payments</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form class="search-form" *ngIf="searchForm" name="form" [formGroup]="searchForm" (ngSubmit)="onFormSubmit(searchForm.value)">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Enter Transaction Number" type="text"
+                                            formControlName="transactionNumber">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <button mat-raised-button type="submit" class="btn btn-success">Search</button>
+                                </div>
+                            </div>
+
+                            <div lass="row" *ngIf="isLoadSearchItem">
+                                <div class="col-md-12 branding clearfix">
+                                    <div class="pull-left invoice-number-container">
+                                        <div>{{transaction.transactionType.name}} # {{transaction.transaction_number}}</div>
+                                        <div>{{transaction.transactionType.name}} Date : {{transaction.paymentDate}}</div>
+                                    </div>
+                                    <div class="pull-right">Company Logo</div>
+                                </div>
+                                <div class="col-md-12 Info">
+                                    <div>{{transaction.contact.firstName}} {{transaction.contact.lastName}}</div>
+                                    <div>{{transaction.contact.companyName}}</div>
+                                </div>
+
+                                <div class="col-md-12 Info">
+                                    <strong>Line Items:</strong>
+                                </div>
+
+                                <div class="col-md-12 Info">
+                                    <table class="table table-clear">
+                                        <thead>
+                                            <tr style="background: #ececec;">
+                                                <th>Type</th>
+                                                <th>Name</th>
+                                                <th>Qty</th>
+                                                <th>Price</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let lineItem of transaction.lineItems;let i = index">
+                                                <td>{{lineItem.products.name}}</td>
+                                                <td>{{lineItem.name}}</td>
+                                                <td>{{lineItem.quantity}}</td>
+                                                <td>{{lineItem.price | currency:'USD':true:'2.2-4'}}</td>
+                                                <td>{{lineItem.amount}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6 table-offset">
+                                    <table class="table table-clear">
+                                        <tbody>
+                                            <tr>
+                                                <td class="left"><strong>Tax</strong></td>
+                                                <td class="right">{{transaction.tax}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left"><strong>shipping</strong></td>
+                                                <td class="right">{{transaction.shipping}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left"><strong>Other</strong></td>
+                                                <td class="right">{{transaction.other}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left"><strong>Total</strong></td>
+                                                <td class="right"><strong>{{transaction.paymentAmount |
+                                                        currency:'USD':true:'2.2-4'}}
+                                                    </strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-12 Info">
+                                    <strong>Bills and Payments:</strong>
+                                </div>
+                                <div class="col-md-12 Info">
+                                    <div class="col-md-12">
+                                        <table class="table table-clear">
+                                            <thead>
+                                                <tr style="background: #ececec;">
+                                                    <th>Amount</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let payment of transaction.payments;let i = index">
+                                                    <td>{{payment.amount}}</td>
+                                                    <td>{{payment.paymentDate}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -12,6 +12,7 @@ export class AuthenticationService {
         private http: HttpClient
     ) { }
 
+    user:string = '';
     login(username: string, password: string) {
         let url = `${environment.identity_contextroot}` + `${environment.identity_validate_url}`
         let user = {
@@ -24,7 +25,7 @@ export class AuthenticationService {
             }
         }).map(response => {
             if (response) {
-                localStorage.setItem('currentUser', JSON.stringify(response));
+                localStorage.setItem('currentUser2', JSON.stringify(response));
             }
             return response;
         })
@@ -32,13 +33,16 @@ export class AuthenticationService {
 
     logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
+        console.log("logout");
+        localStorage.clear();
     }
 
-    getLoginUser(){
-        if(localStorage.getItem('currentUser')!=null)
-            return JSON.parse(localStorage.getItem('currentUser'));
-        else
+    getLoginUser() {
+        if (localStorage.getItem('currentUser2') != null){
+            return JSON.parse(localStorage.getItem('currentUser2'));
+        }
+        else{
             return null;
+        }
     }
 }
