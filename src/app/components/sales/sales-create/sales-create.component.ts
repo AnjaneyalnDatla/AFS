@@ -28,7 +28,7 @@ export class SalesCreateComponent implements OnInit {
 
 
   transaction: {};
-  documents:any;
+  documents: any;
   files: any = [];
   //declarations
   userDetails: {};
@@ -195,9 +195,9 @@ export class SalesCreateComponent implements OnInit {
         console.log("FORM DATA");
         form.paymentAmount = this.totalSum;
         console.log(JSON.stringify(form));
-        
+
         Array.from(this.selectedFiles).forEach(sf => {
-          var file:any={};
+          var file: any = {};
           file.documentReferencerNumber = this.transactionNumber;
           file.documentName = sf.name;
           this.files.push(file);
@@ -211,21 +211,18 @@ export class SalesCreateComponent implements OnInit {
             this.transactionNumber = data.transaction_number;
             //uploading files to AWS S3
             //Array.from(this.selectedFiles).forEach(sf => {
-              //console.log(sf.name);
-              this.uploadFileService.pushFileToStorage(this.selectedFiles,this.transactionNumber).subscribe(event => {
-                if (event.type === HttpEventType.UploadProgress) {
-                  this.progress.percentage = Math.round(100 * event.loaded / event.total);
-                } else if (event instanceof HttpResponse) {
-                  this.displayInvoice(true);
-                  console.log('File is completely uploaded!');
-                  
-                }
-              //});
+            //console.log(sf.name);
+            this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round(100 * event.loaded / event.total);
+              } else if (event instanceof HttpResponse) {
+                this.displayInvoice(true);
+                console.log('File is completely uploaded!');
+
+              }
             });
-            //this.displayInvoice(true);
           }
         );
-        //this.displayInvoice(true);
       }
     })
   }

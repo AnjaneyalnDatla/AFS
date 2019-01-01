@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class UploadFileService {
       formdata.append('file', sf);
     });
 
-    const req = new HttpRequest('POST', 'http://localhost:8088/fileuploader/'+ transactionNumber, formdata, {
+    const req = new HttpRequest('POST', `${environment.documentor_contextroot}` + 'fileuploader/' + transactionNumber, formdata, {
       reportProgress: true,
       responseType: 'text'
     });
@@ -32,7 +33,7 @@ export class UploadFileService {
       formdata.append('file', sf);
     });
 
-    const req = new HttpRequest('POST', 'http://localhost:8088/fileuploader/contact/'+ contactId, formdata, {
+    const req = new HttpRequest('POST', `${environment.documentor_contextroot}` + 'fileuploader/contact/' + contactId, formdata, {
       reportProgress: true,
       responseType: 'text'
     });

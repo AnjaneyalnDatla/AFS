@@ -111,6 +111,13 @@
                                         </div>
                                     </div>
                                 </fieldset>
+                                <div class="row" *ngIf="displayPaymentOption">
+                                    <div class="col-md-12 ml-4">
+                                        <label class="btn btn-default">
+                                            <input type="file" (change)="selectFile($event)" multiple>
+                                        </label>
+                                    </div>
+                                </div>
                             </form>
 
                             <div class="row">
