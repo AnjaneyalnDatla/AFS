@@ -1,6 +1,9 @@
 .ct-chart {
     position: relative;
 }
+.ct-chart .ct-label{
+    color: white !important;
+}
 .ct-legend {
     position: relative;
     z-index: 10;
@@ -49,3 +52,32 @@
     background-color: #453d3f !important;
     border-color: #453d3f !important;
 }
+/* Pie charts consist of solid slices where you can use this selector to override the default style. */
+.ct-series-d .ct-slice-pie {
+    /* fill of the pie slieces */
+    fill: hsl(120, 40%, 60%) !important;
+  }
+
+  /* Pie charts consist of solid slices where you can use this selector to override the default style. */
+.ct-series .ct-series-d .ct-slice-pie {
+    /* fill of the pie slieces */
+    fill: hsl(120, 40%, 60%) !important;
+  }
+
+  /* Pie charts consist of solid slices where you can use this selector to override the default style. */
+.ct-series .ct-series-e .ct-slice-pie {
+    /* fill of the pie slieces */
+    fill: hsl(64, 85%, 68%) !important
+  }
+
+    /* Pie charts consist of solid slices where you can use this selector to override the default style. */
+.ct-series .ct-series-f .ct-slice-pie {
+    /* fill of the pie slieces */
+    fill: hsl(246, 73%, 82%) !important
+  }
+
+    /* Pie charts consist of solid slices where you can use this selector to override the default style. */
+.ct-series .ct-series-g .ct-slice-pie {
+    /* fill of the pie slieces */
+    fill: hsl(64, 85%, 68%) !important
+  }
