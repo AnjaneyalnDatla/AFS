@@ -15,9 +15,9 @@ export class DashboardComponent implements OnInit {
   }
 
   //declarations
-  accounts: [];
-  seriesData: [];
-  labelData: [];
+  accounts: any[] = [];
+  seriesData: any[] = [];
+  labelData: any[] = [];
   
   startAnimationForBarChart(chart){
       let seq2: any, delays2: any, durations2: any;
@@ -42,27 +42,55 @@ export class DashboardComponent implements OnInit {
 
       seq2 = 0;
   };
-  ngOnInit() {
-    this.getAccounts();
-       /*  **************** Pie Chart ******************** */
-
-    const currentBalances = [45478,29700,1588,24081]
-    const data = {
-      series: currentBalances
-    };
-    const options = {
-      height: 200,
-      distributeSeries: true,
-      labelInterpolationFnc: function (value) {
-        function getSum(total, num) { return total + num; }
-        return Math.round(value / data.series.reduce(getSum) * 100) + '%';
-      },
-      plugins: [Chartist.plugins.legend({
-        legendNames: ['Axis Bank', 'HDFC CHECKINGS', 'ICICI SAVINGS', 'PETTY CASH'],
-        clickable: false,})]
-    };
   
-     new Chartist.Pie('.ct-chart-pie', data, options);
+
+  buildPieChart(){
+      /*  **************** Pie Chart ******************** */
+
+      console.log('outside' +JSON.stringify(this.accounts))
+    //   this.accounts.forEach((obj, index) => {
+    //     this.seriesData.push(obj['currentBalance']);
+    //     this.labelData.push(obj['name']);
+    //     console.log('before transform, this : ' + this);
+    // });
+  
+
+      this.accounts.forEach(account => {
+        this.seriesData.push(account['currentBalance']);
+        this.labelData.push(account['name']);
+      })
+
+      const currentBalances = [45478,29700,1588,24081]
+      const data = {
+        series: this.seriesData
+      };
+      const options = {
+        height: 200,
+        distributeSeries: true,
+        labelInterpolationFnc: function (value) {
+          function getSum(total, num) { return total + num; }
+          return Math.round(value / data.series.reduce(getSum) * 100) + '%';
+        },
+        colors:["#f00","#f0f","#00f","#0f0"],
+        plugins: [Chartist.plugins.legend({
+          legendNames: this.labelData,
+          clickable: false,})]
+      };
+    
+       new Chartist.Pie('.ct-chart-pie', data, options);
+  }
+
+  ngOnInit() {
+    this.commonService.getAccounts().subscribe(
+      data => {
+        this.accounts = data;
+        console.log('Inside')
+        this.buildPieChart();
+      }
+    );
+    // console.log('outside')
+
+     
 
 
       /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
@@ -102,8 +130,8 @@ export class DashboardComponent implements OnInit {
 
   //Private methods
 
-  private getAccounts() {//load on init
-    this.commonService.getAccounts().subscribe(
+   getAccounts() {//load on init
+    this.commonService.getAccounts().map(
       data => {
         this.accounts = data;
       }
