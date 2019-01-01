@@ -49,20 +49,21 @@ export class PurchasesCreateComponent implements OnInit {
     }),
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
+    shipping: ['', Validators.required],
+    other: ['', Validators.required],
     paymentAmount: ['', Validators.required],
-    paymentDate: ['', Validators.required],
-    deliveryDt: ['', Validators.required],
+    creationdate: ['', Validators.required],
+    dueDate: ['', Validators.required],
+    deliveryDate: ['', Validators.required],
     additionalComments: [],
     subTotal: [{ value: '', disabled: true }],
     productsTotal: [{ value: '', disabled: true }],
-    accounts: this.fb.group({
-      id: ['', Validators.required],
-    }),
     transactionType: this.fb.group({
       "id": 7,
     }),
     transactionStatus: this.fb.group({
-      "id": 1,
+      "id": 2,
+      "value": "IN-PROGRESS"
     }),
     user_id: 0,
     user_name: '',
@@ -81,6 +82,7 @@ export class PurchasesCreateComponent implements OnInit {
     //get logged in user details from local storage 
     // and set userId, userName, DepartmentId and DepartmentName
     this.userDetails = this.authenticationService.getLoginUser();
+    console.log(this.userDetails['id']);
     if (this.userDetails != null) {
       this.purchaseForm.controls["user_id"].setValue(
         this.userDetails['id']

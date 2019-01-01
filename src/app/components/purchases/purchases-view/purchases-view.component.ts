@@ -16,13 +16,15 @@ export class PurchasesViewComponent implements OnInit {
   // Table columns 
   columns = [
     { columnDef: 'transaction_number', header: 'Transaction No.', cell: (element: any) => `${element.transaction_number}` },
-    { columnDef: 'accounts.name', header: 'Account', cell: (element: any) => `${element.accounts.name}` },
+    { columnDef: 'transactionStatus.value', header: 'Transaction Status', cell: (element: any) => `${element.transactionStatus.value}` },
+    { columnDef: 'contact.companyName', header: 'Company Name', cell: (element: any) => `${element.contact.companyName}` },
     { columnDef: 'contact.firstName', header: 'First Name', cell: (element: any) => `${element.contact.firstName}` },
     { columnDef: 'contact.lastName', header: 'Last Name', cell: (element: any) => `${element.contact.lastName}` },
     { columnDef: 'paymentAmount', header: 'Amount', cell: (element: any) => `${element.paymentAmount}` },
-    { columnDef: 'paymentDate', header: 'Date', cell: (element: any) => `${element.paymentDate}` },
+    { columnDef: 'creationdate', header: 'Date', cell: (element: any) => `${element.creationdate}` },
     { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
   ];
+
 
   displayedColumns = this.columns.map(c => c.columnDef);
   dataSource = new MatTableDataSource<PeriodicElement>();

@@ -1,0 +1,219 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-text">
+                        <div class="card-text">
+                            <h4 class="card-title">Payments</h4>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <form class="search-form" *ngIf="searchForm" name="form" [formGroup]="searchForm" (ngSubmit)="onFormSubmit(searchForm.value)">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Enter Transaction Number" type="text"
+                                            formControlName="transactionNumber">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <button mat-raised-button type="submit" class="btn btn-success">Search</button>
+                                </div>
+
+                                <div class="col-md-2" *ngIf="transaction">
+                                    <label>Pending Amount
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput type="text" [value]="transaction.pendingAmount" [disabled]="true">
+                                        </mat-form-field>
+                                    </label>
+                                </div>
+                                <div class="col-md-2" *ngIf="transaction">
+                                    <label>Status
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput type="text" [value]="transaction.transactionStatus.value"
+                                                [disabled]="true">
+                                        </mat-form-field>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="message != '' ">
+                                <div class="col-md-3">
+                                    {{message}}
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <div class="row" *ngIf="isLoadSearchItem">
+
+                            <form class="payment-form" name="form" [formGroup]="paymentForm" (ngSubmit)="onPaymentFormSubmit(paymentForm.value)">
+                                <div class="row" *ngIf="displayPaymentOption">
+                                    <div class="col-md-4">
+                                        <strong>
+                                            Would you like to record a payment?
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="displayPaymentOption">
+                                    <div class="col-md-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Bill Number" type="text" formControlName="billNumber">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field>
+                                            <input matInput [matDatepicker]="picker" placeholder="Issue Date"
+                                                formControlName="bill_issued_date">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Bill Amount" type="text" formControlName="amount">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <fieldset formGroupName="payments">
+                                    <div class="row" *ngIf="displayPaymentOption">
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Payment Amount" type="text"
+                                                    formControlName="amount">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field>
+                                                <input matInput [matDatepicker]="picker2" placeholder="Payment Date"
+                                                    formControlName="paymentDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <fieldset formGroupName="accounts">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Account" formControlName="id">
+                                                        <mat-option *ngFor="let orgAccounts of organisationAccounts"
+                                                            [value]="orgAccounts.id">
+                                                            {{orgAccounts.name}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button mat-raised-button type="submit" class="btn btn-success">Submit
+                                                Payment</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+
+                            <div class="row">
+                                <div class="col-md-12 branding clearfix">
+                                    <div class="pull-left invoice-number-container">
+                                        <div>{{transaction.transactionType.name}} # {{transaction.transaction_number}}</div>
+                                        <div>{{transaction.transactionType.name}} Date : {{transaction.paymentDate}}</div>
+                                    </div>
+                                    <div class="pull-right">Company Logo</div>
+                                </div>
+                                <div class="col-md-12 Info">
+                                    <div>{{transaction.contact.firstName}} {{transaction.contact.lastName}}</div>
+                                    <div>{{transaction.contact.companyName}}</div>
+                                </div>
+
+                                <div class="col-md-12 Info">
+                                    <strong>Line Items:</strong>
+                                </div>
+
+                                <div class="col-md-12 Info">
+                                    <table class="table table-clear">
+                                        <thead>
+                                            <tr style="background: #ececec;">
+                                                <th>Type</th>
+                                                <th>Name</th>
+                                                <th>Qty</th>
+                                                <th>Price</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let lineItem of transaction.lineItems;let i = index">
+                                                <td>{{lineItem.products.name}}</td>
+                                                <td>{{lineItem.name}}</td>
+                                                <td>{{lineItem.quantity}}</td>
+                                                <td>{{lineItem.price | currency:'USD':true:'2.2-4'}}</td>
+                                                <td>{{lineItem.amount}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6 table-offset">
+                                    <table class="table table-clear">
+                                        <tbody>
+                                            <tr>
+                                                <td class="left"><strong>Tax</strong></td>
+                                                <td class="right">{{transaction.tax}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left"><strong>shipping</strong></td>
+                                                <td class="right">{{transaction.shipping}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left"><strong>Other</strong></td>
+                                                <td class="right">{{transaction.other}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left"><strong>Total</strong></td>
+                                                <td class="right"><strong>{{transaction.paymentAmount |
+                                                        currency:'USD':true:'2.2-4'}}
+                                                    </strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-12 Info">
+                                    <strong>Bills and Payments:</strong>
+                                </div>
+                                <div class="col-md-12 Info">
+                                    <table class="table table-clear">
+                                        <thead>
+                                            <tr style="background: #ececec;">
+                                                <th>Number</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Payments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let bill of transaction.bills;let i = index">
+                                                <td>{{bill.billNumber}}</td>
+                                                <td>{{bill.amount}}</td>
+                                                <td>{{bill.bill_issued_date}}</td>
+                                                <td>
+                                            <tr *ngFor="let payments of bill.payments;let j = index">
+                                                <td>Payment Amount = {{payments.amount}}</td>
+                                                <td>Payment Date = {{payments.paymentDate}}</td>
+                                                <td>Account Used = {{payments.accounts.name}}</td>
+                                            </tr>
+                                            </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -61,8 +61,9 @@ export class InvoiceComponent implements OnInit {
         this.transactionsService.getSale(transactionNumber).subscribe(
           data => {
             console.log(data);
-            this.displayData = data[0];
-            this.calculateTotals();
+            this.displayData = data;
+            console.log(this.displayData);
+            //this.calculateTotals();
             this.isLoaded = true;
           }
         );

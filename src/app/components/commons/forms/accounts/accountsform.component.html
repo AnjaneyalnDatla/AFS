@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="card-body">
-        <form class="account-form" *ngIf="accountForm" name="form" [formGroup]="accountForm" (ngSubmit)="onFormSubmit(accountForm.value)">
+        <form class="account-form" *ngIf="accountForm && isAccountTypesLoaded" name="form" [formGroup]="accountForm" (ngSubmit)="onFormSubmit(accountForm.value)">
           <div class="row">
             <label class="col-md-2 col-form-label">Account Info</label>
             <div class="col-sm-3">
@@ -34,12 +34,13 @@
             <label class="col-md-2 col-form-label">Account Type Info</label>
             <div class="col-sm-3">
               <mat-form-field>
-                <mat-select placeholder="Account Type" formControlName="account_type" [(value)]="accountTypeSelected">
+                <mat-select placeholder="Account Type" formControlName="account_type">
                   <mat-option *ngFor="let accountType of accountTypes" [value]="accountType">
                     {{accountType.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+              <p>{{accountForm.get('account_type').value | json}}</p>
             </div>
             <div class="col-sm-3">
               <mat-form-field class="example-full-width">

@@ -20,6 +20,7 @@ import { TransactionsService } from './_services/transactions.service';
 import { ContactsService } from './_services/contacts.service';
 import { CommonService } from './_services/common.service';
 
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -41,7 +42,7 @@ import { CommonService } from './_services/common.service';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-	  LoginLayoutComponent,
+    LoginLayoutComponent,
   ],
   providers: [AuthenticationService,TransactionsService, ContactsService, CommonService,CurrencyPipe,DatePipe],
   bootstrap: [AppComponent]
