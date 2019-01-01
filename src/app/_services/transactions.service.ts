@@ -74,6 +74,19 @@ export class TransactionsService {
         })
     }
 
+     /** Save Transaction */
+     saveDocumentsMetaDataOnTransaction(formData){
+        let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`+ `/documents`
+        console.log(JSON.stringify(formData))
+        return this.http.put<any>(url, JSON.stringify(formData), {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        })
+    }
+
       /** Save Transaction */
       updateTransaction(formData){
         let url = `${environment.account_contextroot}` + `${environment.transactions_resource}`

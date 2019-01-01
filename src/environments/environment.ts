@@ -8,7 +8,8 @@ export const environment = {
   // Context Roots
   identity_contextroot: 'http://localhost:8080/identity/',
   account_contextroot: 'http://localhost:8082/accounts/',
-
+  documentor_contextroot: 'http://localhost:8088/',
+  
   // Context Paths
   identity_validate_url: 'validate',
   sale_vendor_list_url: 'contacts/getAllContactsByAccntType',

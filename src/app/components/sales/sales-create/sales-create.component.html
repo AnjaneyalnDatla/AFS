@@ -149,12 +149,12 @@
                         </mat-form-field>
                       </div>
                       <div class="col-md-3 ml-4">
-                          <mat-form-field>
-                            <input matInput [matDatepicker]="picker2" placeholder="Delivery Date" formControlName="deliveryDate">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                          </mat-form-field>
-                        </div>
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="picker2" placeholder="Delivery Date" formControlName="deliveryDate">
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-md-10 ml-4">
@@ -163,6 +163,13 @@
                           <textarea matInput placeholder="Please add any additional description as needed"
                             formControlName="additionalComments"></textarea>
                         </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 ml-4">
+                        <label class="btn btn-default">
+                          <input type="file" (change)="selectFile($event)" multiple>
+                        </label>
                       </div>
                     </div>
                     <div class="row">

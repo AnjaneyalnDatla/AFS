@@ -8,8 +8,11 @@ import { CommonService } from '../../../_services/common.service';
 import { DropDown } from '../../../_models/common/dropdown';
 import { TransactionsService } from '../../../_services/transactions.service';
 import { AuthenticationService } from '../../../_services/authentication.service';
+import { UploadFileService } from '../../../_services/upload-file.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
+
 
 
 @Component({
@@ -21,6 +24,9 @@ export class PurchasesCreateComponent implements OnInit {
 
 
   transaction: {};
+  files: any = [];
+  selectedFiles: FileList;
+  progress: { percentage: number } = { percentage: 0 };
 
   product: { name: '', type: '', price: '', quantity: 0, total: 0 };
 
@@ -72,10 +78,13 @@ export class PurchasesCreateComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
-    private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
+    private transactionsService: TransactionsService, 
+    private uploadFileService: UploadFileService,
+    private currencyPipe: CurrencyPipe,
     private datePipe: DatePipe, private router: Router,
     private contactsService: ContactsService,
-    private commonService: CommonService, private authenticationService: AuthenticationService) { }
+    private commonService: CommonService, private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit() {
 
@@ -156,12 +165,30 @@ export class PurchasesCreateComponent implements OnInit {
       if (result.value) {
         console.log("FORM DATA");
         form.paymentAmount = this.totalSum;
+        Array.from(this.selectedFiles).forEach(sf => {
+          var file:any={};
+          file.documentReferencerNumber = this.transactionNumber;
+          file.documentName = sf.name;
+          this.files.push(file);
+        });
+        form.documents = this.files;
+        console.log("Form with documents");
+
         console.log(JSON.stringify(form));
         this.transactionsService.saveTransaction(form).subscribe(
           data => {
             console.log(JSON.stringify(data));
             this.transactionNumber = data.transaction_number;
-            this.displayInvoice(true);
+            this.uploadFileService.pushFileToStorage(this.selectedFiles,this.transactionNumber).subscribe(event => {
+                if (event.type === HttpEventType.UploadProgress) {
+                  this.progress.percentage = Math.round(100 * event.loaded / event.total);
+                } else if (event instanceof HttpResponse) {
+                  this.displayInvoice(true);
+                  console.log('File is completely uploaded!');
+                  
+                }
+              //});
+            });
           }
         );
         // this.displayInvoice(true);
@@ -173,6 +200,12 @@ export class PurchasesCreateComponent implements OnInit {
     this.purchaseForm.reset();
   }
 
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+    Array.from(this.selectedFiles).forEach(sf => {
+      console.log(sf.name);
+    });
+  }
 
   /******************************* PRIVATE AREA ***********************************************************/
   /** Adding FormArray Elements */

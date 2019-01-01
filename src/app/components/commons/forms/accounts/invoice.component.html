@@ -71,13 +71,31 @@
             </table>
         </div>
     </div>
+    <div class="col-md-12 Info">
+        <div class="col-md-12">
+            <table class="table table-clear">
+                <thead>
+                    <tr style="background: #ececec;">
+                        <th>Name</th>
+                        <th>Document Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let doc of displayData.documents;let i = index">
+                        <td>{{doc.documentName}}</td>
+                        <td>{{doc.documentLink}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="col-md-12 footer-info">
-        <label>THANK YOU FOR YOUR BUSINESS</label> 
+        <label>THANK YOU FOR YOUR BUSINESS</label>
     </div>
     <div class="row">
-            <div class="col-md-10 ml-3">
-              <button mat-raised-button type="button" class="btn btn-success" (click)="goBack();">Back</button>
-            </div>
+        <div class="col-md-10 ml-3">
+            <button mat-raised-button type="button" class="btn btn-success" (click)="goBack();">Back</button>
+        </div>
     </div>
 
 </div>

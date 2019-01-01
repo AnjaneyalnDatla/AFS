@@ -4,11 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-    production: false,
-    // Context Roots
-    identity_contextroot: 'http://206.189.197.225:8085/identity/',
-    account_contextroot: 'http://206.189.197.225:8086/accounts/',
-
+  production: false,
+  // Context Roots
+  identity_contextroot: 'http://206.189.197.225:8085/identity/',
+  account_contextroot: 'http://206.189.197.225:8086/accounts/',
+  documentor_contextroot: 'http://206.189.197.225:8088/',
+  
   // Context Paths
   identity_validate_url: 'validate',
   sale_vendor_list_url: 'contacts/getAllContactsByAccntType1',

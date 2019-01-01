@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatMenuModule} from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatMenuModule } from '@angular/material';
 import {
   AgmCoreModule
 } from '@agm/core';
@@ -19,18 +19,18 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { TransactionsService } from './_services/transactions.service';
 import { ContactsService } from './_services/contacts.service';
 import { CommonService } from './_services/common.service';
-
+import { UploadFileService } from './_services/upload-file.service';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
-	  ReactiveFormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
-	  MatInputModule,
+    MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
     MatMenuModule,
@@ -44,7 +44,7 @@ import { CommonService } from './_services/common.service';
     AdminLayoutComponent,
     LoginLayoutComponent,
   ],
-  providers: [AuthenticationService,TransactionsService, ContactsService, CommonService,CurrencyPipe,DatePipe],
+  providers: [AuthenticationService, TransactionsService, ContactsService, CommonService, UploadFileService, CurrencyPipe, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

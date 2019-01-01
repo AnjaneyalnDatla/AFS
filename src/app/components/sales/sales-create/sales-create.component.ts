@@ -3,6 +3,7 @@ import { MatTableDataSource, MatRadioChange } from '@angular/material';
 import { CurrencyPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl, AbstractControl } from '@angular/forms';
@@ -12,6 +13,7 @@ import { CommonService } from '../../../_services/common.service';
 import { DropDown } from '../../../_models/common/dropdown';
 import { PeriodicElement } from '../../../_models/common/periodicelement';
 import { AuthenticationService } from '../../../_services/authentication.service';
+import { UploadFileService } from '../../../_services/upload-file.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 
@@ -26,7 +28,8 @@ export class SalesCreateComponent implements OnInit {
 
 
   transaction: {};
-
+  documents:any;
+  files: any = [];
   //declarations
   userDetails: {};
   vendors = [];
@@ -45,7 +48,9 @@ export class SalesCreateComponent implements OnInit {
   organisationAccounts = [];
   transactionNumber: String;
 
-
+  filesToUpload = [];
+  selectedFiles: FileList;
+  progress: { percentage: number } = { percentage: 0 };
 
   salesForm = this.fb.group({
     contact: this.fb.group({
@@ -83,6 +88,7 @@ export class SalesCreateComponent implements OnInit {
     private contactsService: ContactsService,
     private commonService: CommonService,
     private authenticationService: AuthenticationService,
+    private uploadFileService: UploadFileService,
     private router: Router) {
     //this.salesForm = this.createSaleForm(fb);    
   }
@@ -189,14 +195,37 @@ export class SalesCreateComponent implements OnInit {
         console.log("FORM DATA");
         form.paymentAmount = this.totalSum;
         console.log(JSON.stringify(form));
+        
+        Array.from(this.selectedFiles).forEach(sf => {
+          var file:any={};
+          file.documentReferencerNumber = this.transactionNumber;
+          file.documentName = sf.name;
+          this.files.push(file);
+        });
+        form.documents = this.files;
+        console.log("Form with documents");
+        console.log(form);
         this.transactionsService.saveTransaction(form).subscribe(
           data => {
             console.log(JSON.stringify(data));
             this.transactionNumber = data.transaction_number;
-            this.displayInvoice(true);
+            //uploading files to AWS S3
+            //Array.from(this.selectedFiles).forEach(sf => {
+              //console.log(sf.name);
+              this.uploadFileService.pushFileToStorage(this.selectedFiles,this.transactionNumber).subscribe(event => {
+                if (event.type === HttpEventType.UploadProgress) {
+                  this.progress.percentage = Math.round(100 * event.loaded / event.total);
+                } else if (event instanceof HttpResponse) {
+                  this.displayInvoice(true);
+                  console.log('File is completely uploaded!');
+                  
+                }
+              //});
+            });
+            //this.displayInvoice(true);
           }
         );
-        // this.displayInvoice(true);
+        //this.displayInvoice(true);
       }
     })
   }
@@ -207,7 +236,12 @@ export class SalesCreateComponent implements OnInit {
     this.personDetails = {};
   }
 
-
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+    Array.from(this.selectedFiles).forEach(sf => {
+      console.log(sf.name);
+    });
+  }
 
 
   /******************************* PRIVATE AREA ***********************************************************/

@@ -155,6 +155,13 @@
                       </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-12 ml-4">
+                          <label class="btn btn-default">
+                            <input type="file" (change)="selectFile($event)" multiple>
+                          </label>
+                        </div>
+                      </div>
+                    <div class="row">
                       <div class="col-md-10 ml-3">
                         <button mat-raised-button type="submit" class="btn btn-success">Save</button>&nbsp;
                         <button mat-raised-button type="button" class="btn btn-success" (click)="resetForm();">Reset</button>

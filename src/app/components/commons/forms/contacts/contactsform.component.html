@@ -30,23 +30,23 @@
             </div>
           </div>
           <div class="row">
-              <label class="col-md-2 col-form-label"></label>
-              <div class="col-sm-3">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Goverment Id" formControlName="idNumber">
-                  </mat-form-field>
-                </div>
-              <div class="col-sm-3">
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Government Id Type" formControlName="idType">
-                </mat-form-field>
-              </div>
-              <div class="col-sm-3">
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Designation" formControlName="designation">
-                </mat-form-field>
-              </div>
+            <label class="col-md-2 col-form-label"></label>
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Goverment Id" formControlName="idNumber">
+              </mat-form-field>
             </div>
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Government Id Type" formControlName="idType">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Designation" formControlName="designation">
+              </mat-form-field>
+            </div>
+          </div>
           <div class="row">
             <label class="col-md-2 col-form-label">Name</label>
             <div class="col-md-3">
@@ -143,10 +143,17 @@
             </div>
           </div>
           <div class="row">
-              <mat-form-field>
-                  <input matInput type="text" hidden="true" formControlName="id" [value]="contactForm.controls.id">
-                </mat-form-field>
+            <mat-form-field>
+              <input matInput type="text" hidden="true" formControlName="id" [value]="contactForm.controls.id">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="col-md-12 ml-4">
+              <label class="btn btn-default">
+                <input type="file" (change)="selectFile($event)" multiple>
+              </label>
             </div>
+          </div>
           <div class="row">
             <div class="col-md-8 ml-3">
               <button mat-raised-button type="submit" class="btn btn-success">Save</button>
