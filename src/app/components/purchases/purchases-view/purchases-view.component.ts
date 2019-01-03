@@ -51,6 +51,10 @@ export class PurchasesViewComponent implements OnInit {
     this.showPurchaseOrder = true;
   }
 
+  toggleOnBack(){
+    this.showPurchaseOrder = false;
+  }
+
 
   deletePurchase(transactionNumber) {
 

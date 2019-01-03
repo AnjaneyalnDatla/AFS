@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit {
   accounts: any[] = [];
   seriesData: any[] = [];
   labelData: any[] = [];
+  accountData: any[] = [];
+  accountList: any[] = [];
   public tableData: TableData;
 
 
@@ -48,14 +50,53 @@ export class DashboardComponent implements OnInit {
   };
 
   calulatePercentage(arrs) {
-
     const sum = arrs.reduce((acc, arr) => acc + arr[2], 0);
-
-    arrs.map(function (arr) {
-      console.log((arr[2] / sum * 100).toFixed(2));
-      arr.push((arr[2] / sum * 100).toFixed(2) + '%');
+    arrs.map((arr) => {
+      const percentage = (arr[2] / sum * 100).toFixed(2);
+      arr.push(percentage + '%');
+      this.seriesData.push(percentage);
     });
     console.log(sum);
+  }
+
+  drawBarChart() {
+    const dataSimpleBarChart = {
+      labels: this.labelData,
+      series: this.seriesData
+    };
+
+    const optionsSimpleBarChart = {
+      seriesBarDistance: 10,
+      axisX: {
+        showGrid: false
+      },
+      axisY: {
+        labelOffset: {
+          x: 0,
+          y: 0
+        },
+        type: Chartist.FixedScaleAxis,
+        ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        low: 0
+      },
+      distributeSeries: true
+    };
+
+    const responsiveOptionsSimpleBarChart: any = [
+      ['screen and (max-width: 640px)', {
+        seriesBarDistance: 5,
+        axisX: {
+          labelInterpolationFnc: function (value: any) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+
+    const simpleBarChart = new Chartist.Bar('#simpleBarChart', dataSimpleBarChart, optionsSimpleBarChart);
+
+    // start animation for the Emails Subscription Chart
+    //this.startAnimationForBarChart(simpleBarChart);
   }
 
   ngOnInit() {
@@ -66,18 +107,22 @@ export class DashboardComponent implements OnInit {
         console.log('Inside');
         let i = 0;
         this.accounts.forEach(account => {
-          this.seriesData = [];
+
+          this.labelData.push(account['name']);//bar chart label data
+
+          this.accountData = [];
           i++;
-          this.seriesData.push(i);
-          this.seriesData.push(account['name']);
-          this.seriesData.push(account['currentBalance']);
-          this.labelData.push(this.seriesData);
+          this.accountData.push(i);
+          this.accountData.push(account['name']);
+          this.accountData.push(account['currentBalance']);
+          this.accountList.push(this.accountData);
         })
-        this.calulatePercentage(this.labelData);
+        this.calulatePercentage(this.accountList);
         this.tableData = {
           headerRow: [],
-          dataRows: this.labelData
+          dataRows: this.accountList
         };
+        this.drawBarChart();
       }
     );
 

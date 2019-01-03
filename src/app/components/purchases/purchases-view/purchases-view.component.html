@@ -1,6 +1,6 @@
 <div class="main-content">
         <div class="container-fluid">
-            <app-invoice *ngIf="showPurchaseOrder" [transactionNumber]="transactionNumber"></app-invoice>
+            <app-invoice *ngIf="showPurchaseOrder" [transactionNumber]="transactionNumber" (onBackClick)="toggleOnBack($event)"></app-invoice>
             <div class="row" *ngIf="!showPurchaseOrder">
                 <div class="col-md-12">
                     <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns" [pageOptions]="pageOptions"
