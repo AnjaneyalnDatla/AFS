@@ -1,14 +1,13 @@
 
   <div class="content table-responsive">
-        <table class="table">
+        <table class="table" *ngIf="data">
           <tbody>
               <tr *ngFor="let row of data.dataRows">
-                <!-- <td *ngFor="let cell of row">{{ cell }}</td> -->
                 <td>
                     {{row[0]}}
                 </td>
                 <td>
-                        {{row[1]}}
+                    {{row[1]}}
                 </td>
                 <td class="text-right">
                     {{row[2]}}

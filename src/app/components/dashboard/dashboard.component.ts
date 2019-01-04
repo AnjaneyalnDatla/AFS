@@ -75,11 +75,12 @@ export class DashboardComponent implements OnInit {
           x: 0,
           y: 0
         },
-        type: Chartist.FixedScaleAxis,
-        ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-        low: 0
+        low: 0,
+        high: 100,
       },
-      distributeSeries: true
+      distributeSeries: true,
+      height: '325px',
+      chartPadding: { bottom: 5 },
     };
 
     const responsiveOptionsSimpleBarChart: any = [
@@ -95,8 +96,8 @@ export class DashboardComponent implements OnInit {
 
     const simpleBarChart = new Chartist.Bar('#simpleBarChart', dataSimpleBarChart, optionsSimpleBarChart);
 
-    // start animation for the Emails Subscription Chart
-    //this.startAnimationForBarChart(simpleBarChart);
+    // start animation for the bar Chart
+    this.startAnimationForBarChart(simpleBarChart);
   }
 
   ngOnInit() {
@@ -156,7 +157,7 @@ export class DashboardComponent implements OnInit {
     ];
     var websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
 
-    //start animation for the Emails Subscription Chart
+    //start animation for the bar Chart
     this.startAnimationForBarChart(websiteViewsChart);
 
 
