@@ -273,7 +273,7 @@ export class SalesCreateComponent implements OnInit {
     for (let i in products) {
       let totalUnitPrice = (products[i].quantity * products[i].price);
       // now format total price with angular currency pipe
-      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'USD', 'symbol-narrow', '1.2-2');
+      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'INR', 'symbol-narrow', '1.2-2');
       // update total sum field on unit and do not emit event myFormValueChanges$ in this case on products
       control.at(+i).get('amountCurr').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
       control.at(+i).get('amount').setValue(totalUnitPrice, { onlySelf: true, emitEvent: false });
@@ -288,7 +288,7 @@ export class SalesCreateComponent implements OnInit {
    */
   private updateTotalTaxPrice(tax: number) {
     // now format tax price with angular currency pipe
-    let taxPriceFormatted = this.currencyPipe.transform(tax, 'USD', 'symbol-narrow', '1.2-2');
+    let taxPriceFormatted = this.currencyPipe.transform(tax, 'INR', 'symbol-narrow', '1.2-2');
 
     this.totalSum = this.subTotal + tax;
   }
