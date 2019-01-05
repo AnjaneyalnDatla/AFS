@@ -126,10 +126,12 @@ export class DashboardComponent implements OnInit {
         this.drawBarChart();
         //example toaster message
         this.toastr.info('You have 2 new messages!','Messages', {
-          timeOut: 3000
+          timeOut: 3000,
+          progressBar: true
         });
         this.toastr.success('', 'Welcome to your Dashboard!', {
-          timeOut: 3000
+          timeOut: 3000,
+          progressBar: true
         });
         
       }

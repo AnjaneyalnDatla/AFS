@@ -16,6 +16,8 @@ import { AuthenticationService } from '../../../_services/authentication.service
 import { UploadFileService } from '../../../_services/upload-file.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+
 
 declare var $: any;
 
@@ -54,14 +56,14 @@ export class SalesCreateComponent implements OnInit {
 
   salesForm = this.fb.group({
     contact: this.fb.group({
-      isCompany: ['', Validators.required],
-      id: ['', Validators.required],
+      isCompany: [''],
+      id: [''],
     }),
     transaction_number: ['', Validators.required],
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
-    shipping: ['', Validators.required],
-    other: ['', Validators.required],
+    shipping: [''],
+    other: [''],
     paymentAmount: ['', Validators.required],
     creationdate: ['', Validators.required],
     dueDate: ['', Validators.required],
@@ -89,6 +91,7 @@ export class SalesCreateComponent implements OnInit {
     private commonService: CommonService,
     private authenticationService: AuthenticationService,
     private uploadFileService: UploadFileService,
+    private toastr: ToastrService,
     private router: Router) {
     //this.salesForm = this.createSaleForm(fb);    
   }
@@ -181,7 +184,7 @@ export class SalesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    if (this.salesForm.valid) {
+    // if (this.salesForm.valid) {
       swal({
         title: 'Wish to continue?',
         text: "Once confirmed, the action is irreversible",
@@ -197,7 +200,7 @@ export class SalesCreateComponent implements OnInit {
         }
       });
 
-    }
+    // }
   }
 
   executeSaleCreation(form: any) {
@@ -205,12 +208,14 @@ export class SalesCreateComponent implements OnInit {
     form.paymentAmount = this.totalSum;
     console.log(JSON.stringify(form));
 
+    if(this.selectedFiles){
     Array.from(this.selectedFiles).forEach(sf => {
       var file: any = {};
       file.documentReferencerNumber = this.transactionNumber;
       file.documentName = sf.name;
       this.files.push(file);
     });
+  }
     form.documents = this.files;
     console.log("Form with documents");
     console.log(form);
@@ -228,6 +233,10 @@ export class SalesCreateComponent implements OnInit {
             this.displayInvoice(true);
             console.log('File is completely uploaded!');
           }
+        });
+        this.toastr.info('Sale saved successfully ','Success', {
+          timeOut: 3000,
+          progressBar: true
         });
       }
     );
