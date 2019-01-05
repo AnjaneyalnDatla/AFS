@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import { throwError } from 'rxjs';
+
 
 @Injectable()
 export class TransactionsService {
@@ -20,7 +21,9 @@ export class TransactionsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     /** Get specific sale by Id */
@@ -33,7 +36,9 @@ export class TransactionsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     /** Get LineItems for a sale*/
@@ -46,7 +51,9 @@ export class TransactionsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     /** Get Unique transaction number for a sale*/
@@ -58,7 +65,9 @@ export class TransactionsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     /** Save Transaction */
@@ -71,7 +80,9 @@ export class TransactionsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
      /** Save Transaction */
@@ -84,7 +95,9 @@ export class TransactionsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
       /** Save Transaction */
@@ -97,7 +110,9 @@ export class TransactionsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     /** Delete Sale */

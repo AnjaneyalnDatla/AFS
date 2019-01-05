@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
-import { FormGroup } from '@angular/forms';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class ContactsService {
@@ -21,7 +21,9 @@ export class ContactsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
     getContactById(contactId) {
         let url = `${environment.account_contextroot}` + `${environment.contacts_resource}` + `/id/` + contactId;
@@ -32,7 +34,9 @@ export class ContactsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     saveContact(contactForm: any) {
@@ -74,7 +78,9 @@ export class ContactsService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
 }

@@ -52,6 +52,7 @@
     "googleapis": "28.1.0",
     "hammerjs": "2.0.8",
     "html2canvas": "^1.0.0-alpha.12",
+    "http-status-codes": "^1.3.0",
     "jasny-bootstrap": "^3.1.3",
     "jquery": "3.2.1",
     "jquery-validation": "^1.18.0",

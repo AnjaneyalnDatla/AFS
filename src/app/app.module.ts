@@ -1,8 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CurrencyPipe } from '@angular/common';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
@@ -21,6 +20,7 @@ import { ContactsService } from './_services/contacts.service';
 import { CommonService } from './_services/common.service';
 import { UploadFileService } from './_services/upload-file.service';
 import { ToastrModule } from 'ngx-toastr';
+import { GlobalErrorHandlerService } from './_services/globalErrorHandler.service';
 
 @NgModule({
   imports: [
@@ -46,7 +46,10 @@ import { ToastrModule } from 'ngx-toastr';
     AdminLayoutComponent,
     LoginLayoutComponent,
   ],
-  providers: [AuthenticationService, TransactionsService, ContactsService, CommonService, UploadFileService, CurrencyPipe, DatePipe],
+  providers: [AuthenticationService, TransactionsService, 
+    ContactsService, CommonService, UploadFileService, 
+    CurrencyPipe, DatePipe,
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
-import { User } from '../_models/user';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class CommonService {
@@ -21,7 +21,9 @@ export class CommonService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     getAccounts(): Observable<any> {
@@ -33,7 +35,9 @@ export class CommonService {
         }).map(response => {
             console.log(response);
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     getAccountById(accountId): Observable<any> {
@@ -45,7 +49,9 @@ export class CommonService {
         }).map(response => {
             console.log(response);
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     getAccountTypes(): Observable<any> {
@@ -58,7 +64,9 @@ export class CommonService {
         }).map(response => {
             console.log(response);
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     saveAccount(formData){
@@ -70,6 +78,8 @@ export class CommonService {
             }
         }).map(response => {
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 }
