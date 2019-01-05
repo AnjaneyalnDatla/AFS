@@ -57,16 +57,16 @@ export class SalesCreateComponent implements OnInit {
   salesForm = this.fb.group({
     contact: this.fb.group({
       isCompany: [''],
-      id: [''],
+      id: ['', Validators.required],
     }),
-    transaction_number: ['', Validators.required],
+    transaction_number: [''],
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
     shipping: [''],
     other: [''],
-    paymentAmount: ['', Validators.required],
+    paymentAmount: [''],
     creationdate: ['', Validators.required],
-    dueDate: ['', Validators.required],
+    dueDate: [''],
     deliveryDate: ['', Validators.required],
     additionalComments: [],
     subTotal: [{ value: '', disabled: true }],
@@ -184,7 +184,7 @@ export class SalesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    // if (this.salesForm.valid) {
+     if (this.salesForm.valid) {
       swal({
         title: 'Wish to continue?',
         text: "Once confirmed, the action is irreversible",
@@ -200,7 +200,7 @@ export class SalesCreateComponent implements OnInit {
         }
       });
 
-    // }
+     }
   }
 
   executeSaleCreation(form: any) {

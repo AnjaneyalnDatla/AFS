@@ -10,14 +10,14 @@ export class ContactsCreateComponent implements OnInit {
 
   contactForm = this.fb.group({
     id: ['', Validators.required],
-    isCompany: ['', Validators.required],
+    isCompany: [''],
     supplementalId: ['', Validators.required],
     companyName: ['', Validators.required],
     idNumber: ['', Validators.required],
     idType: ['', Validators.required],
-    designation: ['', Validators.required],
+    designation: [''],
     firstName: ['', Validators.required],
-    middleName: ['', Validators.required],
+    middleName: [''],
     lastName: ['', Validators.required],
     address: this.fb.group({
       streetAddress: ['', Validators.required],
@@ -25,14 +25,14 @@ export class ContactsCreateComponent implements OnInit {
       state: ['', Validators.required],
       country: ['', Validators.required],
       postalCode: ['', Validators.required],
-      landMark: ['', Validators.required],
+      landMark: [''],
     }),
-    homePhone: ['', Validators.required],
-    cellPhone: ['', Validators.required],
-    faxNumber: ['', Validators.required],
-    primaryEmail: ['', Validators.required],
-    secondaryEmail: ['', Validators.required],
-    additionalComments: ['', Validators.required],
+    homePhone: ['', Validators.pattern("[0-9]{0,10}")],
+    cellPhone: ['', Validators.pattern("[0-9]{0,10}")],
+    faxNumber: ['', Validators.pattern("[0-9]{0,10}")],
+    primaryEmail: ['', [Validators.required, Validators.email]],
+    secondaryEmail: ['', [Validators.required, Validators.email]],
+    additionalComments: [''],
     current_balance: '0'
   });
 
