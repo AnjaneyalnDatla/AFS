@@ -20,6 +20,7 @@ import { TransactionsService } from './_services/transactions.service';
 import { ContactsService } from './_services/contacts.service';
 import { CommonService } from './_services/common.service';
 import { UploadFileService } from './_services/upload-file.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { UploadFileService } from './_services/upload-file.service';
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     }),
     ChartsModule,
+    ToastrModule.forRoot() // ToastrModule added,
   ],
   declarations: [
     AppComponent,

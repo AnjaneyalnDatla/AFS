@@ -3,7 +3,7 @@ import * as Chartist from 'chartist';
 import * as MyLegend from 'chartist-plugin-legend';
 import { CommonService } from '../../_services/common.service';
 import { TableData } from '../commons/tables/md-table/md-table.component';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +12,7 @@ import { TableData } from '../commons/tables/md-table/md-table.component';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private commonService: CommonService, ) {
+  constructor(private commonService: CommonService, private toastr: ToastrService ) {
     var tester = new MyLegend(); //without this line, you get 'Chartist.plugins undefined'
   }
 
@@ -124,6 +124,14 @@ export class DashboardComponent implements OnInit {
           dataRows: this.accountList
         };
         this.drawBarChart();
+        //example toaster message
+        this.toastr.info('You have 2 new messages!','Messages', {
+          timeOut: 3000
+        });
+        this.toastr.success('', 'Welcome to your Dashboard!', {
+          timeOut: 3000
+        });
+        
       }
     );
 
