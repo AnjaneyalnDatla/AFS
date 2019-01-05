@@ -181,50 +181,56 @@ export class SalesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    swal({
-      title: 'Wish to continue?',
-      text: "Once confirmed, the action is irreversible",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      confirmButtonText: 'Save',
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.value) {
-        console.log("FORM DATA");
-        form.paymentAmount = this.totalSum;
-        console.log(JSON.stringify(form));
+    if (this.salesForm.valid) {
+      swal({
+        title: 'Wish to continue?',
+        text: "Once confirmed, the action is irreversible",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        confirmButtonText: 'Save',
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.value) {
+          this.executeSaleCreation(form);
+        }
+      });
 
-        Array.from(this.selectedFiles).forEach(sf => {
-          var file: any = {};
-          file.documentReferencerNumber = this.transactionNumber;
-          file.documentName = sf.name;
-          this.files.push(file);
-        });
-        form.documents = this.files;
-        console.log("Form with documents");
-        console.log(form);
-        this.transactionsService.saveTransaction(form).subscribe(
-          data => {
-            console.log(JSON.stringify(data));
-            this.transactionNumber = data.transaction_number;
-            //uploading files to AWS S3
-            //Array.from(this.selectedFiles).forEach(sf => {
-            //console.log(sf.name);
-            this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
-              if (event.type === HttpEventType.UploadProgress) {
-                this.progress.percentage = Math.round(100 * event.loaded / event.total);
-              } else if (event instanceof HttpResponse) {
-                this.displayInvoice(true);
-                console.log('File is completely uploaded!');
+    }
+  }
 
-              }
-            });
+  executeSaleCreation(form: any) {
+    console.log("FORM DATA");
+    form.paymentAmount = this.totalSum;
+    console.log(JSON.stringify(form));
+
+    Array.from(this.selectedFiles).forEach(sf => {
+      var file: any = {};
+      file.documentReferencerNumber = this.transactionNumber;
+      file.documentName = sf.name;
+      this.files.push(file);
+    });
+    form.documents = this.files;
+    console.log("Form with documents");
+    console.log(form);
+    this.transactionsService.saveTransaction(form).subscribe(
+      data => {
+        console.log(JSON.stringify(data));
+        this.transactionNumber = data.transaction_number;
+        //uploading files to AWS S3
+        //Array.from(this.selectedFiles).forEach(sf => {
+        //console.log(sf.name);
+        this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.displayInvoice(true);
+            console.log('File is completely uploaded!');
           }
-        );
+        });
       }
-    })
+    );
   }
 
   resetForm() {
