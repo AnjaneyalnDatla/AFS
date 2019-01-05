@@ -14,8 +14,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
   
   public handleError(error: any) {
     let router = this.injector.get(Router);
-    console.error(error);
-    let httpErrorCode = error.httpErrorCode;
+    let httpErrorCode = error.status;
     switch (httpErrorCode) {
       case UNAUTHORIZED:
           router.navigateByUrl("/login");
