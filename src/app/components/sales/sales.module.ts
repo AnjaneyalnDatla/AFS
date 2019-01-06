@@ -9,7 +9,6 @@ import { SalesRoutes } from './sales.routing';
 import { SalesCreateComponent } from './sales-create/sales-create.component';
 import { SalesViewComponent } from './sales-view/sales-view.component';
 import { SharedModule } from '../../components/commons/shared.module';
-import { FormUploadComponent } from '../../components/documents/upload/form-upload/form-upload.component';
 
 import {
     MatButtonModule,
@@ -56,8 +55,7 @@ import {
     ],
     declarations: [
         SalesCreateComponent,
-        SalesViewComponent,
-        FormUploadComponent
+        SalesViewComponent
     ]
   })
   

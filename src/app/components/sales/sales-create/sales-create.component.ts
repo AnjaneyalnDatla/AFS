@@ -184,7 +184,7 @@ export class SalesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-     if (this.salesForm.valid) {
+    if (this.salesForm.valid) {
       swal({
         title: 'Wish to continue?',
         text: "Once confirmed, the action is irreversible",
@@ -200,7 +200,7 @@ export class SalesCreateComponent implements OnInit {
         }
       });
 
-     }
+    }
   }
 
   executeSaleCreation(form: any) {
@@ -208,14 +208,14 @@ export class SalesCreateComponent implements OnInit {
     form.paymentAmount = this.totalSum;
     console.log(JSON.stringify(form));
 
-    if(this.selectedFiles){
-    Array.from(this.selectedFiles).forEach(sf => {
-      var file: any = {};
-      file.documentReferencerNumber = this.transactionNumber;
-      file.documentName = sf.name;
-      this.files.push(file);
-    });
-  }
+    if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
+      Array.from(this.selectedFiles).forEach(sf => {
+        var file: any = {};
+        file.documentReferencerNumber = this.transactionNumber;
+        file.documentName = sf.name;
+        this.files.push(file);
+      });
+    }
     form.documents = this.files;
     console.log("Form with documents");
     console.log(form);
@@ -226,15 +226,17 @@ export class SalesCreateComponent implements OnInit {
         //uploading files to AWS S3
         //Array.from(this.selectedFiles).forEach(sf => {
         //console.log(sf.name);
-        this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(100 * event.loaded / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.displayInvoice(true);
-            console.log('File is completely uploaded!');
-          }
-        });
-        this.toastr.info('Sale saved successfully ','Success', {
+        if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
+          this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(100 * event.loaded / event.total);
+            } else if (event instanceof HttpResponse) {
+              this.displayInvoice(true);
+              console.log('File is completely uploaded!');
+            }
+          });
+        }
+        this.toastr.info('Sale saved successfully ', 'Success', {
           timeOut: 3000,
           progressBar: true
         });

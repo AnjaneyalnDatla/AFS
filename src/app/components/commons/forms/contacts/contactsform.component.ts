@@ -40,23 +40,27 @@ export class ContactsFormComponent {
             if (result.value) {
                 console.log("contactsform component, FORM ID= " + form.id);
                 console.log("contactsform component, FORM = " + JSON.stringify(form));
-                Array.from(this.selectedFiles).forEach(sf => {
-                    var file: any = {};
-                    file.documentName = sf.name;
-                    this.files.push(file);
-                });
+                if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
+                    Array.from(this.selectedFiles).forEach(sf => {
+                        var file: any = {};
+                        file.documentName = sf.name;
+                        this.files.push(file);
+                    });
+                }
                 this.contactsService.saveContact(form).subscribe(
                     data => {
                         console.log(data.id);
-                        this.uploadFileService.pushFileToContactStorage(this.selectedFiles, data.id).subscribe(event => {
-                            if (event.type === HttpEventType.UploadProgress) {
-                                this.progress.percentage = Math.round(100 * event.loaded / event.total);
-                            } else if (event instanceof HttpResponse) {
-                                console.log('File is completely uploaded!');
+                        if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
+                            this.uploadFileService.pushFileToContactStorage(this.selectedFiles, data.id).subscribe(event => {
+                                if (event.type === HttpEventType.UploadProgress) {
+                                    this.progress.percentage = Math.round(100 * event.loaded / event.total);
+                                } else if (event instanceof HttpResponse) {
+                                    console.log('File is completely uploaded!');
 
-                            }
-                            //});
-                        });
+                                }
+                                //});
+                            });
+                        }
                         this.contactForm.reset();
                         this.router.navigate(["dashboard"]);
                     },

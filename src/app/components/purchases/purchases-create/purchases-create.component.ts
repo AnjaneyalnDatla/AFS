@@ -153,40 +153,43 @@ export class PurchasesCreateComponent implements OnInit {
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
     if (this.purchaseForm.valid) {
-    swal({
-      title: 'Wish to continue?',
-      text: "Once confirmed, the action is irreversible",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      confirmButtonText: 'Save',
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.value) {
-        this.executePurchaseCreation(form);
-      }
-    })
-  }
+      swal({
+        title: 'Wish to continue?',
+        text: "Once confirmed, the action is irreversible",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        confirmButtonText: 'Save',
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.value) {
+          this.executePurchaseCreation(form);
+        }
+      })
+    }
   }
 
   executePurchaseCreation(form: any) {
-      console.log("FORM DATA");
-      form.paymentAmount = this.totalSum;
+    console.log("FORM DATA");
+    form.paymentAmount = this.totalSum;
+    if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
       Array.from(this.selectedFiles).forEach(sf => {
         var file: any = {};
         file.documentReferencerNumber = this.transactionNumber;
         file.documentName = sf.name;
         this.files.push(file);
       });
-      form.documents = this.files;
-      console.log("Form with documents");
+    }
+    form.documents = this.files;
+    console.log("Form with documents");
 
-      console.log(JSON.stringify(form));
-      this.transactionsService.saveTransaction(form).subscribe(
-        data => {
-          console.log(JSON.stringify(data));
-          this.transactionNumber = data.transaction_number;
+    console.log(JSON.stringify(form));
+    this.transactionsService.saveTransaction(form).subscribe(
+      data => {
+        console.log(JSON.stringify(data));
+        this.transactionNumber = data.transaction_number;
+        if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
           this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress.percentage = Math.round(100 * event.loaded / event.total);
@@ -198,7 +201,8 @@ export class PurchasesCreateComponent implements OnInit {
             //});
           });
         }
-      );
+      }
+    );
     // this.displayInvoice(true);
   }
 
