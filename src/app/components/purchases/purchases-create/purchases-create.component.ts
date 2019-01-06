@@ -12,8 +12,7 @@ import { UploadFileService } from '../../../_services/upload-file.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
-
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-purchases-create',
@@ -83,6 +82,7 @@ export class PurchasesCreateComponent implements OnInit {
     private currencyPipe: CurrencyPipe,
     private datePipe: DatePipe, private router: Router,
     private contactsService: ContactsService,
+    private toastr: ToastrService,
     private commonService: CommonService, private authenticationService: AuthenticationService
   ) { }
 
@@ -196,9 +196,17 @@ export class PurchasesCreateComponent implements OnInit {
             } else if (event instanceof HttpResponse) {
               this.displayInvoice(true);
               console.log('File is completely uploaded!');
-
+              this.toastr.info('Purchase saved successfully ', 'Success', {
+                timeOut: 3000,
+                progressBar: true
+              });
             }
-            //});
+          });
+        } else {
+          this.displayInvoice(true);
+          this.toastr.info('Purchase saved successfully ', 'Success', {
+            timeOut: 3000,
+            progressBar: true
           });
         }
       }

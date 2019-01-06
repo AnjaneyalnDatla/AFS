@@ -4,7 +4,7 @@ import { TransactionsService } from '../../_services/transactions.service';
 import { CommonService } from '../../_services/common.service';
 import { UploadFileService } from '../../_services/upload-file.service';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-payments',
@@ -41,7 +41,6 @@ export class PaymentsComponent implements OnInit {
   transaction: any;
   message: String;
   isLoadSearchItem: boolean = false;
-  displayPaymentOption: boolean = false;
 
   files: any = [];
   filesToUpload = [];
@@ -52,6 +51,7 @@ export class PaymentsComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private transactionsService: TransactionsService,
     private commonService: CommonService,
+    private toastr: ToastrService,
     private uploadFileService: UploadFileService) {
   }
 
@@ -72,9 +72,7 @@ export class PaymentsComponent implements OnInit {
         console.log(data);
         this.transaction = data;
         console.log(this.transaction.paymentAmount);
-        if (this.transaction.transactionStatus.id != '1') {
-          this.displayPaymentOption = true;
-        }
+
         this.isLoadSearchItem = true;
         this.message = "";
       },
@@ -116,7 +114,16 @@ export class PaymentsComponent implements OnInit {
               this.progress.percentage = Math.round(100 * event.loaded / event.total);
             } else if (event instanceof HttpResponse) {
               console.log('File is completely uploaded!');
+              this.toastr.info('Payment saved successfully ', 'Success', {
+                timeOut: 3000,
+                progressBar: true
+              });
             }
+          });
+        } else {
+          this.toastr.info('Payment saved successfully ', 'Success', {
+            timeOut: 3000,
+            progressBar: true
           });
         }
         this.message = "Payment Successfully Recorded";

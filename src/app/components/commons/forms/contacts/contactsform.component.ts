@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { UploadFileService } from '../../../../_services/upload-file.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-contactsform',
@@ -23,6 +24,7 @@ export class ContactsFormComponent {
 
     constructor(private contactsService: ContactsService,
         private router: Router,
+        private toastr: ToastrService,
         private uploadFileService: UploadFileService) {
     }
 
@@ -56,9 +58,17 @@ export class ContactsFormComponent {
                                     this.progress.percentage = Math.round(100 * event.loaded / event.total);
                                 } else if (event instanceof HttpResponse) {
                                     console.log('File is completely uploaded!');
-
+                                    this.toastr.info('Contact saved successfully ', 'Success', {
+                                        timeOut: 3000,
+                                        progressBar: true
+                                    });
                                 }
                                 //});
+                            });
+                        } else {
+                            this.toastr.info('Contact saved successfully ', 'Success', {
+                                timeOut: 3000,
+                                progressBar: true
                             });
                         }
                         this.contactForm.reset();

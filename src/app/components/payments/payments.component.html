@@ -49,14 +49,14 @@
                         <div class="row" *ngIf="isLoadSearchItem">
 
                             <form class="payment-form" name="form" [formGroup]="paymentForm" (ngSubmit)="onPaymentFormSubmit(paymentForm.value)">
-                                <div class="row" *ngIf="displayPaymentOption">
+                                <div class="row" *ngIf="transaction.transactionStatus.id != '1'">
                                     <div class="col-md-4">
                                         <strong>
                                             Would you like to record a payment?
                                         </strong>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="displayPaymentOption">
+                                <div class="row" *ngIf="transaction.transactionStatus.id != '1'">
                                     <div class="col-md-3">
                                         <mat-form-field class="example-full-width">
                                             <input matInput placeholder="Bill Number" type="text" formControlName="billNumber">
@@ -78,7 +78,7 @@
                                 </div>
 
                                 <fieldset formGroupName="payments">
-                                    <div class="row" *ngIf="displayPaymentOption">
+                                    <div class="row" *ngIf="transaction.transactionStatus.id != '1'">
                                         <div class="col-md-3">
                                             <mat-form-field class="example-full-width">
                                                 <input matInput placeholder="Payment Amount" type="text"
@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                                <div class="row" *ngIf="displayPaymentOption">
+                                <div class="row" *ngIf="transaction.transactionStatus.id != '1'">
                                     <div class="col-md-12 ml-4">
                                         <label class="btn btn-default">
                                             <input type="file" (change)="selectFile($event)" multiple>

@@ -233,13 +233,20 @@ export class SalesCreateComponent implements OnInit {
             } else if (event instanceof HttpResponse) {
               this.displayInvoice(true);
               console.log('File is completely uploaded!');
+              this.toastr.info('Sale saved successfully ', 'Success', {
+                timeOut: 3000,
+                progressBar: true
+              });
             }
           });
+        } else {
+          this.displayInvoice(true);
+          this.toastr.info('Sale saved successfully ', 'Success', {
+            timeOut: 3000,
+            progressBar: true
+          });
         }
-        this.toastr.info('Sale saved successfully ', 'Success', {
-          timeOut: 3000,
-          progressBar: true
-        });
+
       }
     );
   }
