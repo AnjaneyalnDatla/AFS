@@ -16,6 +16,8 @@ import { AuthenticationService } from '../../../_services/authentication.service
 import { UploadFileService } from '../../../_services/upload-file.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+
 
 declare var $: any;
 
@@ -54,17 +56,17 @@ export class SalesCreateComponent implements OnInit {
 
   salesForm = this.fb.group({
     contact: this.fb.group({
-      isCompany: ['', Validators.required],
+      isCompany: [''],
       id: ['', Validators.required],
     }),
-    transaction_number: ['', Validators.required],
+    transaction_number: [''],
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
-    shipping: ['', Validators.required],
-    other: ['', Validators.required],
-    paymentAmount: ['', Validators.required],
+    shipping: [''],
+    other: [''],
+    paymentAmount: [''],
     creationdate: ['', Validators.required],
-    dueDate: ['', Validators.required],
+    dueDate: [''],
     deliveryDate: ['', Validators.required],
     additionalComments: [],
     subTotal: [{ value: '', disabled: true }],
@@ -89,6 +91,7 @@ export class SalesCreateComponent implements OnInit {
     private commonService: CommonService,
     private authenticationService: AuthenticationService,
     private uploadFileService: UploadFileService,
+    private toastr: ToastrService,
     private router: Router) {
     //this.salesForm = this.createSaleForm(fb);    
   }
@@ -181,50 +184,62 @@ export class SalesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
-    swal({
-      title: 'Wish to continue?',
-      text: "Once confirmed, the action is irreversible",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      confirmButtonText: 'Save',
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.value) {
-        console.log("FORM DATA");
-        form.paymentAmount = this.totalSum;
-        console.log(JSON.stringify(form));
+     if (this.salesForm.valid) {
+      swal({
+        title: 'Wish to continue?',
+        text: "Once confirmed, the action is irreversible",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        confirmButtonText: 'Save',
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.value) {
+          this.executeSaleCreation(form);
+        }
+      });
 
-        Array.from(this.selectedFiles).forEach(sf => {
-          var file: any = {};
-          file.documentReferencerNumber = this.transactionNumber;
-          file.documentName = sf.name;
-          this.files.push(file);
-        });
-        form.documents = this.files;
-        console.log("Form with documents");
-        console.log(form);
-        this.transactionsService.saveTransaction(form).subscribe(
-          data => {
-            console.log(JSON.stringify(data));
-            this.transactionNumber = data.transaction_number;
-            //uploading files to AWS S3
-            //Array.from(this.selectedFiles).forEach(sf => {
-            //console.log(sf.name);
-            this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
-              if (event.type === HttpEventType.UploadProgress) {
-                this.progress.percentage = Math.round(100 * event.loaded / event.total);
-              } else if (event instanceof HttpResponse) {
-                this.displayInvoice(true);
-                console.log('File is completely uploaded!');
+     }
+  }
 
-              }
-            });
+  executeSaleCreation(form: any) {
+    console.log("FORM DATA");
+    form.paymentAmount = this.totalSum;
+    console.log(JSON.stringify(form));
+
+    if(this.selectedFiles){
+    Array.from(this.selectedFiles).forEach(sf => {
+      var file: any = {};
+      file.documentReferencerNumber = this.transactionNumber;
+      file.documentName = sf.name;
+      this.files.push(file);
+    });
+  }
+    form.documents = this.files;
+    console.log("Form with documents");
+    console.log(form);
+    this.transactionsService.saveTransaction(form).subscribe(
+      data => {
+        console.log(JSON.stringify(data));
+        this.transactionNumber = data.transaction_number;
+        //uploading files to AWS S3
+        //Array.from(this.selectedFiles).forEach(sf => {
+        //console.log(sf.name);
+        this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.displayInvoice(true);
+            console.log('File is completely uploaded!');
           }
-        );
+        });
+        this.toastr.info('Sale saved successfully ','Success', {
+          timeOut: 3000,
+          progressBar: true
+        });
       }
-    })
+    );
   }
 
   resetForm() {
@@ -273,7 +288,7 @@ export class SalesCreateComponent implements OnInit {
     for (let i in products) {
       let totalUnitPrice = (products[i].quantity * products[i].price);
       // now format total price with angular currency pipe
-      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'USD', 'symbol-narrow', '1.2-2');
+      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'INR', 'symbol-narrow', '1.2-2');
       // update total sum field on unit and do not emit event myFormValueChanges$ in this case on products
       control.at(+i).get('amountCurr').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
       control.at(+i).get('amount').setValue(totalUnitPrice, { onlySelf: true, emitEvent: false });
@@ -288,7 +303,7 @@ export class SalesCreateComponent implements OnInit {
    */
   private updateTotalTaxPrice(tax: number) {
     // now format tax price with angular currency pipe
-    let taxPriceFormatted = this.currencyPipe.transform(tax, 'USD', 'symbol-narrow', '1.2-2');
+    let taxPriceFormatted = this.currencyPipe.transform(tax, 'INR', 'symbol-narrow', '1.2-2');
 
     this.totalSum = this.subTotal + tax;
   }

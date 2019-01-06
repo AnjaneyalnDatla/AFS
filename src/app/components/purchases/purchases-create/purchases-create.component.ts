@@ -55,12 +55,12 @@ export class PurchasesCreateComponent implements OnInit {
     }),
     lineItems: this.fb.array([]),
     tax: ['', Validators.required],
-    shipping: ['', Validators.required],
-    other: ['', Validators.required],
-    paymentAmount: ['', Validators.required],
+    shipping: [''],
+    other: [''],
+    paymentAmount: [''],
     creationdate: ['', Validators.required],
-    dueDate: ['', Validators.required],
-    deliveryDate: ['', Validators.required],
+    dueDate: [''],
+    deliveryDate: [''],
     additionalComments: [],
     subTotal: [{ value: '', disabled: true }],
     productsTotal: [{ value: '', disabled: true }],
@@ -78,7 +78,7 @@ export class PurchasesCreateComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
-    private transactionsService: TransactionsService, 
+    private transactionsService: TransactionsService,
     private uploadFileService: UploadFileService,
     private currencyPipe: CurrencyPipe,
     private datePipe: DatePipe, private router: Router,
@@ -152,6 +152,7 @@ export class PurchasesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
+    if (this.purchaseForm.valid) {
     swal({
       title: 'Wish to continue?',
       text: "Once confirmed, the action is irreversible",
@@ -163,37 +164,42 @@ export class PurchasesCreateComponent implements OnInit {
       buttonsStyling: false
     }).then((result) => {
       if (result.value) {
-        console.log("FORM DATA");
-        form.paymentAmount = this.totalSum;
-        Array.from(this.selectedFiles).forEach(sf => {
-          var file:any={};
-          file.documentReferencerNumber = this.transactionNumber;
-          file.documentName = sf.name;
-          this.files.push(file);
-        });
-        form.documents = this.files;
-        console.log("Form with documents");
-
-        console.log(JSON.stringify(form));
-        this.transactionsService.saveTransaction(form).subscribe(
-          data => {
-            console.log(JSON.stringify(data));
-            this.transactionNumber = data.transaction_number;
-            this.uploadFileService.pushFileToStorage(this.selectedFiles,this.transactionNumber).subscribe(event => {
-                if (event.type === HttpEventType.UploadProgress) {
-                  this.progress.percentage = Math.round(100 * event.loaded / event.total);
-                } else if (event instanceof HttpResponse) {
-                  this.displayInvoice(true);
-                  console.log('File is completely uploaded!');
-                  
-                }
-              //});
-            });
-          }
-        );
-        // this.displayInvoice(true);
+        this.executePurchaseCreation(form);
       }
     })
+  }
+  }
+
+  executePurchaseCreation(form: any) {
+      console.log("FORM DATA");
+      form.paymentAmount = this.totalSum;
+      Array.from(this.selectedFiles).forEach(sf => {
+        var file: any = {};
+        file.documentReferencerNumber = this.transactionNumber;
+        file.documentName = sf.name;
+        this.files.push(file);
+      });
+      form.documents = this.files;
+      console.log("Form with documents");
+
+      console.log(JSON.stringify(form));
+      this.transactionsService.saveTransaction(form).subscribe(
+        data => {
+          console.log(JSON.stringify(data));
+          this.transactionNumber = data.transaction_number;
+          this.uploadFileService.pushFileToStorage(this.selectedFiles, this.transactionNumber).subscribe(event => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(100 * event.loaded / event.total);
+            } else if (event instanceof HttpResponse) {
+              this.displayInvoice(true);
+              console.log('File is completely uploaded!');
+
+            }
+            //});
+          });
+        }
+      );
+    // this.displayInvoice(true);
   }
 
   resetForm() {
@@ -254,7 +260,7 @@ export class PurchasesCreateComponent implements OnInit {
     for (let i in products) {
       let totalUnitPrice = (products[i].quantity * products[i].price);
       // now format total price with angular currency pipe
-      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'USD', 'symbol-narrow', '1.2-2');
+      let totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'INR', 'symbol-narrow', '1.2-2');
       // update total sum field on unit and do not emit event myFormValueChanges$ in this case on products
       control.at(+i).get('amountCurr').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
       control.at(+i).get('amount').setValue(totalUnitPrice, { onlySelf: true, emitEvent: false });
@@ -269,7 +275,7 @@ export class PurchasesCreateComponent implements OnInit {
    */
   private updateTotalTaxPrice(tax: number) {
     // now format tax price with angular currency pipe
-    let taxPriceFormatted = this.currencyPipe.transform(tax, 'USD', 'symbol-narrow', '1.2-2');
+    let taxPriceFormatted = this.currencyPipe.transform(tax, 'INR', 'symbol-narrow', '1.2-2');
 
     this.totalSum = this.subTotal + tax;
   }

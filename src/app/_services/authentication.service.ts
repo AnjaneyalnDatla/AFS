@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs/Observable';
-import { User } from '../_models/user';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
+import { throwError } from 'rxjs';
+
+
 
 @Injectable()
 export class AuthenticationService {
@@ -28,7 +29,9 @@ export class AuthenticationService {
                 localStorage.setItem('currentUser2', JSON.stringify(response));
             }
             return response;
-        })
+        }).catch((error: any) => {
+            return throwError(error);
+        });
     }
 
     logout() {

@@ -3,7 +3,7 @@ import * as Chartist from 'chartist';
 import * as MyLegend from 'chartist-plugin-legend';
 import { CommonService } from '../../_services/common.service';
 import { TableData } from '../commons/tables/md-table/md-table.component';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +12,7 @@ import { TableData } from '../commons/tables/md-table/md-table.component';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private commonService: CommonService, ) {
+  constructor(private commonService: CommonService, private toastr: ToastrService ) {
     var tester = new MyLegend(); //without this line, you get 'Chartist.plugins undefined'
   }
 
@@ -75,11 +75,12 @@ export class DashboardComponent implements OnInit {
           x: 0,
           y: 0
         },
-        type: Chartist.FixedScaleAxis,
-        ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-        low: 0
+        low: 0,
+        high: 100,
       },
-      distributeSeries: true
+      distributeSeries: true,
+      height: '325px',
+      chartPadding: { bottom: 5 },
     };
 
     const responsiveOptionsSimpleBarChart: any = [
@@ -95,8 +96,8 @@ export class DashboardComponent implements OnInit {
 
     const simpleBarChart = new Chartist.Bar('#simpleBarChart', dataSimpleBarChart, optionsSimpleBarChart);
 
-    // start animation for the Emails Subscription Chart
-    //this.startAnimationForBarChart(simpleBarChart);
+    // start animation for the bar Chart
+    this.startAnimationForBarChart(simpleBarChart);
   }
 
   ngOnInit() {
@@ -123,6 +124,16 @@ export class DashboardComponent implements OnInit {
           dataRows: this.accountList
         };
         this.drawBarChart();
+        //example toaster message
+        this.toastr.info('You have 2 new messages!','Messages', {
+          timeOut: 3000,
+          progressBar: true
+        });
+        this.toastr.success('', 'Welcome to your Dashboard!', {
+          timeOut: 3000,
+          progressBar: true
+        });
+        
       }
     );
 
@@ -156,7 +167,7 @@ export class DashboardComponent implements OnInit {
     ];
     var websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
 
-    //start animation for the Emails Subscription Chart
+    //start animation for the bar Chart
     this.startAnimationForBarChart(websiteViewsChart);
 
 
