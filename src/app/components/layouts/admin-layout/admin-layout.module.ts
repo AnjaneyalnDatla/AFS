@@ -17,7 +17,9 @@ import { WizardComponent } from '../../commons/wizard/wizard.component';
 //import { ContactsFormComponent } from '../../commons/forms/contacts/contactsform.component';
 //import { AccountsFormComponent } from '../../commons/forms/accounts/accountsform.component';
 //import { InvoiceComponent } from '../../commons/forms/accounts/invoice.component';
-import {SharedModule} from '../../../components/commons/shared.module';
+import { SharedModule } from '../../../components/commons/shared.module';
+import { ExpensesComponent } from '../../expenses/expenses.component';
+
 
 import {
   MatButtonModule,
@@ -38,9 +40,9 @@ import {
   MatIconModule,
 } from '@angular/material';
 
-import{
+import {
   ChartsModule,
-}from 'ng2-charts/ng2-charts';
+} from 'ng2-charts/ng2-charts';
 @NgModule({
   imports: [
     CommonModule,
@@ -76,7 +78,8 @@ import{
     NotificationsComponent,
     AccountComponent,
     WizardComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    ExpensesComponent
   ],
   exports: [
     DashboardComponent,
@@ -87,8 +90,9 @@ import{
     NotificationsComponent,
     AccountComponent,
     PaymentsComponent,
+    ExpensesComponent,
     WizardComponent
   ]
 })
 
-export class AdminLayoutModule {}
+export class AdminLayoutModule { }

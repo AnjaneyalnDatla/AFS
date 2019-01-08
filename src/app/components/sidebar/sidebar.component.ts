@@ -35,7 +35,18 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
     {
-        path: '/payments', title: 'Payments', type: 'link', iconType: 'payment', class: ''
+        path: '/expenses', title: 'Expenses', type: 'sub', iconType: 'money', class: '', collapse: 'expenses',
+        children: [
+            { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
+            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
+        ]
+    },
+    {
+        path: '/receivables', title: 'Receivables', type: 'sub', iconType: 'attach_money', class: '', collapse: 'receivables',
+        children: [
+            { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
+            { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
+        ]
     },
     {
         path: '/contacts', title: 'Contacts', type: 'sub', iconType: 'person', class: '', collapse: 'contacts',
@@ -50,6 +61,9 @@ export const ROUTES: RouteInfo[] = [
             { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
             { path: 'viewAll', title: 'View All', icon: 'shop_two', class: '', ab: 'VA' }
         ]
+    },
+    {
+        path: '/payments', title: 'Payments', type: 'link', iconType: 'payment', class: ''
     },
     { path: '/reports', title: 'Reports', type: 'link', iconType: 'bar_chart', class: '', children: [] },
 ];

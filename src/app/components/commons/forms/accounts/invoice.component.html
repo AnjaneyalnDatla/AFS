@@ -12,66 +12,85 @@
         </div>
     </div>
     <div class="col-md-12" id="contentToConvert">
-    <div class="col-md-12 heading">
-        {{displayData.transactionType.name}}
-    </div>
-    <div class="col-md-12 branding clearfix">
-        <div class="pull-left invoice-number-container">
-            <div>{{displayData.transactionType.name}} # {{displayData.transaction_number}}</div>
-            <div>{{displayData.transactionType.name}} Date : {{displayData.creationdate}}</div>
+        <div class="col-md-12 heading">
+            {{displayData.transactionType.name}}
         </div>
-        <div class="pull-right">Company Logo</div>
-    </div>
-    <div class="col-md-12 Info">
-        <div class="col-md-6">
-            <div>{{displayData.contact.firstName}} {{displayData.contact.lastName}}</div>
-            <div>{{displayData.contact.companyName}}</div>
-            <div>{{displayData.contact.streetAddress}}</div>
-            <div>{{displayData.contact.city}},{{displayData.contact.state}},{{displayData.contact.postalCode}},{{displayData.contact.country}}</div>
-            <div>Email: {{displayData.contact.emailAddress}}</div>
-            <div>Cell : {{displayData.contact.cellPhone}}</div>
-            <div>Home : {{displayData.contact.homePhone}}</div>
+        <div class="col-md-12 branding clearfix">
+            <div class="pull-left invoice-number-container">
+                <div>{{displayData.transactionType.name}} # {{displayData.transaction_number}}</div>
+                <div>{{displayData.transactionType.name}} Date : {{displayData.creationdate}}</div>
+            </div>
+            <div class="pull-right">Company Logo</div>
         </div>
-    </div>
-    <div class="col-md-12 Info">
-        <div class="col-md-12">
-            <table class="table table-clear">
-                <thead>
-                    <tr style="background: #ececec;">
-                        <th>Type</th>
-                        <th>Name</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let lineItem of displayData.lineItems;let i = index">
-                        <td>{{lineItem.products.name}}</td>
-                        <td>{{lineItem.name}}</td>
-                        <td>{{lineItem.quantity}}</td>
-                        <td>{{lineItem.price | currency:'INR':true:'2.2-4'}}</td>
-                        <td>{{lineItem.quantity * lineItem.price | currency:'INR':true:'2.2-4'}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-md-12 Info">
+            <div class="col-md-6">
+                <div>{{displayData.contact.firstName}} {{displayData.contact.lastName}}</div>
+                <div>{{displayData.contact.companyName}}</div>
+                <div>{{displayData.contact.streetAddress}}</div>
+                <div>{{displayData.contact.city}},{{displayData.contact.state}},{{displayData.contact.postalCode}},{{displayData.contact.country}}</div>
+                <div>Email: {{displayData.contact.emailAddress}}</div>
+                <div>Cell : {{displayData.contact.cellPhone}}</div>
+                <div>Home : {{displayData.contact.homePhone}}</div>
+            </div>
         </div>
-        <div class="col-md-6 table-offset">
-            <table class="table table-clear">
-                <tbody>
-                    <tr>
-                        <td class="left"><strong>Tax</strong></td>
-                        <td class="right">{{displayData.tax | currency:'INR':true:'2.2-4'}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="left"><strong>Total</strong></td>
-                        <td class="right"><strong>{{displayData.paymentAmount | currency:'INR':true:'2.2-4'}}</strong></td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="col-md-12 Info" *ngIf="displayData.transactionType.name != 'Expenses' && displayData.transactionType.name != 'Receivables'">
+            <div class="col-md-12">
+                <table class="table table-clear">
+                    <thead>
+                        <tr style="background: #ececec;">
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let lineItem of displayData.lineItems;let i = index">
+                            <td>{{lineItem.products.name}}</td>
+                            <td>{{lineItem.name}}</td>
+                            <td>{{lineItem.quantity}}</td>
+                            <td>{{lineItem.price | currency:'INR':true:'2.2-4'}}</td>
+                            <td>{{lineItem.quantity * lineItem.price | currency:'INR':true:'2.2-4'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 table-offset">
+                <table class="table table-clear">
+                    <tbody>
+                        <tr>
+                            <td class="left"><strong>Tax</strong></td>
+                            <td class="right">{{displayData.tax | currency:'INR':true:'2.2-4'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left"><strong>Total</strong></td>
+                            <td class="right"><strong>{{displayData.paymentAmount | currency:'INR':true:'2.2-4'}}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+        <div class="col-md-12 Info" *ngIf="displayData.transactionType.name == 'Expenses'">
+            <Strong>
+                <div>Expense Name: {{displayData.lineItems[0].products.name}},Expense Amount:
+                    {{displayData.paymentAmount}} </div>
+                <div>Expense Description: {{displayData.lineItems[0].name}} </div>
+                <div>Bill Number: {{displayData.bills[0].billNumber}} , Bill Issue Date:
+                    {{displayData.bills[0].bill_issued_date}} </div>
+            </Strong>
+        </div>
+        <div class="col-md-12 Info" *ngIf="displayData.transactionType.name == 'Receivables'">
+                <Strong>
+                    <div>Receivable Name: {{displayData.lineItems[0].products.name}},Receivable Amount:
+                        {{displayData.paymentAmount}} </div>
+                    <div>Receivable Description: {{displayData.lineItems[0].name}} </div>
+                    <div>Bill Number: {{displayData.bills[0].billNumber}} , Bill Issue Date:
+                        {{displayData.bills[0].bill_issued_date}} </div>
+                </Strong>
+            </div>
     </div>
     <div class="col-md-12 Info">
         <div class="col-md-12">

@@ -65,6 +65,7 @@ export class PurchasesCreateComponent implements OnInit {
     productsTotal: [{ value: '', disabled: true }],
     transactionType: this.fb.group({
       "id": 7,
+      "name": "Purchase Order"
     }),
     transactionStatus: this.fb.group({
       "id": 2,
