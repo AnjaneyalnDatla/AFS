@@ -63,7 +63,10 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
     {
-        path: '/payments', title: 'Payments', type: 'link', iconType: 'payment', class: ''
+        path: '/users', title: 'Users', type: 'sub', iconType: 'people', class: '', collapse: 'users',
+        children: [
+            { path: 'create', title: 'Create', icon: 'shop_two', class: '', ab: 'C' },
+        ]
     },
     { path: '/reports', title: 'Reports', type: 'link', iconType: 'bar_chart', class: '', children: [] },
 ];

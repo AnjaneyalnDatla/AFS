@@ -29,6 +29,10 @@ export const AdminLayoutRoutes: Routes = [
     path: 'contacts',
     loadChildren: '../../contacts/contacts.module#ContactsModule'
   },
+  {
+    path: 'users',
+    loadChildren: '../../users/users.module#UsersModule'
+  },
   { path: 'reports', component: ReportsComponent },
   { path: 'notifications', component: NotificationsComponent },
   {
