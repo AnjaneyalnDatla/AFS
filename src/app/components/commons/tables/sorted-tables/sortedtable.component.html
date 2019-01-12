@@ -16,7 +16,7 @@
             <ng-container *ngFor="let column of columns" matColumnDef="{{column.columnDef}}">
               <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</mat-header-cell>
               <mat-cell *matCellDef="let row">
-                <span *ngIf="column.header!='Actions'">{{column.header=='Amount' ? (column.cell(row) | currency : 'INR':'symbol-narrow':'1.2-2') : column.cell(row) }}</span>
+                <span *ngIf="column.header!='Actions'" [innerHTML]="column.cell(row)| safe: 'html'" > </span>
                 <span *ngIf="column.header=='Actions'"><button  mat-button  color="primary" (click)="delete(row)"><mat-icon>delete</mat-icon>
                 </button>  <button  mat-button  color="primary" (click)="edit(row)"><mat-icon>visibility</mat-icon></button> </span>
               </mat-cell>

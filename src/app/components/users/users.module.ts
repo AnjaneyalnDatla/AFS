@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsersRoutes } from './users.routing';
 
 import { UsersCreateComponent } from './users-create/users-create.component';
+import { UsersViewComponent } from './users-view/users-view.component';
 import { SharedModule } from '../../components/commons/shared.module';
 
 import {
@@ -54,6 +55,7 @@ import {
     ],
     declarations: [
         UsersCreateComponent,
+        UsersViewComponent
     ]
   })
   

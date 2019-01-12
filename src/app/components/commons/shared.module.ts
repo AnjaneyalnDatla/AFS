@@ -10,6 +10,7 @@ import { ContactsFormComponent } from '../commons/forms/contacts/contactsform.co
 import { PrivilegesComponent } from '../commons/forms/users/privileges.component';
 import { UsersFormComponent } from '../commons/forms/users/usersform.component';
 import { ControlMessagesComponent } from '../commons/control-messages.component';
+import { SafePipe } from '../../_helpers/safe.pipe';
 
 import {
   MatButtonModule,
@@ -60,7 +61,8 @@ import {
     ContactsFormComponent,
     PrivilegesComponent,
     UsersFormComponent,
-    ControlMessagesComponent
+    ControlMessagesComponent,
+    SafePipe
   ],
   exports: [
     InvoiceComponent,
@@ -70,7 +72,8 @@ import {
     ContactsFormComponent,
     PrivilegesComponent,
     UsersFormComponent,
-    ControlMessagesComponent
+    ControlMessagesComponent,
+    SafePipe
   ]
 })
 export class SharedModule { }
