@@ -7,7 +7,9 @@ import { SortedTableComponent } from '../commons/tables/sorted-tables/sortedtabl
 import { MdTableComponent } from '../commons/tables/md-table/md-table.component';
 import { AccountsFormComponent } from '../commons/forms/accounts/accountsform.component';
 import { ContactsFormComponent } from '../commons/forms/contacts/contactsform.component';
-
+import { PrivilegesComponent } from '../commons/forms/users/privileges.component';
+import { UsersFormComponent } from '../commons/forms/users/usersform.component';
+import { ControlMessagesComponent } from '../commons/control-messages.component';
 
 import {
   MatButtonModule,
@@ -55,14 +57,20 @@ import {
     SortedTableComponent,
     MdTableComponent,
     AccountsFormComponent,
-    ContactsFormComponent
+    ContactsFormComponent,
+    PrivilegesComponent,
+    UsersFormComponent,
+    ControlMessagesComponent
   ],
   exports: [
     InvoiceComponent,
     SortedTableComponent,
     MdTableComponent,
     AccountsFormComponent,
-    ContactsFormComponent
+    ContactsFormComponent,
+    PrivilegesComponent,
+    UsersFormComponent,
+    ControlMessagesComponent
   ]
 })
 export class SharedModule { }

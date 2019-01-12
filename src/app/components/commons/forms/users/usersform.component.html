@@ -1,0 +1,77 @@
+<form class="user-form" *ngIf="userForm" name="form" [formGroup]="userForm" (ngSubmit)="onFormSubmit(userForm.value)">
+    <div class="row">
+        <label class="col-md-2 col-form-label">User Info</label>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="First Name" formControlName="firstName">
+            </mat-form-field>
+            <control-messages [control]="userForm.controls.firstName"></control-messages>
+        </div>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Last Name" formControlName="lastName">
+            </mat-form-field>
+            <control-messages [control]="userForm.controls.lastName"></control-messages>
+        </div>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Department" formControlName="department">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2 col-form-label">Account Info</label>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="User Name" formControlName="userName">
+            </mat-form-field>
+            <control-messages [control]="userForm.controls.userName"></control-messages>
+        </div>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+            <control-messages [control]="userForm.controls.password"></control-messages>
+        </div>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Confirm Password" [type]="hide ? 'password' : 'text'" formControlName="confirmPswd">
+            </mat-form-field>
+            <mat-error *ngIf="userForm.get('confirmPswd').errors && userForm.get('confirmPswd').errors.ConfirmPassword && userForm.get('confirmPswd').touched">
+                Passwords do not match
+            </mat-error>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2 col-form-label"></label>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Security Question" formControlName="question">
+            </mat-form-field>
+            <control-messages [control]="userForm.controls.question"></control-messages>
+        </div>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Security Answer" formControlName="answer">
+            </mat-form-field>
+            <control-messages [control]="userForm.controls.answer"></control-messages>
+        </div>
+        <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+                <mat-select placeholder="Role" formControlName="role">
+                    <mat-option *ngFor="let role of roles" [value]="role.value">
+                        {{role.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 ml-3">
+            <button mat-raised-button type="submit" class="btn btn-success">Save</button>
+            <button mat-raised-button type="reset" class="btn btn-success">Reset</button>
+        </div>
+    </div>
+</form>

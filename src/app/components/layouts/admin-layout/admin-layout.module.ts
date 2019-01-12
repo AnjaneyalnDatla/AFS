@@ -20,7 +20,6 @@ import { WizardComponent } from '../../commons/wizard/wizard.component';
 import { SharedModule } from '../../../components/commons/shared.module';
 import { ExpensesComponent } from '../../expenses/expenses.component';
 
-
 import {
   MatButtonModule,
   MatInputModule,
@@ -79,7 +78,7 @@ import {
     AccountComponent,
     WizardComponent,
     PaymentsComponent,
-    ExpensesComponent
+    ExpensesComponent,
   ],
   exports: [
     DashboardComponent,
@@ -91,7 +90,7 @@ import {
     AccountComponent,
     PaymentsComponent,
     ExpensesComponent,
-    WizardComponent
+    WizardComponent,
   ]
 })
 

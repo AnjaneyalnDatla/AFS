@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsersRoutes } from './users.routing';
 
 import { UsersCreateComponent } from './users-create/users-create.component';
+import { SharedModule } from '../../components/commons/shared.module';
 
 import {
     MatButtonModule,
@@ -49,6 +50,7 @@ import {
     MatTabsModule,
     HttpClientModule,
     MatIconModule,
+    SharedModule
     ],
     declarations: [
         UsersCreateComponent,

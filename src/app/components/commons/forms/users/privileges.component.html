@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Privileges</h3>
+    </div>
+</div>
+<div class="row" *ngFor="let item of privList">
+    <label class="col-sm-4">{{item.name}}</label>
+    <div [formGroup]="privileges">
+        <mat-radio-group formControlName="{{item.name}}">
+            <mat-radio-button value="view">View</mat-radio-button>&nbsp;
+            <mat-radio-button value="create">Create/Modify/Delete</mat-radio-button>&nbsp;
+            <mat-radio-button value="noAccess">No Access</mat-radio-button>
+        </mat-radio-group>
+    </div>
+</div>
