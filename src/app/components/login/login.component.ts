@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.authenticationService.login(this.model.username, this.model.password).subscribe(
       data => {
-        localStorage.setItem('currentUser',data);
+        sessionStorage.setItem('currentUser',JSON.stringify(data));
         this.router.navigate(["dashboard"]);
       },
       error => {

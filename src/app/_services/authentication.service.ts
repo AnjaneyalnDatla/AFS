@@ -25,9 +25,9 @@ export class AuthenticationService {
                 "Content-Type": "application/json"
             }
         }).map(response => {
-            if (response) {
-                localStorage.setItem('currentUser2', JSON.stringify(response));
-            }
+            // if (response) {
+            //     sessionStorage.setItem('currentUser', JSON.stringify(response));
+            // }
             return response;
         }).catch((error: any) => {
             return throwError(error);
@@ -37,12 +37,12 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         console.log("logout");
-        localStorage.clear();
+        sessionStorage.clear();
     }
 
     getLoginUser() {
-        if (localStorage.getItem('currentUser2') != null){
-            return JSON.parse(localStorage.getItem('currentUser2'));
+        if (sessionStorage.getItem('currentUser') != null){
+            return JSON.parse(sessionStorage.getItem('currentUser'));
         }
         else{
             return null;
