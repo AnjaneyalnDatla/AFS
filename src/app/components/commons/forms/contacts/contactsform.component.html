@@ -22,11 +22,13 @@
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="ID" formControlName="supplementalId">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.supplementalId"></control-messages>
             </div>
             <div class="col-sm-3">
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Company Name" formControlName="companyName">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.companyName"></control-messages>
             </div>
           </div>
           <div class="row">
@@ -35,11 +37,13 @@
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Goverment Id" formControlName="idNumber">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.idNumber"></control-messages>
             </div>
             <div class="col-sm-3">
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Government Id Type" formControlName="idType">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.idType"></control-messages>
             </div>
             <div class="col-sm-3">
               <mat-form-field class="example-full-width">
@@ -53,6 +57,7 @@
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Fist Name" type="text" formControlName="firstName">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.firstName"></control-messages>
             </div>
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
@@ -63,6 +68,7 @@
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Last Name" type="text" formControlName="lastName">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.lastName"></control-messages>
             </div>
           </div>
           <fieldset formGroupName="address">
@@ -72,6 +78,7 @@
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Street Address" type="text" formControlName="streetAddress">
                 </mat-form-field>
+                <control-messages [control]="contactForm.controls.address.controls.streetAddress"></control-messages>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
@@ -82,6 +89,7 @@
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="City" type="text" formControlName="city">
                 </mat-form-field>
+                <control-messages [control]="contactForm.controls.address.controls.city"></control-messages>
               </div>
             </div>
             <div class="row">
@@ -90,16 +98,19 @@
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="State" type="text" formControlName="state">
                 </mat-form-field>
+                <control-messages [control]="contactForm.controls.address.controls.state"></control-messages>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Country" type="text" formControlName="country">
                 </mat-form-field>
+                <control-messages [control]="contactForm.controls.address.controls.country"></control-messages>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Postal Code" type="number" formControlName="postalCode">
                 </mat-form-field>
+                <control-messages [control]="contactForm.controls.address.controls.postalCode"></control-messages>
               </div>
             </div>
           </fieldset>
@@ -109,6 +120,7 @@
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Cell Phone" type="number" formControlName="cellPhone">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.cellPhone"></control-messages>
             </div>
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
@@ -127,6 +139,7 @@
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Primary Email" type="text" formControlName="primaryEmail">
               </mat-form-field>
+              <control-messages [control]="contactForm.controls.primaryEmail"></control-messages>
             </div>
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
@@ -157,7 +170,7 @@
           <div class="row">
             <div class="col-md-8 ml-3">
               <button mat-raised-button type="submit" class="btn btn-success">Save</button>
-              <button mat-raised-button type="cancel" class="btn btn-danger">Cancel</button>
+              <button mat-raised-button type="reset" class="btn btn-success" (click)= "resetForm()">Reset</button>
             </div>
 
           </div>

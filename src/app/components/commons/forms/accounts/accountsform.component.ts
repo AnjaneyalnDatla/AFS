@@ -34,34 +34,40 @@ export class AccountsFormComponent implements OnInit {
         // this.dataSource.paginator = this.paginator;
     }
 
+    resetForm() {
+        this.accountForm.reset();
+      }
+
     onFormSubmit(form: any) {
-        swal({
-            title: 'Wish to continue?',
-            text: "Once confirmed, the action is irreversible",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            confirmButtonText: 'Save',
-            buttonsStyling: false
-        }).then((result) => {
-            if (result.value) {
-                if (form.id === "") {
-                    form.id = null;
-                }
-                console.log("contactsform component, FORM ID= " + form.id);
-                console.log("contactsform component, FORM = " + JSON.stringify(form));
-                this.commonService.saveAccount(form).subscribe(
-                    data => {
-                        this.accountForm.reset();
-                        this.router.navigate(["dashboard"]);
-                    },
-                    error => {
-                        alert("Error Saving Account");
+        if (this.accountForm.valid) {
+            swal({
+                title: 'Wish to continue?',
+                text: "Once confirmed, the action is irreversible",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: 'Save',
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.value) {
+                    if (form.id === "") {
+                        form.id = null;
                     }
-                );
-            }
-        })
+                    console.log("contactsform component, FORM ID= " + form.id);
+                    console.log("contactsform component, FORM = " + JSON.stringify(form));
+                    this.commonService.saveAccount(form).subscribe(
+                        data => {
+                            this.accountForm.reset();
+                            this.router.navigate(["dashboard"]);
+                        },
+                        error => {
+                            alert("Error Saving Account");
+                        }
+                    );
+                }
+            })
+        }
     }
 
     /******************************* PRIVATE AREA ***********************************************************/

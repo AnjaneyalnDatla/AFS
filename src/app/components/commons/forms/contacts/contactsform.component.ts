@@ -29,57 +29,59 @@ export class ContactsFormComponent {
     }
 
     onFormSubmit(form: any) {
-        swal({
-            title: 'Wish to continue?',
-            text: "Once confirmed, the action is irreversible",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            confirmButtonText: 'Save',
-            buttonsStyling: false
-        }).then((result) => {
-            if (result.value) {
-                console.log("contactsform component, FORM ID= " + form.id);
-                console.log("contactsform component, FORM = " + JSON.stringify(form));
-                if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
-                    Array.from(this.selectedFiles).forEach(sf => {
-                        var file: any = {};
-                        file.documentName = sf.name;
-                        this.files.push(file);
-                    });
-                }
-                this.contactsService.saveContact(form).subscribe(
-                    data => {
-                        console.log(data.id);
-                        if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
-                            this.uploadFileService.pushFileToContactStorage(this.selectedFiles, data.id).subscribe(event => {
-                                if (event.type === HttpEventType.UploadProgress) {
-                                    this.progress.percentage = Math.round(100 * event.loaded / event.total);
-                                } else if (event instanceof HttpResponse) {
-                                    console.log('File is completely uploaded!');
-                                    this.toastr.info('Contact saved successfully ', 'Success', {
-                                        timeOut: 3000,
-                                        progressBar: true
-                                    });
-                                }
-                                //});
-                            });
-                        } else {
-                            this.toastr.info('Contact saved successfully ', 'Success', {
-                                timeOut: 3000,
-                                progressBar: true
-                            });
-                        }
-                        this.contactForm.reset();
-                        this.router.navigate(["dashboard"]);
-                    },
-                    error => {
-                        alert("Error Saving contact");
+        if (this.contactForm.valid) {
+            swal({
+                title: 'Wish to continue?',
+                text: "Once confirmed, the action is irreversible",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: 'Save',
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.value) {
+                    console.log("contactsform component, FORM ID= " + form.id);
+                    console.log("contactsform component, FORM = " + JSON.stringify(form));
+                    if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
+                        Array.from(this.selectedFiles).forEach(sf => {
+                            var file: any = {};
+                            file.documentName = sf.name;
+                            this.files.push(file);
+                        });
                     }
-                );
-            }
-        })
+                    this.contactsService.saveContact(form).subscribe(
+                        data => {
+                            console.log(data.id);
+                            if (this.selectedFiles != undefined && this.selectedFiles.length > 0) {
+                                this.uploadFileService.pushFileToContactStorage(this.selectedFiles, data.id).subscribe(event => {
+                                    if (event.type === HttpEventType.UploadProgress) {
+                                        this.progress.percentage = Math.round(100 * event.loaded / event.total);
+                                    } else if (event instanceof HttpResponse) {
+                                        console.log('File is completely uploaded!');
+                                        this.toastr.info('Contact saved successfully ', 'Success', {
+                                            timeOut: 3000,
+                                            progressBar: true
+                                        });
+                                    }
+                                    //});
+                                });
+                            } else {
+                                this.toastr.info('Contact saved successfully ', 'Success', {
+                                    timeOut: 3000,
+                                    progressBar: true
+                                });
+                            }
+                            this.contactForm.reset();
+                            this.router.navigate(["dashboard"]);
+                        },
+                        error => {
+                            alert("Error Saving contact");
+                        }
+                    );
+                }
+            })
+        }
     }
 
 
@@ -89,5 +91,9 @@ export class ContactsFormComponent {
             console.log(sf.name);
         });
     }
+
+    resetForm() {
+        this.contactForm.reset();
+      }
 
 }

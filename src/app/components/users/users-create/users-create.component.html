@@ -32,11 +32,13 @@
                                             <mat-form-field class="example-full-width">
                                                 <input matInput placeholder="Role Name" formControlName="roleName">
                                             </mat-form-field>
+                                            <control-messages [control]="roleForm.controls.roleName"></control-messages>
                                         </div>
                                         <div class="col-sm-6">
                                             <mat-form-field class="example-full-width">
                                                 <input matInput placeholder="Description" formControlName="description">
                                             </mat-form-field>
+                                            <control-messages [control]="roleForm.controls.description"></control-messages>
                                         </div>
                                     </div>
                                     <app-privileges [privileges]="roleForm.controls.privileges"></app-privileges>

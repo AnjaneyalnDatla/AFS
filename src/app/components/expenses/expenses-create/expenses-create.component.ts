@@ -167,6 +167,7 @@ export class ExpensesCreateComponent implements OnInit {
 
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
+    if (this.expenseForm.valid) {
     swal({
       title: 'Wish to continue?',
       text: "Once confirmed, the action is irreversible",
@@ -181,6 +182,7 @@ export class ExpensesCreateComponent implements OnInit {
         this.executeExpenseCreation(form);
       }
     });
+  }
 
   }
 

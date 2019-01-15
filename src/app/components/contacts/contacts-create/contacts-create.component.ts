@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ValidationService } from '../../../_services/validation.service';
 
 @Component({
   selector: 'app-contacts-create',
@@ -24,14 +25,14 @@ export class ContactsCreateComponent implements OnInit {
       city: ['', Validators.required],
       state: ['', Validators.required],
       country: ['', Validators.required],
-      postalCode: ['', Validators.required],
+      postalCode: ['', Validators.required, Validators.pattern("[0-9]{0,10}")],
       landMark: [''],
     }),
     homePhone: ['', Validators.pattern("[0-9]{0,10}")],
     cellPhone: ['', Validators.pattern("[0-9]{0,10}")],
     faxNumber: ['', Validators.pattern("[0-9]{0,10}")],
-    primaryEmail: ['', [Validators.required, Validators.email]],
-    secondaryEmail: ['', [Validators.required, Validators.email]],
+    primaryEmail: ['', [Validators.required, ValidationService.emailValidator]],
+    secondaryEmail: [''],
     additionalComments: [''],
     current_balance: '0'
   });
@@ -53,5 +54,7 @@ export class ContactsCreateComponent implements OnInit {
   onFormSubmit() {
     console.log("Inside contacts component" + this.contactForm);
   }
+
+  
 
 }

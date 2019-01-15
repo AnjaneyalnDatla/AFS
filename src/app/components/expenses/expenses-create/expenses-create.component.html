@@ -30,6 +30,7 @@
                                                                         <input matInput placeholder="Bill Number" type="text"
                                                                             formControlName="billNumber">
                                                                     </mat-form-field>
+                                                                    <control-messages [control]="expenseForm.controls.bills.controls.billNumber"></control-messages>
                                                                 </fieldset>
                                                             </td>
                                                             <td>
@@ -40,6 +41,7 @@
                                                                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                                                         <mat-datepicker #picker2></mat-datepicker>
                                                                     </mat-form-field>
+                                                                    <control-messages [control]="expenseForm.controls.bills.controls.bill_issued_date"></control-messages>
                                                                 </fieldset>
                                                             </td>
 
@@ -55,6 +57,7 @@
                                                                             </mat-option>
                                                                         </mat-select>
                                                                     </mat-form-field>
+                                                                    <control-messages [control]="expenseForm.controls.contact.controls.id"></control-messages>
                                                                 </fieldset>
                                                             </td>
                                                         </tr>
@@ -81,12 +84,14 @@
                                                                         </mat-select>
 
                                                                     </mat-form-field>
+                                                                    <control-messages [control]="expenseForm.controls.lineItems.controls[i].controls.products"></control-messages>
                                                                 </td>
                                                                 <td>
                                                                     <mat-form-field class="example-full-width">
                                                                         <input matInput placeholder="Expense Description"
                                                                             type="text" formControlName="name">
                                                                     </mat-form-field>
+                                                                    <control-messages [control]="expenseForm.controls.lineItems.controls[i].controls.name"></control-messages>
                                                                 </td>
                                                                 <td>
                                                                     <mat-form-field class="example-full-width">
@@ -108,6 +113,7 @@
                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                     <mat-datepicker #picker></mat-datepicker>
                                                 </mat-form-field>
+                                                <control-messages [control]="expenseForm.controls.creationdate"></control-messages>
                                             </div>
                                             <div class="col-md-3 ml-4">
                                                 <fieldset formGroupName="bills">
@@ -119,6 +125,7 @@
                                                                         [value]="orgAccounts.id">
                                                                         {{orgAccounts.name}}
                                                                     </mat-option>
+                                                                    <control-messages [control]="expenseForm.controls.bills.controls.payments.controls.accounts.controls.id"></control-messages>
                                                                 </mat-select>
                                                             </mat-form-field>
                                                         </fieldset>

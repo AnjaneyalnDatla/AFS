@@ -71,7 +71,6 @@
                                         {{productType.name}}
                                       </mat-option>
                                     </mat-select>
-
                                   </mat-form-field>
                                 </td>
                                 <td>
@@ -126,6 +125,7 @@
                                 <mat-form-field class="example-full-width">
                                   <input matInput placeholder="Tax" type="number" formControlName="tax">
                                 </mat-form-field>
+                                <control-messages [control]="salesForm.controls.tax"></control-messages>
                               </td>
                             </tr>
                             <tr>
@@ -147,6 +147,7 @@
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
+                        <control-messages [control]="salesForm.controls.creationdate"></control-messages>
                       </div>
                       <div class="col-md-3 ml-4">
                         <mat-form-field>
@@ -154,6 +155,7 @@
                           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                           <mat-datepicker #picker2></mat-datepicker>
                         </mat-form-field>
+                        <control-messages [control]="salesForm.controls.deliveryDate"></control-messages>
                       </div>
                     </div>
                     <div class="row">
