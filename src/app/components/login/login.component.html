@@ -1,43 +1,47 @@
 <div class="container">
-    <div class="background"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3"></div>
-            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3"></div>
-            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                <form class="login-form" name="form" #f="ngForm" novalidate>
-                    <div class="card content card-panel">
-                        <div class="card-header">
-                            <h4>Welcome</h4>
-                            
-                        </div>
-                        <div class="card-form">
-                            <div class="form-row">
-                                <i class="material-icons">face</i>
-                                <mat-input-container color="accent">
-                                    <input type="text" matInput placeholder="User Name" name="username" [(ngModel)]="model.username" #username="ngModel" />
-                                </mat-input-container>
-                            </div>
-                            <div class="form-row">
-                                <i class="material-icons">lock_outline</i>
-                                <mat-input-container color="accent">
-                                    <input type="password" matInput placeholder="Password" name="password" [(ngModel)]="model.password" #password="ngModel" />
-                                </mat-input-container>
-                            </div>
-                            <div class="form-row">
-                                <mat-checkbox><span style="color:black">Remember me</span></mat-checkbox>
-                                <span class="pswd-text"><a (click)="forgotPassword();">Forgot password?</a></span>
-                            </div>
-                            
-                        </div>
-                        <div class="footer">
-                            <button mat-raised-button (click)="login();">Login</button>
-                        </div>
-                    </div>
-                </form>
+  <div class="background"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3"></div>
+      <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3"></div>
+      <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+        <form class="login-form" name="form" #f="ngForm" novalidate>
+          <div class="card content card-panel">
+            <div class="card-header peach-gradient">
+              <h4 class="card-title">Log in</h4>
+              <div class="social-line"><a class="btn btn-just-icon btn-link btn-white"><i class="fa fa-facebook-square"></i></a><a
+                  class="btn btn-just-icon btn-link btn-white"><i class="fa fa-twitter"></i></a><a class="btn btn-just-icon btn-link btn-white"
+                  ><i class="fa fa-google-plus"></i></a></div>
             </div>
-        </div>
+            <div class="card-form">
+              <div class="form-row">
+                <i class="material-icons">face</i>
+                <mat-input-container color="accent">
+                  <input type="text" matInput placeholder="User Name" name="username" [(ngModel)]="model.username"
+                    #username="ngModel" />
+                </mat-input-container>
+              </div>
+              <div class="form-row">
+                <i class="material-icons">lock_outline</i>
+                <mat-input-container color="accent">
+                  <input type="password" matInput placeholder="Password" name="password" [(ngModel)]="model.password"
+                    #password="ngModel" />
+                </mat-input-container>
+              </div>
+              <div class="form-row">
+                <mat-checkbox><span style="color:black">Remember me</span></mat-checkbox>
+                <span class="pswd-text"><a (click)="forgotPassword();">Forgot password?</a></span>
+              </div>
+
+            </div>
+            <div class="footer">
+              <button class="btn-grey" mat-raised-button (click)="login();">Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 
@@ -84,4 +88,3 @@
       </div>
     </div>
   </div> -->
-  
