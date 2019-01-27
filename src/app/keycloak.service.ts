@@ -13,11 +13,11 @@ export class KeycloakService {
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
       const config = {
-        'url': 'http://localhost:8085/auth',
-        'realm': 'SRKR',
-        'clientId': 'srkrapp',
+        'url': 'http://localhost:8090/auth',
+        'realm': 'AFS',
+        'clientId': 'afs-identity',
         "credentials": {
-          "secret": "65859d5a-cd9e-4cc3-82ac-d7087eed82cb"
+          "secret": "5a932b57-9618-4530-acbe-77f6a4e821fb"
         }
       };
       this.keycloakAuth = new Keycloak(config);
