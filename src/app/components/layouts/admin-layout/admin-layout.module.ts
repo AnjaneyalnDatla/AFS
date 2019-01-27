@@ -19,6 +19,9 @@ import { WizardComponent } from '../../commons/wizard/wizard.component';
 //import { InvoiceComponent } from '../../commons/forms/accounts/invoice.component';
 import { SharedModule } from '../../../components/commons/shared.module';
 import { ExpensesComponent } from '../../expenses/expenses.component';
+import { AppAuthGuard } from '../../../app.authguard';
+import { KeycloakService } from '../../../keycloak.service';
+
 
 import {
   MatButtonModule,
@@ -91,7 +94,8 @@ import {
     PaymentsComponent,
     ExpensesComponent,
     WizardComponent,
-  ]
+  ],
+  providers: [AppAuthGuard,KeycloakService]
 })
 
 export class AdminLayoutModule { }
