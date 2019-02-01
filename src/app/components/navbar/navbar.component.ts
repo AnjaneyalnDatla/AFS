@@ -3,6 +3,8 @@ import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router,NavigationEnd,NavigationStart,ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { KeycloakService } from '../../keycloak.service';
+
 
 const misc: any = {
     navbar_menu_visible: 0,
@@ -27,7 +29,7 @@ export class NavbarComponent implements OnInit {
 
     @ViewChild('app-navbar') button: any;
 
-    constructor(location: Location, private renderer: Renderer, private element: ElementRef, private router: Router,) {
+    constructor(location: Location, private renderer: Renderer, private element: ElementRef, private router: Router,private kcService: KeycloakService) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -206,5 +208,10 @@ export class NavbarComponent implements OnInit {
     }
     getPath() {
         return this.location.prepareExternalUrl(this.location.path());
+    }
+
+    logout(){
+        return this.kcService.logout();
+
     }
 }

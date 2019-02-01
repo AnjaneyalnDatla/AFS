@@ -5,14 +5,13 @@ import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { PaymentsComponent } from '../../payments/payments.component';
 import { ExpensesCreateComponent } from '../../expenses/expenses-create/expenses-create.component';
-import { AppAuthGuard } from '../../../app.authguard';
 
 
 export const AdminLayoutRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   {
     path: 'sales',
-    loadChildren: '../../sales/sales.module#SalesModule'
+    loadChildren: '../../sales/sales.module#SalesModule',
   },
   {
     path: 'purchases',

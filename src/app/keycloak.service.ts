@@ -14,10 +14,10 @@ export class KeycloakService {
     return new Promise((resolve, reject) => {
       const config = {
         'url': 'http://localhost:8085/auth',
-        'realm': 'SRKR',
-        'clientId': 'srkrapp',
+        'realm': 'afs',
+        'clientId': 'afs-identity',
         "credentials": {
-          "secret": "65859d5a-cd9e-4cc3-82ac-d7087eed82cb"
+          "secret": "28611ae6-f285-456a-915b-2fb39f98218d"
         }
       };
       this.keycloakAuth = new Keycloak(config);
@@ -36,11 +36,8 @@ export class KeycloakService {
     return this.keycloakAuth.token;
   }
 
-  login(){
-    this.keycloakAuth.login().success(function(authenticated) {
-      alert(authenticated ? 'authenticated' : 'not authenticated');
-  }).error(function() {
-      alert('failed to initialize');
-  });
+  logout(){
+    return this.keycloakAuth.logout();
   }
+
 }

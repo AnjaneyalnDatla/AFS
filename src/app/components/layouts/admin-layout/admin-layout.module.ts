@@ -11,6 +11,7 @@ import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { AccountComponent } from '../../account/account.component';
 import { PaymentsComponent } from '../../payments/payments.component';
+import { ReceivablesComponent } from '../../receivables/receivables.component';
 import { HttpClientModule } from '@angular/common/http';
 //import { SortedTableComponent } from '../../commons/tables/sorted-tables/sortedtable.component';
 import { WizardComponent } from '../../commons/wizard/wizard.component';
@@ -20,8 +21,6 @@ import { WizardComponent } from '../../commons/wizard/wizard.component';
 import { SharedModule } from '../../../components/commons/shared.module';
 import { ExpensesComponent } from '../../expenses/expenses.component';
 import { AppAuthGuard } from '../../../app.authguard';
-import { KeycloakService } from '../../../keycloak.service';
-
 
 import {
   MatButtonModule,
@@ -82,6 +81,7 @@ import {
     WizardComponent,
     PaymentsComponent,
     ExpensesComponent,
+    ReceivablesComponent,
   ],
   exports: [
     DashboardComponent,
@@ -94,8 +94,9 @@ import {
     PaymentsComponent,
     ExpensesComponent,
     WizardComponent,
+    ReceivablesComponent,
   ],
-  providers: [AppAuthGuard,KeycloakService]
+  providers: [AppAuthGuard]
 })
 
 export class AdminLayoutModule { }

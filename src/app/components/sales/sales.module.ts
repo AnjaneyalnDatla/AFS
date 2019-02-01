@@ -9,6 +9,8 @@ import { SalesRoutes } from './sales.routing';
 import { SalesCreateComponent } from './sales-create/sales-create.component';
 import { SalesViewComponent } from './sales-view/sales-view.component';
 import { SharedModule } from '../../components/commons/shared.module';
+import { AppAuthGuard } from '../../app.authguard';
+
 
 import {
     MatButtonModule,
@@ -28,6 +30,7 @@ import {
     MatTabsModule,
     MatIconModule,
   } from '@angular/material';
+import { KeycloakService } from '../../keycloak.service';
   @NgModule({
     imports: [
       CommonModule,
@@ -56,7 +59,8 @@ import {
     declarations: [
         SalesCreateComponent,
         SalesViewComponent
-    ]
+    ],
+    providers: [AppAuthGuard, KeycloakService]
   })
   
 export class SalesModule {}

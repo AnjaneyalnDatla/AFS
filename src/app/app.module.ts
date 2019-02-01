@@ -25,6 +25,7 @@ import { KeycloakService } from './keycloak.service';
 import { initializer } from './app-init';
 import {TokenInterceptor} from './token.interceptor';
 import { AppAuthGuard } from './app.authguard';
+import { KeycloakAngularModule } from 'keycloak-angular';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { AppAuthGuard } from './app.authguard';
     MatCheckboxModule,
     MatButtonModule,
     MatMenuModule,
+    KeycloakAngularModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     }),
@@ -59,7 +61,7 @@ import { AppAuthGuard } from './app.authguard';
     },
     AuthenticationService, TransactionsService, 
     ContactsService, CommonService, UploadFileService, 
-    CurrencyPipe, DatePipe, AppAuthGuard,
+    CurrencyPipe, DatePipe, AppAuthGuard, 
     { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]

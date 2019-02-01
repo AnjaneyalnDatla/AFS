@@ -26,7 +26,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
          this.showError(error.message);
           break;
       default:
-      console.log(error);
+         throw error;
          //this.showError(GlobalErrorHandlerService.REFRESH_PAGE_ON_TOAST_CLICK_MESSAGE);
     }
   }
