@@ -21,14 +21,17 @@ export class KeycloakService {
         }
       };
       this.keycloakAuth = new Keycloak(config);
-      this.keycloakAuth.init({onLoad: 'login-required'})
+      this.keycloakAuth.init({ onLoad: 'login-required' })
         .success(() => {
           resolve();
+          this.getParsedToken();
+          this.getUserDetails();
+          this.getUserRoles();
         })
         .error(() => {
           reject();
         });
-      });
+    });
   }
 
   getToken(): string {
@@ -36,8 +39,35 @@ export class KeycloakService {
     return this.keycloakAuth.token;
   }
 
-  logout(){
+  getParsedToken() {
+    console.log(JSON.stringify(this.keycloakAuth.tokenParsed))
+  }
+
+  getUserRoles() {
+    let realmAccess = this.keycloakAuth.realmAccess;
+    console.log(realmAccess.roles);
+
+    localStorage.setItem("roles", realmAccess.roles);
+  }
+
+  public isAuthenticated(): boolean {
+    return this.keycloakAuth.isAuthenticated;
+  }
+
+
+  getUserDetails() {
+    this.keycloakAuth.loadUserInfo().success(function (userInfo) {
+      console.log(userInfo);
+      return userInfo.preferred_username;
+    }).error(function () {
+      console.log('Failed to load user info');
+    });
+  }
+
+  logout() {
     return this.keycloakAuth.logout();
   }
+
+
 
 }

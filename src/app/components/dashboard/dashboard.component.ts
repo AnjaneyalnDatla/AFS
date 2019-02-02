@@ -4,6 +4,7 @@ import * as MyLegend from 'chartist-plugin-legend';
 import { CommonService } from '../../_services/common.service';
 import { TableData } from '../commons/tables/md-table/md-table.component';
 import { ToastrService } from 'ngx-toastr';
+import { KeycloakService } from '../../keycloak.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private commonService: CommonService, private toastr: ToastrService ) {
+  constructor(private commonService: CommonService, private toastr: ToastrService, protected keycloakAngular: KeycloakService) {
     var tester = new MyLegend(); //without this line, you get 'Chartist.plugins undefined'
   }
 
@@ -101,6 +102,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    let userName = this.keycloakAngular.getUserDetails();
+    //let userJSON = JSON.parse(JSON.stringify(userDetails));
+    
 
     this.commonService.getAccounts().subscribe(
       data => {
@@ -129,7 +133,7 @@ export class DashboardComponent implements OnInit {
           timeOut: 3000,
           progressBar: true
         });
-        this.toastr.success('', 'Welcome to your Dashboard!', {
+        this.toastr.success('', 'Hi '+userName+'. Welcome to your Dashboard!', {
           timeOut: 3000,
           progressBar: true
         });
