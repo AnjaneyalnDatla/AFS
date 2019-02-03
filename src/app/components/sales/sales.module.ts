@@ -30,7 +30,8 @@ import {
     MatTabsModule,
     MatIconModule,
   } from '@angular/material';
-import { KeycloakService } from '../../keycloak.service';
+// import { KeycloakService } from '../../keycloak.service';
+import { KeycloakService } from 'keycloak-angular';
   @NgModule({
     imports: [
       CommonModule,

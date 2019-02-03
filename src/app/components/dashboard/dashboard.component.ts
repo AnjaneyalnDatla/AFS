@@ -4,7 +4,9 @@ import * as MyLegend from 'chartist-plugin-legend';
 import { CommonService } from '../../_services/common.service';
 import { TableData } from '../commons/tables/md-table/md-table.component';
 import { ToastrService } from 'ngx-toastr';
-import { KeycloakService } from '../../keycloak.service';
+// import { KeycloakService } from '../../keycloak.service';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +14,8 @@ import { KeycloakService } from '../../keycloak.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  userDetails: KeycloakProfile;
+  userRoles: string[];
 
   constructor(private commonService: CommonService, private toastr: ToastrService, protected keycloakAngular: KeycloakService) {
     var tester = new MyLegend(); //without this line, you get 'Chartist.plugins undefined'
@@ -57,7 +61,7 @@ export class DashboardComponent implements OnInit {
       arr.push(percentage + '%');
       this.seriesData.push(percentage);
     });
-    console.log(sum);
+    //console.log(sum);
   }
 
   drawBarChart() {
@@ -101,15 +105,19 @@ export class DashboardComponent implements OnInit {
     this.startAnimationForBarChart(simpleBarChart);
   }
 
-  ngOnInit() {
-    let userName = this.keycloakAngular.getUserDetails();
-    //let userJSON = JSON.parse(JSON.stringify(userDetails));
-    
+  async ngOnInit() {
+
+    if (await this.keycloakAngular.isLoggedIn()) {
+      this.userDetails = await this.keycloakAngular.loadUserProfile();
+      console.log('User Details: ' + JSON.stringify(this.userDetails));
+      this.userRoles = await this.keycloakAngular.getUserRoles();
+      console.log('User Roles: ' + this.userRoles);
+    }
 
     this.commonService.getAccounts().subscribe(
       data => {
         this.accounts = data;
-        console.log('Inside');
+        //console.log('Inside');
         let i = 0;
         this.accounts.forEach(account => {
 
@@ -129,15 +137,15 @@ export class DashboardComponent implements OnInit {
         };
         this.drawBarChart();
         //example toaster message
-        this.toastr.info('You have 2 new messages!','Messages', {
+        this.toastr.info('You have 2 new messages!', 'Messages', {
           timeOut: 3000,
           progressBar: true
         });
-        this.toastr.success('', 'Hi '+userName+'. Welcome to your Dashboard!', {
+        this.toastr.success('', 'Hello ' + this.userDetails.username + ', welcome to your dashboard!', {
           timeOut: 3000,
           progressBar: true
         });
-        
+
       }
     );
 

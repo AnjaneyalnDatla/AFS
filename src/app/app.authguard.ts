@@ -1,36 +1,43 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { KeycloakService } from './keycloak.service';
-import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { KeycloakService, KeycloakAuthGuard } from 'keycloak-angular';
 
 @Injectable()
-export class AppAuthGuard implements CanActivate {
-  constructor(public kc: KeycloakService, public router: Router) { }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+export class AppAuthGuard extends KeycloakAuthGuard {
+  constructor(protected router: Router, protected keycloakAngular: KeycloakService, protected toastr: ToastrService) {
+    super(router, keycloakAngular);
+  }
 
-    let userRolesStr = localStorage.getItem('roles');//this.kc.getUserRoles;
-    let userRoles = userRolesStr.split(",");
-    console.log('role restriction given at app-routing.module for this route', route.data.roles);
-    console.log('User roles coming after login from keycloak :', userRoles);
-    const requiredRoles = route.data.roles;
-    let granted: boolean = false;
-    if (!requiredRoles || requiredRoles.length === 0) {
-      granted = true;
-    } else {
-      for (const requiredRole of requiredRoles) {
-        if (userRoles.indexOf(requiredRole) > -1) {
-          granted = true;
-          break;
-        }
+  isAccessAllowed(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (!this.authenticated) {
+        this.keycloakAngular.login();
+        return;
       }
-    }
 
-    if (granted === false) {
-      //this.router.navigate(['/']);
-      return false;
-    } else {
-      //this.router.navigate([state.url]);
-      return true;
-    }
+      const requiredRoles = route.data.roles;
+      if (!requiredRoles || requiredRoles.length === 0) {
+        return resolve(true);
+      } else {
+        if (!this.roles || this.roles.length === 0) {
+          resolve(false);
+        }
+        let granted: boolean = false;
+        for (const requiredRole of requiredRoles) {
+          if (this.roles.indexOf(requiredRole) > -1) {
+            granted = true;
+            break;
+          }else{
+            console.log('Roles '+ JSON.stringify(this.roles));
+            console.log('No access to this module');
+            this.toastr.error('', 'Access Denied', {
+              timeOut: 6000
+            });
+          }
+        }
+        resolve(granted);
+      }
+    });
   }
 }

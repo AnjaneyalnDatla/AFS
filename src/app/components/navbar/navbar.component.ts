@@ -3,7 +3,8 @@ import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router,NavigationEnd,NavigationStart,ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { KeycloakService } from '../../keycloak.service';
+// import { KeycloakService } from '../../keycloak.service';
+import { KeycloakService } from 'keycloak-angular';
 
 
 const misc: any = {
@@ -210,8 +211,8 @@ export class NavbarComponent implements OnInit {
         return this.location.prepareExternalUrl(this.location.path());
     }
 
-    logout(){
-        return this.kcService.logout();
+    async logout(){
+        await this.kcService.logout();
 
     }
 }

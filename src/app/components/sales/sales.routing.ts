@@ -12,11 +12,13 @@ export const SalesRoutes: Routes = [
             path: 'create',
             component: SalesCreateComponent,
              canActivate: [AppAuthGuard],
-             data: { roles: ['view-sales'] }
+             data: { roles: ['manage-sales'] }
         },
         {
             path: 'viewAll',
-            component: SalesViewComponent
+            component: SalesViewComponent,
+            canActivate: [AppAuthGuard],
+            data: { roles: ['user'] }
         }]
     }
 ];

@@ -2,9 +2,21 @@
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
+import { KeycloakConfig } from 'keycloak-angular';
+
+// Add here your keycloak setup infos
+let keycloakConfig: KeycloakConfig = {
+  'url': 'http://localhost:8085/auth',
+'realm': 'afs',
+'clientId': 'afs-identity',
+"credentials": {
+  "secret": "28611ae6-f285-456a-915b-2fb39f98218d"
+}};
 
 export const environment = {
   production: false,
+  keycloak: keycloakConfig,
+
   // Context Roots
   identity_contextroot: 'http://localhost:8080/identity/',
   account_contextroot: 'http://localhost:8082/accounts/',

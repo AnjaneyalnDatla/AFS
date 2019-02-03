@@ -21,11 +21,10 @@ import { CommonService } from './_services/common.service';
 import { UploadFileService } from './_services/upload-file.service';
 import { ToastrModule } from 'ngx-toastr';
 import { GlobalErrorHandlerService } from './_services/globalErrorHandler.service';
-import { KeycloakService } from './keycloak.service';
+// import { KeycloakService } from './keycloak.service';
 import { initializer } from './app-init';
-import {TokenInterceptor} from './token.interceptor';
 import { AppAuthGuard } from './app.authguard';
-import { KeycloakAngularModule } from 'keycloak-angular';
+import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
 
 @NgModule({
   imports: [
@@ -63,7 +62,7 @@ import { KeycloakAngularModule } from 'keycloak-angular';
     ContactsService, CommonService, UploadFileService, 
     CurrencyPipe, DatePipe, AppAuthGuard, 
     { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
