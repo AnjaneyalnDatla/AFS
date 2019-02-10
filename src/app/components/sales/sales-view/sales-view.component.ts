@@ -17,7 +17,7 @@ export class SalesViewComponent implements OnInit {
   // Table columns 
   columns = [
     { columnDef: 'transaction_number', header: 'Transaction No.', cell: (element: any) => `${element.transaction_number}` },
-    { columnDef: 'transactionStatus.value', header: 'Transaction Status', cell: (element: any) => `${element.transactionStatus.value}` },
+    { columnDef: 'transactionStatus.value', header: 'Transaction Status', cell: (element: any) => `<a href=''>${element.transactionStatus.value}</a>` },
     { columnDef: 'contact.companyName', header: 'Company Name', cell: (element: any) => `${element.contact.companyName}` },
     { columnDef: 'contact.firstName', header: 'First Name', cell: (element: any) => `${element.contact.firstName}` },
     { columnDef: 'contact.lastName', header: 'Last Name', cell: (element: any) => `${element.contact.lastName}` },

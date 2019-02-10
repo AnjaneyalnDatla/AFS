@@ -21,12 +21,14 @@ export class SortedTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.displayedColumns = this.columns.filter(c => c.visibility).map(c => c.columnDef);
   }
   
   ngAfterViewInit() {
    this.dataSource.paginator = this.paginator;
    this.dataSource.sort = this.sort;
    this.dataSource.sortingDataAccessor = (data, header) => data[header];
+   
   }
   
   applyFilter(filterValue: string) {
@@ -43,5 +45,6 @@ export class SortedTableComponent implements OnInit {
     this.onDelete.emit(id);
   }
   //displayedColumns = this.columns.map(c => c.columnDef);
+  
   
 }

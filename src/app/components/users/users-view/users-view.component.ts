@@ -11,11 +11,11 @@ export class UsersViewComponent implements OnInit {
 
       // Table columns 
   columns = [
-    { columnDef: 'name', header: 'Name', cell: (element: any) => `<b>${element.name}</b>` },
-    { columnDef: 'userName', header: 'User Name', cell: (element: any) => `${element.userName}` },
-    { columnDef: 'role', header: 'Role', cell: (element: any) => `<button mat-raised-button class="btn btn-info btn-sm">${element.role}</button>` },
-    { columnDef: 'status', header: 'Status', cell: (element: any) => `<button mat-raised-button class="btn btn-success btn-sm">${element.status}</button>` },
-    { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
+    { columnDef: 'name', header: 'Name', sort: true, visibility: true, cell: (element: any) => `<b>${element.name}</b>` },
+    { columnDef: 'userName', header: 'User Name', sort: true, visibility: true, cell: (element: any) => `${element.userName}` },
+    { columnDef: 'role', header: 'Role', sort: true, visibility: true,  cell: (element: any) => `<button mat-raised-button class="btn btn-info btn-sm">${element.role}</button>` },
+    { columnDef: 'status', header: 'Status', sort: false, visibility: true, cell: (element: any) => `<button mat-raised-button class="btn btn-success btn-sm">${element.status}</button>` },
+    { columnDef: 'actions', header: 'Actions', sort: false, visibility: false, cell: (element: any) => `${element.actions}` },
   ];
   testData = [
     {
@@ -59,6 +59,8 @@ export class UsersViewComponent implements OnInit {
   ];
 
   displayedColumns = this.columns.map(c => c.columnDef);
+
+
   dataSource = new MatTableDataSource(this.testData);
   pageOptions = [10, 20, 30];
 
