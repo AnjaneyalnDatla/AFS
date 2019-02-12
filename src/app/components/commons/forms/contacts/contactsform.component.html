@@ -41,7 +41,9 @@
             </div>
             <div class="col-sm-3">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Government Id Type" formControlName="idType">
+                <mat-select placeholder="Government Id Type" formControlName="idType">
+                  <mat-option *ngFor="let type of idType" [value]="type">{{type}}</mat-option>
+                </mat-select>
               </mat-form-field>
               <control-messages [control]="contactForm.controls.idType"></control-messages>
             </div>
@@ -49,6 +51,21 @@
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Designation" formControlName="designation">
               </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-2 col-form-label"></label>
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Pan No." formControlName="panIdNumber">
+              </mat-form-field>
+              <control-messages [control]="contactForm.controls.panIdNumber"></control-messages>
+            </div>
+            <div class="col-sm-6">
+              <mat-radio-group formControlName="isGST">
+                <mat-radio-button value="Yes">GST Applicable</mat-radio-button>&nbsp;
+                <mat-radio-button value="No">GST Not Applicable</mat-radio-button>
+              </mat-radio-group>
             </div>
           </div>
           <div class="row">
@@ -87,24 +104,32 @@
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="City" type="text" formControlName="city">
+                  <mat-select placeholder="Country" [(value)]="countrySelected" (selectionChange)="getStates()"
+                    formControlName="country">
+                    <mat-option *ngFor="let address of address" [value]="address.country">{{address.country}}</mat-option>
+                  </mat-select>
                 </mat-form-field>
-                <control-messages [control]="contactForm.controls.address.controls.city"></control-messages>
+                <control-messages [control]="contactForm.controls.address.controls.country"></control-messages>
               </div>
             </div>
             <div class="row">
               <label class="col-md-2 col-form-label"></label>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="State" type="text" formControlName="state">
+                  <mat-select placeholder="State" [(value)]="stateSelected" (selectionChange)="getCities()"
+                    formControlName="state">
+                    <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                  </mat-select>
                 </mat-form-field>
                 <control-messages [control]="contactForm.controls.address.controls.state"></control-messages>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Country" type="text" formControlName="country">
+                  <mat-select placeholder="City" formControlName="city">
+                    <mat-option *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
+                  </mat-select>
                 </mat-form-field>
-                <control-messages [control]="contactForm.controls.address.controls.country"></control-messages>
+                <control-messages [control]="contactForm.controls.address.controls.city"></control-messages>
               </div>
               <div class="col-md-3">
                 <mat-form-field class="example-full-width">
@@ -170,7 +195,7 @@
           <div class="row">
             <div class="col-md-8 ml-3">
               <button mat-raised-button type="submit" class="btn btn-success">Save</button>
-              <button mat-raised-button type="reset" class="btn btn-success" (click)= "resetForm()">Reset</button>
+              <button mat-raised-button type="reset" class="btn btn-success" (click)="resetForm()">Reset</button>
             </div>
 
           </div>

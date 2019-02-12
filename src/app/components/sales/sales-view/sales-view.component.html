@@ -1,10 +1,10 @@
 <div class="main-content">
     <div class="container-fluid">
         <app-invoice *ngIf="showInvoice" [transactionNumber]="transactionNumber" (onBackClick)="toggleOnBack($event)"></app-invoice>
-        <div class="row" *ngIf="!showInvoice">
+        <div class="row" [hidden]="showInvoice">
             <div class="col-md-12">
-                <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns" [pageOptions]="pageOptions"
-                    (onView)="getSale($event)" (onDelete)="deleteSale($event)" ></app-sortedtable>
+                <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
+                    [pageOptions]="pageOptions" (onView)="getSale($event)" (onDelete)="deleteSale($event)"></app-sortedtable>
             </div>
         </div>
     </div>

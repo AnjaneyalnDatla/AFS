@@ -34,6 +34,8 @@ export class ContactsComponent implements OnInit {
       idNumber: new FormControl('',[Validators.required]),
       idType: new FormControl('',[Validators.required]),
       designation: new FormControl('',[Validators.required]),
+      panIdNumber: new FormControl('',[Validators.required]),
+      isGST: new FormControl('',[Validators.required]),
       firstName: new FormControl('',[Validators.required]),
       middleName: new FormControl(),
       lastName: new FormControl('',[Validators.required]),

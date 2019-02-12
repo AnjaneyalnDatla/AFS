@@ -13,7 +13,26 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class ContactsFormComponent {
-
+    address: any[] = [
+        {
+            country: 'India', states: [
+                { state: 'Andhra Pradesh', cities: ['Vijayawada', 'Visakhapatnam'] },
+                { state: 'Telangana', cities: ['Hyderabad', 'Warangal'] }
+            ]
+        },
+        {
+            country: 'USA', states: [
+                { state: 'Washington', cities: ['Seattle', 'Spokane'] },
+                { state: 'Virginia', cities: ['Virginia Beach', 'Norfolk'] }
+            ]
+        }
+    ];
+    countrySelected = 'India';
+    stateSelected = 'Andhra Pradesh';
+    states = [];
+    cities = [];
+    index = 0;
+    idType = ['Aadhar card', 'Passport', 'Driving License', 'Voter Id'];
     @Input() contactForm: FormGroup;
     @Input() cardTitle;
 
@@ -26,6 +45,8 @@ export class ContactsFormComponent {
         private router: Router,
         private toastr: ToastrService,
         private uploadFileService: UploadFileService) {
+        this.getStates();
+        this.getCities();
     }
 
     onFormSubmit(form: any) {
@@ -94,6 +115,31 @@ export class ContactsFormComponent {
 
     resetForm() {
         this.contactForm.reset();
-      }
+    }
+
+    getStates() {
+        this.address.forEach(address => {
+            if (address.country == this.countrySelected) {
+                let i = 0;
+                address.states.forEach(element => {
+                    this.states[i++] = element.state;
+                });
+            }
+        });
+        this.cities = [];
+    }
+
+    getCities() {
+        this.address.forEach(address => {
+            if (address.country == this.countrySelected) {
+                address.states.forEach(element => {
+                    if (element.state == this.stateSelected) {
+                        this.cities = element.cities;
+                    }
+                });
+            }
+        });
+    }
+
 
 }

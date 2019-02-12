@@ -40,6 +40,7 @@ export class ContactsViewComponent implements OnInit {
     idNumber: ['', Validators.required],
     idType: ['', Validators.required],
     designation: ['', Validators.required],
+    panIdNumber: ['', Validators.required],
     firstName: ['', Validators.required],
     middleName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -126,6 +127,12 @@ export class ContactsViewComponent implements OnInit {
         this.contactForm.controls['idType'].setValue(data.idType);
         this.contactForm.controls['idNumber'].setValue(data.idNumber);
         this.contactForm.controls['designation'].setValue(data.designation);
+        this.contactForm.controls['panIdNumber'].setValue(data.panIdNumber);
+        if (data.isGST == 'Yes') {
+          this.contactForm.controls['isGST'].setValue("Yes");
+        } else {
+          this.contactForm.controls['isGST'].setValue("No");
+        }
         this.isLoaded = true;
       }
     );
