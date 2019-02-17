@@ -1,11 +1,11 @@
 <div class="main-content">
-        <div class="container-fluid">
-            <app-invoice *ngIf="showPurchaseOrder" [transactionNumber]="transactionNumber" (onBackClick)="toggleOnBack($event)"></app-invoice>
-            <div class="row" *ngIf="!showPurchaseOrder">
-                <div class="col-md-12">
-                    <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns" [pageOptions]="pageOptions"
-                        (onView)="getPurchase($event)" (onDelete)="deletePurchase($event)"></app-sortedtable>
-                </div>
+    <div class="container-fluid">
+        <app-invoice *ngIf="showPurchaseOrder" [transactionNumber]="transactionNumber" (onBackClick)="toggleOnBack($event)"></app-invoice>
+        <div class="row" [hidden]="showInvoice">
+            <div class="col-md-12">
+                <app-sortedtable [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
+                    [pageOptions]="pageOptions" (onView)="getPurchase($event)" (onDelete)="deletePurchase($event)"></app-sortedtable>
             </div>
         </div>
     </div>
+</div>

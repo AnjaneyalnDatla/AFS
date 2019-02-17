@@ -45,6 +45,10 @@ export class ContactsService {
         if (contactForm.isCompany == 'vendor') {
             isCom = true;
         }
+        let isGST = false;
+        if(contactForm.isGST == 'Yes') {
+            isGST = true;
+        }
         let contact = {
             isCompany: isCom,
             id: contactForm.id,
@@ -69,7 +73,9 @@ export class ContactsService {
             additionalComments: contactForm.additionalComments,
             idType: contactForm.idType,
             idNumber: contactForm.idNumber,
-            designation: contactForm.designation
+            designation: contactForm.designation,
+            panIdNumber: contactForm.panIdNumber,
+            isGST: isGST
 
         }
         return this.http.post<any>(url, contact, {

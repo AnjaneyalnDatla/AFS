@@ -7,12 +7,11 @@
         </div>
       </div>
       <div class="card-body ">
-
         <mat-form-field>
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
         </mat-form-field>
         <div class="mat-elevation-z8">
-          <mat-table #table *ngIf="dataSource" [dataSource]="dataSource" matSort>
+          <mat-table #table *ngIf="dataSource" [dataSource]="dataSource" matSort [class.isMobile]="isMobile">
             <ng-container *ngFor="let column of columns" matColumnDef="{{column.columnDef}}">
                 <div *ngIf="column.sort">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</mat-header-cell>
@@ -22,19 +21,22 @@
                   </div>
               
               <mat-cell *matCellDef="let row">
-                <span *ngIf="column.header!='Actions'" [innerHTML]="column.cell(row)| safe: 'html'" > </span>
-                <span *ngIf="column.header=='Actions'"><button  mat-button  color="primary" (click)="delete(row)"><mat-icon>delete</mat-icon>
-                </button>  <button  mat-button  color="primary" (click)="edit(row)"><mat-icon>visibility</mat-icon></button> </span>
+                <span class="mobile-label">{{ column.header }}</span>
+                <span *ngIf="column.header!='Actions'" [ngStyle]="column.header=='Transaction Status' ? column.cell(row)=='IN-PROGRESS' ? statusInprogress : column.cell(row)=='COMPLETE' ? statusComplete : null : null"
+                  [innerHTML]="column.cell(row)| safe: 'html'">
+                </span>
+                <span *ngIf="column.header=='Actions'" class="mobile-button"><button mat-button color="primary" (click)="delete(row)">
+                    <mat-icon>delete</mat-icon>
+                  </button> <button mat-button color="primary" (click)="edit(row)">
+                    <mat-icon>visibility</mat-icon>
+                  </button> </span>
               </mat-cell>
-              
-              
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
           <mat-paginator [pageSizeOptions]="pageOptions" showFirstLastButtons></mat-paginator>
         </div>
-
       </div>
     </div>
   </div>

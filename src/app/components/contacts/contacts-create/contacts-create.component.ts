@@ -17,6 +17,8 @@ export class ContactsCreateComponent implements OnInit {
     idNumber: ['', Validators.required],
     idType: ['', Validators.required],
     designation: [''],
+    panIdNumber: ['', [Validators.required, ValidationService.panValidator]],
+    isGST: [''],
     firstName: ['', Validators.required],
     middleName: [''],
     lastName: ['', Validators.required],

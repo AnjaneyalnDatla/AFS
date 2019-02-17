@@ -7,6 +7,7 @@ export class ValidationService {
             'invalidCreditCard': 'Is invalid credit card number',
             'invalidEmailAddress': 'Invalid email address',
             'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',
+            'invalidPan': 'Invalid Pan Number',
             'minlength': `Minimum length ${validatorValue.requiredLength}`
         };
 
@@ -38,6 +39,14 @@ export class ValidationService {
             return null;
         } else {
             return { 'invalidPassword': true };
+        }
+    }
+
+    static panValidator(control) {
+        if (control.value.match(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/)) {
+            return null;
+        } else {
+            return { 'invalidPan': true };
         }
     }
 }
