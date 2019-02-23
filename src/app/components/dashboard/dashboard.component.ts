@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 // import { KeycloakService } from '../../keycloak.service';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
+import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,8 +17,10 @@ import { KeycloakProfile } from 'keycloak-js';
 export class DashboardComponent implements OnInit {
   userDetails: KeycloakProfile;
   userRoles: string[];
+  token: string;
 
-  constructor(private commonService: CommonService, private toastr: ToastrService, protected keycloakAngular: KeycloakService) {
+  constructor(private commonService: CommonService, private toastr: ToastrService, 
+    protected keycloakAngular: KeycloakService, private authService: AuthenticationService) {
     var tester = new MyLegend(); //without this line, you get 'Chartist.plugins undefined'
   }
 
@@ -112,6 +115,9 @@ export class DashboardComponent implements OnInit {
       console.log('User Details: ' + JSON.stringify(this.userDetails));
       this.userRoles = await this.keycloakAngular.getUserRoles();
       console.log('User Roles: ' + this.userRoles);
+      let org = await this.authService.getUserGroups(); 
+      console.log('User Organization Details: ' + JSON.stringify(org));
+        
     }
 
     this.commonService.getAccounts().subscribe(
