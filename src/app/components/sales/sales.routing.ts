@@ -11,13 +11,11 @@ export const SalesRoutes: Routes = [
         children: [{
             path: 'create',
             component: SalesCreateComponent,
-             canActivate: [AppAuthGuard],
              data: { roles: ['manage-sales'] }
         },
         {
             path: 'viewAll',
             component: SalesViewComponent,
-            canActivate: [AppAuthGuard],
             data: { roles: ['user'] }
         }]
     }

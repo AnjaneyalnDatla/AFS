@@ -16,12 +16,9 @@ export class KeycloakService {
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
       const config = {
-        'url': 'http://localhost:8090/auth',
+        'url': 'https://68.183.156.146:8443/auth',
         'realm': 'AFS',
-        'clientId': 'afs-identity',
-        "credentials": {
-          "secret": "bf4e7abf-e36f-4dc8-8e33-ddc8608cd05e"
-        }
+        'clientId': 'afs-identity'
       };
       this.keycloakAuth = new Keycloak(config);
       this.keycloakAuth.init({ onLoad: 'login-required' })

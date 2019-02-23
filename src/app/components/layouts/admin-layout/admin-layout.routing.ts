@@ -9,8 +9,7 @@ import { AppAuthGuard } from '../../../app.authguard';
 
 
 export const AdminLayoutRoutes: Routes = [
-  { path: 'dashboard', component: DashboardComponent,canActivate: [AppAuthGuard],
-    data: { roles: ['view-dashboard'] } },
+  { path: 'dashboard', component: DashboardComponent,},
   {
     path: 'sales',
     loadChildren: '../../sales/sales.module#SalesModule',

@@ -26,6 +26,7 @@ import { initializer } from './app-init';
 import { AppAuthGuard } from './app.authguard';
 import { KeycloakAngularModule } from 'keycloak-angular';
 //import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
+import {TokenInterceptor} from './token.interceptor';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { KeycloakAngularModule } from 'keycloak-angular';
     ContactsService, CommonService, UploadFileService, 
     CurrencyPipe, DatePipe, AppAuthGuard, 
     { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
     ],
   bootstrap: [AppComponent]
 })
