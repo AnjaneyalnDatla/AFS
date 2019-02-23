@@ -6,12 +6,9 @@ import { KeycloakConfig } from 'keycloak-angular';
 
 // Add here your keycloak setup infos
 let keycloakConfig: KeycloakConfig = {
-  'url': 'http://localhost:8085/auth',
-  'realm': 'afs',
-  'clientId': 'afs-identity',
-  "credentials": {
-    "secret": "28611ae6-f285-456a-915b-2fb39f98218d"
-  }
+  'url': 'https://68.183.156.146:8443/auth',
+  'realm': 'AFS',
+  'clientId': 'afs-identity'
 };
 
 export const environment = {
