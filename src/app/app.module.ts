@@ -1,8 +1,8 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -21,6 +21,12 @@ import { CommonService } from './_services/common.service';
 import { UploadFileService } from './_services/upload-file.service';
 import { ToastrModule } from 'ngx-toastr';
 import { GlobalErrorHandlerService } from './_services/globalErrorHandler.service';
+//import { KeycloakService } from './keycloak.service';
+import { initializer } from './app-init';
+import { AppAuthGuard } from './app.authguard';
+//import { KeycloakAngularModule } from 'keycloak-angular';
+import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
+import {TokenInterceptor} from './token.interceptor';
 
 @NgModule({
   imports: [
@@ -35,6 +41,7 @@ import { GlobalErrorHandlerService } from './_services/globalErrorHandler.servic
     MatCheckboxModule,
     MatButtonModule,
     MatMenuModule,
+    KeycloakAngularModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     }),
@@ -46,10 +53,18 @@ import { GlobalErrorHandlerService } from './_services/globalErrorHandler.servic
     AdminLayoutComponent,
     LoginLayoutComponent,
   ],
-  providers: [AuthenticationService, TransactionsService, 
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializer,
+      multi: true,
+      deps: [KeycloakService]
+    },
+    AuthenticationService, TransactionsService, 
     ContactsService, CommonService, UploadFileService, 
-    CurrencyPipe, DatePipe,
-    { provide: ErrorHandler, useClass: GlobalErrorHandlerService },],
+    CurrencyPipe, DatePipe, AppAuthGuard, 
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

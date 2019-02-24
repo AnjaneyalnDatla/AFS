@@ -6,6 +6,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { SalesComponent } from '../../sales/sales.component';
 import { PurchasesComponent } from '../../purchases/purchases.component';
+import { ReceivablesComponent } from '../../receivables/receivables.component';
 import { ContactsComponent } from '../../contacts/contacts.component';
 import { ReportsComponent } from '../../reports/reports.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
@@ -19,6 +20,7 @@ import { WizardComponent } from '../../commons/wizard/wizard.component';
 //import { InvoiceComponent } from '../../commons/forms/accounts/invoice.component';
 import { SharedModule } from '../../../components/commons/shared.module';
 import { ExpensesComponent } from '../../expenses/expenses.component';
+import { AppAuthGuard } from '../../../app.authguard';
 
 import {
   MatButtonModule,
@@ -79,6 +81,7 @@ import {
     WizardComponent,
     PaymentsComponent,
     ExpensesComponent,
+    ReceivablesComponent,
   ],
   exports: [
     DashboardComponent,
@@ -91,7 +94,9 @@ import {
     PaymentsComponent,
     ExpensesComponent,
     WizardComponent,
-  ]
+    ReceivablesComponent,
+  ],
+  providers: [AppAuthGuard]
 })
 
 export class AdminLayoutModule { }
