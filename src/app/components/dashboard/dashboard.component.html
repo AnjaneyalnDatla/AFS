@@ -1,47 +1,130 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-success card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">account_balance</i>
-                        </div>
-                        <h4 class="card-title">Account Balances</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <app-md-table [data]="tableData">
-                                </app-md-table>
-                            </div>
-                            <div class="col-md-6 ml-auto mr-auto">
-                                    <div class="ct-chart" id="simpleBarChart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">shop_two</i>
             </div>
+            <p class="card-category">Sales</p>
+            <h3 class="card-title">19</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">thumb_down</i><b>7 </b>&nbsp;rejected sales
+            </div>
+          </div>
         </div>
-        
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">shopping_cart</i>
+            </div>
+            <p class="card-category">Purchases</p>
+            <h3 class="card-title">36</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">thumb_down</i><b>3 </b>&nbsp;rejected purchases
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">check_circle_outline</i>
+            </div>
+            <p class="card-category">Approved</p>
+            <h3 class="card-title">30</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">date_range</i> Last 24 Hours
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="fa fa-thumbs-o-up"></i>
+            </div>
+            <p class="card-category">Pending Approvals</p>
+            <h3 class="card-title">15</h3>
+          </div>
+          <div class="card-footer" *ngIf="isApprover">
+            <div class="stats">
+              <i class="material-icons text-danger">warning</i>Attention Needed.... <a href="#pablo">Start Approving</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isApprover">
+      <!-- Pending approvals table -->
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">account_balance</i>
+            </div>
+            <h4 class="card-title">Pending Approvals</h4>
+          </div>
+          <div class="card-body">
+              <app-dashboard-table></app-dashboard-table>
+                
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="card card-chart">
-                    <div class="card-header card-header-success card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">insert_chart</i>
-                            </div>
-                            <h4 class="card-title">Revenue/Expense</h4>
-                        </div>
-                <div class="card-body">
-                        <div class="ct-chart" id="websiteViewsChart"></div>
-                </div>
-                <div class="card-footer">
-                </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">account_balance</i>
             </div>
+            <h4 class="card-title">Account Balances</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <app-md-table [data]="tableData">
+                </app-md-table>
+              </div>
+              <div class="col-md-6 ml-auto mr-auto">
+                <div class="ct-chart" id="simpleBarChart"></div>
+              </div>
+            </div>
+          </div>
         </div>
+
+      </div>
     </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-chart">
+        <div class="card-header card-header-success card-header-icon">
+          <div class="card-icon">
+            <i class="material-icons">insert_chart</i>
+          </div>
+          <h4 class="card-title">Revenue/Expense</h4>
+        </div>
+        <div class="card-body">
+          <div class="ct-chart" id="websiteViewsChart"></div>
+        </div>
+        <div class="card-footer">
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

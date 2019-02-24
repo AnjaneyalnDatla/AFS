@@ -10,6 +10,7 @@ import { ContactsFormComponent } from '../commons/forms/contacts/contactsform.co
 import { PrivilegesComponent } from '../commons/forms/users/privileges.component';
 import { UsersFormComponent } from '../commons/forms/users/usersform.component';
 import { ControlMessagesComponent } from '../commons/control-messages.component';
+import { DashboardTableComponent } from './tables/dashboard-table/dashboard-table.component';
 import { SafePipe } from '../../_helpers/safe.pipe';
 
 import {
@@ -30,6 +31,7 @@ import {
   MatTabsModule,
   MatIconModule,
 } from '@angular/material';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import {
     PrivilegesComponent,
     UsersFormComponent,
     ControlMessagesComponent,
-    SafePipe
+    SafePipe,
+    DashboardTableComponent
   ],
   exports: [
     InvoiceComponent,
@@ -73,7 +76,8 @@ import {
     PrivilegesComponent,
     UsersFormComponent,
     ControlMessagesComponent,
-    SafePipe
+    SafePipe,
+    DashboardTableComponent
   ]
 })
 export class SharedModule { }
