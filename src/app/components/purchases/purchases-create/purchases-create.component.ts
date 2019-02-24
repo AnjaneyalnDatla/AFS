@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-purchases-create',
@@ -84,27 +85,31 @@ export class PurchasesCreateComponent implements OnInit {
     private datePipe: DatePipe, private router: Router,
     private contactsService: ContactsService,
     private toastr: ToastrService,
-    private commonService: CommonService, private authenticationService: AuthenticationService
+    private commonService: CommonService, 
+    private authenticationService: AuthenticationService,
+    private keycloakAngular: KeycloakService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     //get logged in user details from local storage 
     // and set userId, userName, DepartmentId and DepartmentName
-    this.userDetails = this.authenticationService.getLoginUser();
-    console.log(this.userDetails['id']);
+    if (await this.keycloakAngular.isLoggedIn()) {
+      this.userDetails = await this.keycloakAngular.loadUserProfile();
+    }
+    console.log(this.userDetails);
     if (this.userDetails != null) {
       this.purchaseForm.controls["user_id"].setValue(
-        this.userDetails['id']
+        this.userDetails["attributes"]['userId'][0]
       );
       this.purchaseForm.controls["user_name"].setValue(
-        this.userDetails['userName']
+        this.userDetails['username']
       );
       this.purchaseForm.controls["departmentId"].setValue(
-        this.userDetails['person']['department']['id']
+        this.userDetails["attributes"]['departmentId'][0]
       );
       this.purchaseForm.controls["departmentName"].setValue(
-        this.userDetails['person']['department']['name']
+        this.userDetails["attributes"]['departmentName'][0]
       );
     } else {
       return this.router.navigate(['/login'])

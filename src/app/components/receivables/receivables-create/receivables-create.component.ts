@@ -16,6 +16,7 @@ import { UploadFileService } from '../../../_services/upload-file.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import { KeycloakService } from 'keycloak-angular';
 
 
 @Component({
@@ -97,28 +98,30 @@ export class ReceivablesCreateComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private uploadFileService: UploadFileService,
     private toastr: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private keycloakAngular: KeycloakService) {
     //this.salesForm = this.createSaleForm(fb);    
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     //get logged in user details from local storage 
     // and set userId, userName, DepartmentId and DepartmentName
-    this.userDetails = this.authenticationService.getLoginUser();
-
+    if (await this.keycloakAngular.isLoggedIn()) {
+      this.userDetails = await this.keycloakAngular.loadUserProfile();
+    }
     console.log(this.userDetails);
     if (this.userDetails != null) {
       this.receivablesForm.controls["user_id"].setValue(
-        this.userDetails['id']
+        this.userDetails["attributes"]['userId'][0]
       );
       this.receivablesForm.controls["user_name"].setValue(
-        this.userDetails['userName']
+        this.userDetails['username']
       );
       this.receivablesForm.controls["departmentId"].setValue(
-        this.userDetails['person']['department']['id']
+        this.userDetails["attributes"]['departmentId'][0]
       );
       this.receivablesForm.controls["departmentName"].setValue(
-        this.userDetails['person']['department']['name']
+        this.userDetails["attributes"]['departmentName'][0]
       );
     } else {
       return this.router.navigate(['/login'])
