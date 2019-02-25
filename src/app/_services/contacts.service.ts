@@ -4,16 +4,19 @@ import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
 import { throwError } from 'rxjs';
+import { ServiceUtil } from '../_helpers/serviceutil';
+
 
 @Injectable()
 export class ContactsService {
 
     constructor(
         private http: HttpClient,
+        private serviceUtil: ServiceUtil
     ) { }
 
     getContactList() {
-        let url = `${environment.account_contextroot}` + `${environment.contacts_resource}`
+        let url = `${environment.account_contextroot}` + `${environment.contacts_resource}` + '/?orgCode=' + this.serviceUtil.getGroupCode();
 
         return this.http.get<any>(url, {
             headers: {
@@ -26,8 +29,7 @@ export class ContactsService {
         });
     }
     getContactById(contactId) {
-        let url = `${environment.account_contextroot}` + `${environment.contacts_resource}` + `/id/` + contactId;
-
+        let url = `${environment.account_contextroot}` + `${environment.contacts_resource}` + `/id/` + contactId + '/?orgCode=' + this.serviceUtil.getGroupCode();
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"

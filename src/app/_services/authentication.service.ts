@@ -20,7 +20,7 @@ export class AuthenticationService {
 
         userGrpArry.forEach(org => {
             let orgArry: Array<String> = org.split(":");
-            let organization = { organizationName: orgArry[0].replace('/', ''), organizationId: orgArry[1] };
+            let organization = { organizationName: orgArry[0].replace('/', ''), organisationCode: orgArry[0].split('-')[1] };
             this.organizationDetails.push(organization);
         });
         return this.organizationDetails;

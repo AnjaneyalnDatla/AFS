@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { KeycloakService } from 'keycloak-angular';
+import { ServiceUtil } from '../../../_helpers/serviceutil';
 
 
 @Component({
@@ -26,6 +27,19 @@ import { KeycloakService } from 'keycloak-angular';
 })
 export class ReceivablesCreateComponent implements OnInit {
 
+
+  constructor(private fb: FormBuilder,
+    private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe,
+    private contactsService: ContactsService,
+    private commonService: CommonService,
+    private authenticationService: AuthenticationService,
+    private uploadFileService: UploadFileService,
+    private toastr: ToastrService,
+    private router: Router,
+    private keycloakAngular: KeycloakService,
+    private serviceUtil: ServiceUtil) {    
+  }
 
   bills: any = [];
   payments: any = [];
@@ -87,21 +101,13 @@ export class ReceivablesCreateComponent implements OnInit {
     user_id: 0,
     user_name: '',
     departmentId: 0,
-    departmentName: ''
+    departmentName: '',
+    organisation: this.fb.group({
+      name: this.serviceUtil.getGroupName(),
+      code: this.serviceUtil.getGroupCode()
+    })
   });
 
-  constructor(private fb: FormBuilder,
-    private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe,
-    private contactsService: ContactsService,
-    private commonService: CommonService,
-    private authenticationService: AuthenticationService,
-    private uploadFileService: UploadFileService,
-    private toastr: ToastrService,
-    private router: Router,
-    private keycloakAngular: KeycloakService) {
-    //this.salesForm = this.createSaleForm(fb);    
-  }
 
   async ngOnInit() {
     //get logged in user details from local storage 
@@ -171,21 +177,21 @@ export class ReceivablesCreateComponent implements OnInit {
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
     if (this.receivablesForm.valid) {
-    swal({
-      title: 'Wish to continue?',
-      text: "Once confirmed, the action is irreversible",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      confirmButtonText: 'Save',
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.value) {
-        this.executeExpenseCreation(form);
-      }
-    });
-  }
+      swal({
+        title: 'Wish to continue?',
+        text: "Once confirmed, the action is irreversible",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        confirmButtonText: 'Save',
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.value) {
+          this.executeExpenseCreation(form);
+        }
+      });
+    }
 
   }
 

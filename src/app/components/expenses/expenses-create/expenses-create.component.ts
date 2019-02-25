@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { KeycloakService } from 'keycloak-angular';
+import { ServiceUtil } from '../../../_helpers/serviceutil';
 
 
 @Component({
@@ -87,7 +88,11 @@ export class ExpensesCreateComponent implements OnInit {
     user_id: 0,
     user_name: '',
     departmentId: 0,
-    departmentName: ''
+    departmentName: '',
+    organisation: this.fb.group({
+      name: this.serviceUtil.getGroupName(),
+      code: this.serviceUtil.getGroupCode()
+    })
   });
 
   constructor(private fb: FormBuilder,
@@ -99,8 +104,8 @@ export class ExpensesCreateComponent implements OnInit {
     private uploadFileService: UploadFileService,
     private toastr: ToastrService,
     private router: Router,
-    private keycloakAngular: KeycloakService) {
-    //this.salesForm = this.createSaleForm(fb);    
+    private keycloakAngular: KeycloakService,
+    private serviceUtil: ServiceUtil) {
   }
 
   async ngOnInit() {
@@ -171,21 +176,21 @@ export class ExpensesCreateComponent implements OnInit {
   // Executed When Form Is Submitted  
   onFormSubmit(form: any) {
     if (this.expenseForm.valid) {
-    swal({
-      title: 'Wish to continue?',
-      text: "Once confirmed, the action is irreversible",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      confirmButtonText: 'Save',
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.value) {
-        this.executeExpenseCreation(form);
-      }
-    });
-  }
+      swal({
+        title: 'Wish to continue?',
+        text: "Once confirmed, the action is irreversible",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        confirmButtonText: 'Save',
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.value) {
+          this.executeExpenseCreation(form);
+        }
+      });
+    }
 
   }
 

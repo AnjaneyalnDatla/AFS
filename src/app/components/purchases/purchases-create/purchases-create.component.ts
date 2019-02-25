@@ -14,6 +14,7 @@ import swal from 'sweetalert2';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { KeycloakService } from 'keycloak-angular';
+import { ServiceUtil } from '../../../_helpers/serviceutil';
 
 @Component({
   selector: 'app-purchases-create',
@@ -22,6 +23,19 @@ import { KeycloakService } from 'keycloak-angular';
 })
 export class PurchasesCreateComponent implements OnInit {
 
+  
+  constructor(private fb: FormBuilder,
+    private transactionsService: TransactionsService,
+    private uploadFileService: UploadFileService,
+    private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe, private router: Router,
+    private contactsService: ContactsService,
+    private toastr: ToastrService,
+    private commonService: CommonService, 
+    private authenticationService: AuthenticationService,
+    private keycloakAngular: KeycloakService,
+    private serviceUtil: ServiceUtil
+  ) { }
 
   transaction: {};
   files: any = [];
@@ -75,20 +89,13 @@ export class PurchasesCreateComponent implements OnInit {
     user_id: 0,
     user_name: '',
     departmentId: 0,
-    departmentName: ''
+    departmentName: '',
+    organisation: this.fb.group({
+      name: this.serviceUtil.getGroupName(),
+      code: this.serviceUtil.getGroupCode()
+    })
   });
 
-  constructor(private fb: FormBuilder,
-    private transactionsService: TransactionsService,
-    private uploadFileService: UploadFileService,
-    private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe, private router: Router,
-    private contactsService: ContactsService,
-    private toastr: ToastrService,
-    private commonService: CommonService, 
-    private authenticationService: AuthenticationService,
-    private keycloakAngular: KeycloakService
-  ) { }
 
   async ngOnInit() {
 

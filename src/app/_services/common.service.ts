@@ -5,16 +5,19 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
 import { throwError } from 'rxjs';
+import { ServiceUtil } from '../_helpers/serviceutil';
+
 
 @Injectable()
 export class CommonService {
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private serviceUtil: ServiceUtil
     ) { }
 
     getProductTypes() {
-        let url = `${environment.account_contextroot}` + `${environment.products_resource}`
+        let url = `${environment.account_contextroot}` + `${environment.products_resource}`+ '/?orgCode=' + this.serviceUtil.getGroupCode();
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
@@ -27,7 +30,7 @@ export class CommonService {
     }
 
     getAccounts(): Observable<any> {
-        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}`
+        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}` + '/?orgCode=' + this.serviceUtil.getGroupCode();
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
@@ -41,7 +44,7 @@ export class CommonService {
     }
 
     getAccountById(accountId): Observable<any> {
-        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}`+`/id/`+ accountId
+        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}` + `/id/` + accountId+ '/?orgCode=' + this.serviceUtil.getGroupCode();
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
@@ -56,7 +59,7 @@ export class CommonService {
 
     getAccountTypes(): Observable<any> {
         console.log("CALLING")
-        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}`+`/accountTypes`
+        let url = `${environment.account_contextroot}` + `${environment.accounts_resource}` + `/accountTypes`
         return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
@@ -69,7 +72,7 @@ export class CommonService {
         });
     }
 
-    saveAccount(formData){
+    saveAccount(formData) {
         let url = `${environment.account_contextroot}` + `${environment.accounts_resource}`
         console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {

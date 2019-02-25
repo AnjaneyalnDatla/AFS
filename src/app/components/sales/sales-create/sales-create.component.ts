@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { KeycloakService } from 'keycloak-angular';
+import { ServiceUtil } from '../../../_helpers/serviceutil';
 
 @Component({
   selector: 'app-sales-create',
@@ -24,6 +25,18 @@ import { KeycloakService } from 'keycloak-angular';
 })
 export class SalesCreateComponent implements OnInit {
 
+
+  constructor(private fb: FormBuilder,
+    private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe,
+    private contactsService: ContactsService,
+    private commonService: CommonService,
+    private uploadFileService: UploadFileService,
+    private toastr: ToastrService,
+    private router: Router,
+    protected keycloakAngular: KeycloakService,
+    private serviceUtil: ServiceUtil) {    
+  }
 
   transaction: {};
   documents: any;
@@ -78,20 +91,13 @@ export class SalesCreateComponent implements OnInit {
     user_id: 0,
     user_name: '',
     departmentId: 0,
-    departmentName: ''
+    departmentName: '',
+    organisation: this.fb.group({
+        name: this.serviceUtil.getGroupName(),
+        code: this.serviceUtil.getGroupCode()
+    })
   });
 
-  constructor(private fb: FormBuilder,
-    private transactionsService: TransactionsService, private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe,
-    private contactsService: ContactsService,
-    private commonService: CommonService,
-    private uploadFileService: UploadFileService,
-    private toastr: ToastrService,
-    private router: Router,
-    protected keycloakAngular: KeycloakService) {
-    //this.salesForm = this.createSaleForm(fb);    
-  }
 
   async ngOnInit() {
     //get logged in user details from local storage 

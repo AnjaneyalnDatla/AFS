@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ServiceUtil } from '../../../_helpers/serviceutil';
 
 
 @Component({
@@ -17,10 +18,15 @@ export class AccountCreateComponent implements OnInit {
     currentBalance: ['', Validators.required],
     dateUpdated: ['', Validators.required],
     isActive: ['', Validators.required],
+    organisation: this.fb.group({
+      name: this.serviceUtil.getGroupName(),
+      code: this.serviceUtil.getGroupCode()
+    })
   });
 
   cardTitle = "Create Account";
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+    private serviceUtil: ServiceUtil) { }
 
   ngOnInit() {
   }

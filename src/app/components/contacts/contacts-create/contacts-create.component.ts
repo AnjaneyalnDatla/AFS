@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ValidationService } from '../../../_services/validation.service';
+import { ServiceUtil } from '../../../_helpers/serviceutil';
+
 
 @Component({
   selector: 'app-contacts-create',
@@ -36,11 +38,16 @@ export class ContactsCreateComponent implements OnInit {
     primaryEmail: ['', [Validators.required, ValidationService.emailValidator]],
     secondaryEmail: [''],
     additionalComments: [''],
-    current_balance: '0'
+    current_balance: '0',
+    organisation: this.fb.group({
+      name: this.serviceUtil.getGroupName(),
+      code: this.serviceUtil.getGroupCode()
+    })
   });
 
   cardTitle = "Create Contact";
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder
+    , private serviceUtil: ServiceUtil) { }
 
   ngOnInit() {
   }
@@ -57,6 +64,6 @@ export class ContactsCreateComponent implements OnInit {
     console.log("Inside contacts component" + this.contactForm);
   }
 
-  
+
 
 }
