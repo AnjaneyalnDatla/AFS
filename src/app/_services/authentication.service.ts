@@ -12,6 +12,8 @@ export class AuthenticationService {
     ) { }
 
     organizationDetails: Array<Object> = new Array<Object>();
+    userRoles = {};
+    isApproverVar: boolean= false;
 
     getUserGroups() {
         let _keycloakInst = this.KeycloakService.getKeycloakInstance();
@@ -24,6 +26,11 @@ export class AuthenticationService {
             this.organizationDetails.push(organization);
         });
         return this.organizationDetails;
+    }
 
+    isApprover() {
+        this.userRoles = this.KeycloakService.getUserRoles();
+        this.isApproverVar = JSON.stringify(this.userRoles).includes("approve");
+        return this.isApproverVar;
     }
 }

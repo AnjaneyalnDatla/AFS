@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
 import { AuthenticationService } from '../../_services/authentication.service';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ export class DashboardComponent implements OnInit {
   userDetails: KeycloakProfile;
   userRoles: string[];
   token: string;
+  isApprover: boolean= false;
 
   constructor(private commonService: CommonService, private toastr: ToastrService, 
     protected keycloakAngular: KeycloakService, private authService: AuthenticationService) {
@@ -109,7 +111,6 @@ export class DashboardComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     if (await this.keycloakAngular.isLoggedIn()) {
       this.userDetails = await this.keycloakAngular.loadUserProfile();
       console.log('User Details: ' + JSON.stringify(this.userDetails));
@@ -117,7 +118,10 @@ export class DashboardComponent implements OnInit {
       console.log('User Roles: ' + this.userRoles);
       let org = await this.authService.getUserGroups(); 
       console.log('User Organization Details: ' + JSON.stringify(org));
-        
+      //console.log('Is Approver:'+ await this.authService.isApprover()); 
+      this.isApprover = await this.authService.isApprover();     
+    }else{
+      return; //return to login page
     }
 
     this.commonService.getAccounts().subscribe(
