@@ -18,6 +18,7 @@ export const environment = {
   identity_contextroot: 'http://localhost:8080/identity/',
   account_contextroot: 'http://localhost:8082/accounts/',
   documentor_contextroot: 'http://localhost:8088/',
+  keycloak_contextroot: 'http://localhost:8081/keycloak/',
   
   // Context Paths
   identity_validate_url: 'validate',
@@ -25,6 +26,7 @@ export const environment = {
   contacts_resource: 'contacts',
   transactions_resource: 'transactions',
   products_resource: 'products',
-  accounts_resource: 'account'
+  accounts_resource: 'account',
+  keycloak_resource: 'users'
 };
 

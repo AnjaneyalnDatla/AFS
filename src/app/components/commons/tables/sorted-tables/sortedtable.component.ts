@@ -29,7 +29,7 @@ export class SortedTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = this.columns.filter(c => c.visibility).map(c => c.columnDef);
+    //this.displayedColumns = this.columns.filter(c => c.visibility).map(c => c.columnDef);
   }
 
   ngAfterViewInit() {
