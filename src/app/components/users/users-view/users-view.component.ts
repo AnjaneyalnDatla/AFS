@@ -14,15 +14,15 @@ export class UsersViewComponent implements OnInit {
   columns = [
     { columnDef: 'firstName', header: 'First Name', sort: true, visibility: true, cell: (element: any) => `<b>${element.firstName}</b>` },
     { columnDef: 'lastName', header: 'Last Name', sort: true, visibility: true, cell: (element: any) => `<b>${element.lastName}</b>` },
-    { columnDef: 'username', header: 'User Name', sort: true, visibility: true, cell: (element: any) => `${element.username}` },
-    { columnDef: 'role', header: 'Role', sort: true, visibility: true,  cell: (element: any) => `<button mat-raised-button class="btn btn-info btn-sm">${element.role}</button>` },
+    { columnDef: 'username', header: 'User Name', sort: true, visibility: true, cell: (element: any) => `<b>${element.username}</b>` },
+    { columnDef: 'role', header: 'Role', sort: true, visibility: true,  cell: (element: any) => `<b>${element.realmRoles}</b>` },
     { columnDef: 'email', header: 'Email', sort: true, visibility: true, cell: (element: any) => `<b>${element.email}</b>` },
     { columnDef: 'enabled', header: 'Status', sort: false, visibility: true, cell: (element: any) => `<button mat-raised-button class="btn btn-success btn-sm">${element.enabled}</button>` },
     { columnDef: 'actions', header: 'Actions', sort: false, visibility: false, cell: (element: any) => `${element.actions}` },
   ];
 
   columns1 = [
-      { columnDef: 'role', header: 'Role', cell: (element: any) => `<button mat-raised-button class="btn btn-info btn-sm">${element.role}</button>` },
+      { columnDef: 'role', header: 'Role', cell: (element: any) => `${element.name}` },
       { columnDef: 'description', header: 'Description', cell: (element: any) => `${element.description}` },
       { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
   ];
@@ -46,18 +46,30 @@ export class UsersViewComponent implements OnInit {
   pageOptions = [10, 20, 30];
 
   displayedColumns1 = this.columns1.map(c => c.columnDef);
-  dataSource1 = new MatTableDataSource(this.roleData);
+  dataSource1 = new MatTableDataSource();
 
 
   cardTitle = "View User";
   constructor(private fb: FormBuilder, private userService: UserService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.fetchUserDetails();
+    await this.fetchRoles();
+  }
 
+  fetchUserDetails(){
     this.userService.getUsersList().subscribe(
       data => {
         console.log('User List: ' + data);
         this.dataSource = data;
+      })
+  }
+
+  fetchRoles(){
+    this.userService.getRoles().subscribe(
+      data => {
+        console.log('Roles: ' + data);
+        this.dataSource1 = data;
       })
   }
 
