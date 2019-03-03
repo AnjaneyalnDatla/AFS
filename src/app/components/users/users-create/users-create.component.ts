@@ -14,12 +14,14 @@ export class UsersCreateComponent implements OnInit {
     department: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    userName: ['', [Validators.required, ValidationService.emailValidator]],
+    username: ['', [Validators.required, ValidationService.emailValidator]],
+    email: ['', [Validators.required, ValidationService.emailValidator]],
     password: ['', [Validators.required, ValidationService.passwordValidator]],
     confirmPswd: ['', Validators.required],
     question: ['', Validators.required],
     answer: ['', Validators.required],
-    role:['' ,Validators.required]
+    role:['' ,Validators.required],
+    organization:['' ,Validators.required]
   },{
     validator: ConfirmPasswordValidator.MatchPassword
  });

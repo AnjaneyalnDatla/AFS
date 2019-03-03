@@ -15,8 +15,9 @@
         </div>
         <div class="col-sm-3">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Department" formControlName="department">
+                <input matInput placeholder="Email" formControlName="email">
             </mat-form-field>
+            <control-messages [control]="userForm.controls.email"></control-messages>
         </div>
     </div>
     <div class="row">
@@ -46,22 +47,28 @@
     <div class="row">
         <label class="col-md-2 col-form-label"></label>
         <div class="col-sm-3">
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Security Question" formControlName="question">
-            </mat-form-field>
-            <control-messages [control]="userForm.controls.question"></control-messages>
+                <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Department" formControlName="department">
+                            <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                                {{dept.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
         </div>
         <div class="col-sm-3">
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Security Answer" formControlName="answer">
-            </mat-form-field>
-            <control-messages [control]="userForm.controls.answer"></control-messages>
-        </div>
+                <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Organization" formControlName="organization" multiple>
+                            <mat-option *ngFor="let org of organizations" [value]="org.id">
+                                {{org.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
         <div class="col-sm-3">
             <mat-form-field class="example-full-width">
-                <mat-select placeholder="Role" formControlName="role">
-                    <mat-option *ngFor="let role of roles" [value]="role.value">
-                        {{role.viewValue}}
+                <mat-select placeholder="Role" formControlName="role" multiple>
+                    <mat-option *ngFor="let role of roles" [value]="role.id">
+                        {{role.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

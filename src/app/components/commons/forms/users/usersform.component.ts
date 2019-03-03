@@ -13,14 +13,36 @@ export class UsersFormComponent implements OnInit {
   @Input() cardTitle;
 
   constructor(private fb: FormBuilder, private userService: UserService) { }
-  roles = [
-    { value: 'admin', viewValue: 'Admin' },
-    { value: 'user', viewValue: 'User' },
-    { value: 'guest', viewValue: 'Guest' }
-  ];
+  roles = [];
+  organizations = [];
+  departments = [
+    {'id':1,'name':'Computer Science'},
+    {'id':2,'name':'Information Technology'},
+    {'id':3,'name':'Billing'}
+  ]
   hide = true;
 
-  ngOnInit() {
+  async ngOnInit() {
+    //load departments, organizations and roles list in create user page
+    await this.fetchOrganizations();
+    await this.fetchRoles();
+
+  }
+
+  fetchOrganizations(){
+    this.userService.getOrganizations().subscribe(
+      data => {
+        console.log('Orgs: ' + data);
+        this.organizations = data;
+      })
+  }
+
+  fetchRoles(){
+    this.userService.getRoles().subscribe(
+      data => {
+        console.log('Roles: ' + data);
+        this.roles = data;
+      })
   }
 
   ngAfterViewInit() {
@@ -28,7 +50,6 @@ export class UsersFormComponent implements OnInit {
   }
 
   onFormSubmit(form: any) {
-    console.log(form);
     this.userService.createUser(form);
   }
 

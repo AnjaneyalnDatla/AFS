@@ -10,7 +10,6 @@ import { ContactsFormComponent } from '../commons/forms/contacts/contactsform.co
 import { PrivilegesComponent } from '../commons/forms/users/privileges.component';
 import { UsersFormComponent } from '../commons/forms/users/usersform.component';
 import { ControlMessagesComponent } from '../commons/control-messages.component';
-import { DashboardTableComponent } from './tables/dashboard-table/dashboard-table.component';
 import { SafePipe } from '../../_helpers/safe.pipe';
 
 import {
@@ -64,9 +63,8 @@ import {
     PrivilegesComponent,
     UsersFormComponent,
     ControlMessagesComponent,
-    SafePipe,
-    DashboardTableComponent
-  ],
+    SafePipe
+    ],
   exports: [
     InvoiceComponent,
     SortedTableComponent,
@@ -76,8 +74,7 @@ import {
     PrivilegesComponent,
     UsersFormComponent,
     ControlMessagesComponent,
-    SafePipe,
-    DashboardTableComponent
+    SafePipe
   ]
 })
 export class SharedModule { }

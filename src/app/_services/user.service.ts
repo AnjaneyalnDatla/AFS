@@ -36,6 +36,19 @@ export class UserService {
         });
     }
 
+    getOrganizations() {
+        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}`+'/groups';
+        return this.http.get<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        }).catch((error: any) => {
+            return throwError(error);
+        });
+    }
+
     
 
     createUser(formData) {
