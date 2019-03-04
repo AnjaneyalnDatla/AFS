@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material';
 import { CommonService } from '../../../_services/common.service';
 import { PeriodicElement } from '../../../_models/common/periodicelement';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { accountcolumns } from 'app/_models/common/table-columns';
 
 @Component({
   selector: 'app-account-view',
@@ -14,14 +15,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class AccountViewComponent implements OnInit {
 
   // Table columns 
-  columns = [
-    { columnDef: 'name', header: 'Account Name', cell: (element: any) => `${element.name}` },
-    { columnDef: 'account_type.name', header: 'Type', cell: (element: any) => `${element.account_type.name}` },
-    { columnDef: 'account_type.accountCategory.name', header: 'Accounting Type', cell: (element: any) => `${element.account_type.accountCategory.name}` },
-    { columnDef: 'currentBalance', header: 'Balance', cell: (element: any) => `${element.currentBalance}` },
-    { columnDef: 'isActive', header: 'Status', cell: (element: any) => `${element.isActive}` },
-    { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
-  ];
+  columns = accountcolumns;
 
   displayedColumns = this.columns.map(c => c.columnDef);
   dataSource = new MatTableDataSource<PeriodicElement>();

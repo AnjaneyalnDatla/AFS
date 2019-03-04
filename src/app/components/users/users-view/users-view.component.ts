@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators, FormControl, FormGroup } from '@angular/forms';
-import { MatTableDataSource} from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { UserService } from '../../../_services/user.service';
+import { usercolumns, userrolescolumns } from 'app/_models/common/table-columns';
 
 @Component({
   selector: 'app-users-view',
@@ -10,37 +11,25 @@ import { UserService } from '../../../_services/user.service';
 })
 export class UsersViewComponent implements OnInit {
 
-      // Table columns 
-  columns = [
-    { columnDef: 'firstName', header: 'First Name', sort: true, visibility: true, cell: (element: any) => `<b>${element.firstName}</b>` },
-    { columnDef: 'lastName', header: 'Last Name', sort: true, visibility: true, cell: (element: any) => `<b>${element.lastName}</b>` },
-    { columnDef: 'username', header: 'User Name', sort: true, visibility: true, cell: (element: any) => `<b>${element.username}</b>` },
-    { columnDef: 'role', header: 'Role', sort: true, visibility: true,  cell: (element: any) => `<b>${element.realmRoles}</b>` },
-    { columnDef: 'email', header: 'Email', sort: true, visibility: true, cell: (element: any) => `<b>${element.email}</b>` },
-    { columnDef: 'enabled', header: 'Status', sort: false, visibility: true, cell: (element: any) => `<button mat-raised-button class="btn btn-success btn-sm">${element.enabled}</button>` },
-    { columnDef: 'actions', header: 'Actions', sort: false, visibility: false, cell: (element: any) => `${element.actions}` },
-  ];
+  // Table columns 
+  columns = usercolumns;
 
-  columns1 = [
-      { columnDef: 'role', header: 'Role', cell: (element: any) => `${element.name}` },
-      { columnDef: 'description', header: 'Description', cell: (element: any) => `${element.description}` },
-      { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
-  ];
+  columns1 = userrolescolumns;
 
   roleData = [
     {
-        "description": "Grant all access",
-        "role": "Administrator",
-      },
-      {
-        "description": "Grant access to sales",
-        "role": "Agent",
-      },
+      "description": "Grant all access",
+      "role": "Administrator",
+    },
+    {
+      "description": "Grant access to sales",
+      "role": "Agent",
+    },
   ];
 
   displayedColumns = this.columns.map(c => c.columnDef);
 
-  dataSource=new MatTableDataSource();
+  dataSource = new MatTableDataSource();
 
   //dataSource = new MatTableDataSource(this.testData);
   pageOptions = [10, 20, 30];
@@ -57,7 +46,7 @@ export class UsersViewComponent implements OnInit {
     await this.fetchRoles();
   }
 
-  fetchUserDetails(){
+  fetchUserDetails() {
     this.userService.getUsersList().subscribe(
       data => {
         console.log('User List: ' + data);
@@ -65,7 +54,7 @@ export class UsersViewComponent implements OnInit {
       })
   }
 
-  fetchRoles(){
+  fetchRoles() {
     this.userService.getRoles().subscribe(
       data => {
         console.log('Roles: ' + data);
@@ -75,7 +64,7 @@ export class UsersViewComponent implements OnInit {
 
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator;
-    
+
   }
 
 }

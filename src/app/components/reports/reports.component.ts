@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort, MatPaginator, MatTableDataSource, MatRadioChange } from '@angular/material';
 // Must import to use Forms functionality  
 import { FormBuilder, FormGroup, Validators, FormsModule, NgForm, FormArray, FormControl } from '@angular/forms';
+import { reportcolumns } from 'app/_models/common/table-columns';
 
 export interface ReportType {
   value: string;
@@ -31,14 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ReportsComponent implements OnInit {
   displayedColumns: string[] = ['id', 'type', 'name', 'price', 'quantity', 'total'];
-  columns = [
-    { columnDef: 'id', header: 'Id',    cell: (element: any) => `${element.id}` },
-    { columnDef: 'type',     header: 'Type',   cell: (element: any) => `${element.type}` },
-    { columnDef: 'name', header: 'Name',    cell: (element: any) => `${element.name}` },
-    { columnDef: 'price',     header: 'Price',   cell: (element: any) => `${element.price}` },
-    { columnDef: 'quantity', header: 'Quantity',    cell: (element: any) => `${element.quantity}` },
-    { columnDef: 'total',     header: 'Total',   cell: (element: any) => `${element.total}` },
-  ];
+  columns = reportcolumns;
 
   //displayedColumns = this.columns.map(c => c.columnDef);
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);

@@ -1,9 +1,10 @@
-import { Component, OnInit} from '@angular/core';
-import { MatTableDataSource} from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
 
 // Must import to use Forms functionality  
 import { TransactionsService } from '../../../_services/transactions.service';
 import { PeriodicElement } from '../../../_models/common/periodicelement';
+import { tablecolumns } from 'app/_models/common/table-columns';
 
 
 @Component({
@@ -14,16 +15,7 @@ import { PeriodicElement } from '../../../_models/common/periodicelement';
 export class PurchasesViewComponent implements OnInit {
 
   // Table columns 
-  columns = [
-    { columnDef: 'transaction_number', header: 'Transaction No.', cell: (element: any) => `${element.transaction_number}` },
-    { columnDef: 'transactionStatus.value', header: 'Transaction Status', cell: (element: any) => `${element.transactionStatus.value}` },
-    { columnDef: 'contact.companyName', header: 'Company Name', cell: (element: any) => `${element.contact.companyName}` },
-    { columnDef: 'contact.firstName', header: 'First Name', cell: (element: any) => `${element.contact.firstName}` },
-    { columnDef: 'contact.lastName', header: 'Last Name', cell: (element: any) => `${element.contact.lastName}` },
-    { columnDef: 'paymentAmount', header: 'Amount', cell: (element: any) => `${element.paymentAmount}` },
-    { columnDef: 'creationdate', header: 'Date', cell: (element: any) => `${element.creationdate}` },
-    { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
-  ];
+  columns = tablecolumns;
 
 
   displayedColumns = this.columns.map(c => c.columnDef);
@@ -51,7 +43,7 @@ export class PurchasesViewComponent implements OnInit {
     this.showPurchaseOrder = true;
   }
 
-  toggleOnBack(){
+  toggleOnBack() {
     this.showPurchaseOrder = false;
   }
 

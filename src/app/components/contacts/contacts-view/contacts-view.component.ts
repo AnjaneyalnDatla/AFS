@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material';
 import { ContactsService } from '../../../_services/contacts.service';
 import { PeriodicElement } from '../../../_models/common/periodicelement';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { contactcolumns } from 'app/_models/common/table-columns';
 
 @Component({
   selector: 'app-contacts-view',
@@ -14,15 +15,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class ContactsViewComponent implements OnInit {
 
   // Table columns 
-  columns = [
-    { columnDef: 'firstName', header: 'First Name', cell: (element: any) => `${element.firstName}` },
-    { columnDef: 'lastName', header: 'Last Name', cell: (element: any) => `${element.lastName}` },
-    { columnDef: 'companyName', header: 'Company Name', cell: (element: any) => `${element.companyName}` },
-    { columnDef: 'isCompany', header: 'Company?', cell: (element: any) => `${element.isCompany}` },
-    { columnDef: 'emailAddress', header: 'Email', cell: (element: any) => `${element.emailAddress}` },
-    { columnDef: 'cellPhone', header: 'Cell Phone', cell: (element: any) => `${element.cellPhone}` },
-    { columnDef: 'actions', header: 'Actions', cell: (element: any) => `${element.actions}` },
-  ];
+  columns = contactcolumns;
 
   displayedColumns = this.columns.map(c => c.columnDef);
   dataSource = new MatTableDataSource<PeriodicElement>();

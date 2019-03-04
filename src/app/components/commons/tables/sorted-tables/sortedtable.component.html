@@ -13,13 +13,7 @@
         <div class="mat-elevation-z8">
           <mat-table #table *ngIf="dataSource" [dataSource]="dataSource" matSort [class.isMobile]="isMobile">
             <ng-container *ngFor="let column of columns" matColumnDef="{{column.columnDef}}">
-                <div *ngIf="column.sort">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</mat-header-cell>
-                  </div>
-                  <div *ngIf="!column.sort">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header disabled>{{ column.header }}</mat-header-cell>
-                  </div>
-              
+              <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!column.sort">{{ column.header }}</mat-header-cell>
               <mat-cell *matCellDef="let row">
                 <span class="mobile-label">{{ column.header }}</span>
                 <span *ngIf="column.header!='Actions'" [ngStyle]="column.header=='Transaction Status' ? column.cell(row)=='IN-PROGRESS' ? statusInprogress : column.cell(row)=='COMPLETE' ? statusComplete : null : null"
