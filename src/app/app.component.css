@@ -1,0 +1,23 @@
+:host ::ng-deep .custom-spinner-template{
+    height: 20% !important;
+    width: 10% !important;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+@media (max-width: 768px){
+    :host ::ng-deep .custom-spinner-template{
+        height: 35vw !important;
+        width: 25vw !important;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}

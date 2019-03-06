@@ -26,8 +26,10 @@ import { initializer } from './app-init';
 import { AppAuthGuard } from './app.authguard';
 //import { KeycloakAngularModule } from 'keycloak-angular';
 import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
-import {TokenInterceptor} from './token.interceptor';
+import { TokenInterceptor } from './token.interceptor';
 import { ServiceUtil } from './_helpers/serviceutil';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { LoaderInterceptorService } from './_services/loader-intercepter.service';
 
 @NgModule({
   imports: [
@@ -47,7 +49,8 @@ import { ServiceUtil } from './_helpers/serviceutil';
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     }),
     ChartsModule,
-    ToastrModule.forRoot() // ToastrModule added,
+    ToastrModule.forRoot(), // ToastrModule added,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -61,11 +64,16 @@ import { ServiceUtil } from './_helpers/serviceutil';
       multi: true,
       deps: [KeycloakService]
     },
-    AuthenticationService, TransactionsService, 
-    ContactsService, CommonService, UploadFileService, 
+    AuthenticationService, TransactionsService,
+    ContactsService, CommonService, UploadFileService,
     CurrencyPipe, DatePipe, AppAuthGuard, ServiceUtil,
-    { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
-    ],
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
