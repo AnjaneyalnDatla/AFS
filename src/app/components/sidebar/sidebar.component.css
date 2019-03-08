@@ -2,3 +2,15 @@
     background: linear-gradient(60deg, #cceeed96, #44bebe96);
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.678), 0 7px 10px -5px rgba(217, 225, 228, 0.4);
   }*/
+  
+  img {
+    width: 30px;
+    border-radius: 50px;
+    float: left;
+    margin-right: 15px;
+    padding: 5px;
+  }
+
+  .logout {
+    cursor: pointer;
+  }

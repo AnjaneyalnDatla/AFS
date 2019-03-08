@@ -1,0 +1,53 @@
+.navigation {
+  width: 100%;
+  background-color: white;
+  
+}
+
+img {
+  width: 25px;
+  border-radius: 50px;
+  float: left;
+}
+
+.logout {
+  font-size: .8em;
+  font-weight: 900;
+  font-family: 'Oswald', sans-serif;
+	position: relative;
+  right: -9px;
+  bottom: -4px;
+  overflow: hidden;
+  letter-spacing: 3px;
+  opacity: 0;
+  transition: opacity .45s;
+  -webkit-transition: opacity .35s;
+  color: #E71C02;
+}
+
+.button {
+  border-radius: 8px;
+  cursor: pointer;
+	text-decoration: none;
+	float: right;
+  padding: 12px;
+  margin: 15px;
+  color: #E71C02;
+  width: 50px;
+  background-color: white;
+  transition: width .35s;
+  -webkit-transition: width .35s;
+  overflow: hidden,
+}
+
+a:hover {
+  width: 135px;
+}
+
+a:hover .logout{
+  opacity: .9;
+}
+
+a {
+  text-decoration: none;
+}

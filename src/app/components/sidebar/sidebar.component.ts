@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
+import { KeycloakService } from 'keycloak-angular';
 declare const $: any;
 
 declare interface RouteInfo {
@@ -80,6 +81,7 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
 
+    constructor(private kcService: KeycloakService) { }
     isMobileMenu() {
         if ($(window).width() > 991) {
             return false;
@@ -102,5 +104,8 @@ export class SidebarComponent implements OnInit {
             bool = true;
         }
         return bool;
+    }
+    async logout() {
+        await this.kcService.logout();
     }
 }
