@@ -3,6 +3,8 @@ import { FormBuilder, FormArray, Validators, FormControl, FormGroup } from '@ang
 import { MatTableDataSource } from '@angular/material';
 import { UserService } from '../../../_services/user.service';
 import { usercolumns, userrolescolumns } from 'app/_models/common/table-columns';
+import { ValidationService } from '../../../_services/validation.service';
+import { ConfirmPasswordValidator } from '../../../_helpers/confirmPasswordValidator';
 
 @Component({
   selector: 'app-users-view',
@@ -27,6 +29,22 @@ export class UsersViewComponent implements OnInit {
     },
   ];
 
+  userForm = this.fb.group({
+    id: [''],
+    department: [''],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    username: ['', [Validators.required, ValidationService.emailValidator]],
+    email: ['', [Validators.required, ValidationService.emailValidator]],
+    password: ['', [Validators.required, ValidationService.passwordValidator]],
+    confirmPswd: ['', Validators.required],
+    role:['' ,Validators.required],
+    organization:['' ,Validators.required]
+  },{
+    validator: ConfirmPasswordValidator.MatchPassword
+ });
+
+
   displayedColumns = this.columns.map(c => c.columnDef);
 
   dataSource = new MatTableDataSource();
@@ -37,6 +55,8 @@ export class UsersViewComponent implements OnInit {
   displayedColumns1 = this.columns1.map(c => c.columnDef);
   dataSource1 = new MatTableDataSource();
 
+  showUser: boolean = false;
+  isLoaded: boolean = false;
 
   cardTitle = "View User";
   constructor(private fb: FormBuilder, private userService: UserService) { }
@@ -60,6 +80,33 @@ export class UsersViewComponent implements OnInit {
         console.log('Roles: ' + data);
         this.dataSource1 = data;
       })
+  }
+
+  getUser(user){
+    console.log(user);
+    this.loadUserList(user.id);
+    this.showUser= true;
+    
+  }
+
+  private loadUserList(id) {
+    this.userService.getUserById(id).subscribe(
+      data => {
+        //this.dataSource.data = data;
+        console.log(data);
+        this.isLoaded = true;
+        this.userForm.controls['id'].setValue(data.id);
+        this.userForm.controls['firstName'].setValue(data.firstName);
+        this.userForm.controls['lastName'].setValue(data.lastName);
+        this.userForm.controls['email'].setValue(data.email);
+        this.userForm.controls['username'].setValue(data.username);
+        if(data.attributes.departmentId!=null)
+          this.userForm.controls['department'].setValue(parseInt(data.attributes.departmentId[0]), {onlySelf: true});
+        this.userForm.controls['organization'].setValue(data.groups[0], {onlySelf: true});
+        this.userForm.controls['role'].setValue(data.realmRoles, {onlySelf: true});
+
+      }
+    );
   }
 
   ngAfterViewInit() {

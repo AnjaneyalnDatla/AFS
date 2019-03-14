@@ -18,8 +18,6 @@ export class UsersCreateComponent implements OnInit {
     email: ['', [Validators.required, ValidationService.emailValidator]],
     password: ['', [Validators.required, ValidationService.passwordValidator]],
     confirmPswd: ['', Validators.required],
-    question: ['', Validators.required],
-    answer: ['', Validators.required],
     role:['' ,Validators.required],
     organization:['' ,Validators.required]
   },{

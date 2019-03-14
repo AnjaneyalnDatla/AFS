@@ -57,8 +57,8 @@
         </div>
         <div class="col-sm-3">
                 <mat-form-field class="example-full-width">
-                        <mat-select placeholder="Organization" formControlName="organization" multiple>
-                            <mat-option *ngFor="let org of organizations" [value]="org.id">
+                        <mat-select placeholder="Organization" formControlName="organization">
+                            <mat-option *ngFor="let org of organizations" [value]="org.name">
                                 {{org.name}}
                             </mat-option>
                         </mat-select>
@@ -67,7 +67,7 @@
         <div class="col-sm-3">
             <mat-form-field class="example-full-width">
                 <mat-select placeholder="Role" formControlName="role" multiple>
-                    <mat-option *ngFor="let role of roles" [value]="role.id">
+                    <mat-option *ngFor="let role of roles" [value]="role.name">
                         {{role.name}}
                     </mat-option>
                 </mat-select>

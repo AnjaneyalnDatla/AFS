@@ -52,9 +52,22 @@ export class UserService {
     
 
     createUser(formData) {
-        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}`;
+        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}`+'/id';
         console.log(JSON.stringify(formData))
-        return this.http.post<any>(url, formData, {
+        return this.http.post<any>(url, JSON.stringify(formData), {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        }).catch((error: any) => {
+            return throwError(error);
+        });
+    }
+
+    getUserById(id){
+        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}` + '/id'+ '?userId=' +id ;
+        return this.http.get<any>(url, {
             headers: {
                 "Content-Type": "application/json"
             }
