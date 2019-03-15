@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="user">
-                                <app-usersform *ngIf="showUser && isLoaded"  [cardTitle]="cardTitle" [userForm]="userForm"></app-usersform>
+                                <app-usersform *ngIf="showUser && isLoaded"  [cardTitle]="cardTitle" [userForm]="userForm" [showUser]="showUser"></app-usersform>
                                 <app-sortedtable  *ngIf="!showUser" [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
                                     [pageOptions]="pageOptions"  (onView)="getUser($event)"></app-sortedtable>
                             </div>

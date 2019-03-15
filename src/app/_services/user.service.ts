@@ -47,14 +47,26 @@ export class UserService {
         }).catch((error: any) => {
             return throwError(error);
         });
-    }
-
-    
+    }   
 
     createUser(formData) {
         let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}`+'/id';
         console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        }).catch((error: any) => {
+            return throwError(error);
+        });
+    }
+
+    updateUser(formData) {
+        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}`+'/update';
+        console.log(JSON.stringify(formData))
+        return this.http.post(url, JSON.stringify(formData), {
             headers: {
                 "Content-Type": "application/json"
             }

@@ -34,7 +34,7 @@ export class UsersViewComponent implements OnInit {
     department: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    username: ['', [Validators.required, ValidationService.emailValidator]],
+    username: [{value:'',disabled: true}, [Validators.required]],
     email: ['', [Validators.required, ValidationService.emailValidator]],
     password: ['', [Validators.required, ValidationService.passwordValidator]],
     confirmPswd: ['', Validators.required],
