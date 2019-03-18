@@ -18,7 +18,7 @@ export class UsersCreateComponent implements OnInit {
     email: ['', [Validators.required, ValidationService.emailValidator]],
     password: ['', [Validators.required, ValidationService.passwordValidator]],
     confirmPswd: ['', Validators.required],
-    role:['' ,Validators.required],
+    roles:['' ,Validators.required],
     organization:['' ,Validators.required]
   },{
     validator: ConfirmPasswordValidator.MatchPassword

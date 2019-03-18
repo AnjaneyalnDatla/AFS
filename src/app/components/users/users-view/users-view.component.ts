@@ -38,7 +38,7 @@ export class UsersViewComponent implements OnInit {
     email: ['', [Validators.required, ValidationService.emailValidator]],
     password: ['', [Validators.required, ValidationService.passwordValidator]],
     confirmPswd: ['', Validators.required],
-    role:['' ,Validators.required],
+    roles:['' ,Validators.required],
     organization:['' ,Validators.required]
   },{
     validator: ConfirmPasswordValidator.MatchPassword
@@ -103,7 +103,7 @@ export class UsersViewComponent implements OnInit {
         if(data.attributes.departmentId!=null)
           this.userForm.controls['department'].setValue(parseInt(data.attributes.departmentId[0]), {onlySelf: true});
         this.userForm.controls['organization'].setValue(data.groups[0], {onlySelf: true});
-        this.userForm.controls['role'].setValue(data.realmRoles, {onlySelf: true});
+        this.userForm.controls['roles'].setValue(data.realmRoles, {onlySelf: true});
 
       }
     );

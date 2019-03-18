@@ -50,7 +50,7 @@ export class UserService {
     }   
 
     createUser(formData) {
-        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}`+'/id';
+        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}`;
         console.log(JSON.stringify(formData))
         return this.http.post<any>(url, JSON.stringify(formData), {
             headers: {
