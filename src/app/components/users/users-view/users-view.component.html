@@ -20,7 +20,7 @@
                             <div class="tab-pane active" id="user">
                                 <app-usersform *ngIf="showUser && isLoaded"  [cardTitle]="cardTitle" [userForm]="userForm" [showUser]="showUser"></app-usersform>
                                 <app-sortedtable  *ngIf="!showUser" [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
-                                    [pageOptions]="pageOptions"  (onView)="getUser($event)"></app-sortedtable>
+                                    [pageOptions]="pageOptions"  (onView)="getUser($event)" (onDelete)="deleteUser($event)"></app-sortedtable>
                             </div>
                             <div class="tab-pane" id="role">
                                     <app-sortedtable [dataSource]="dataSource1" [columns]="columns1" [displayedColumns]="displayedColumns1"

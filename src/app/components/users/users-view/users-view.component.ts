@@ -5,6 +5,7 @@ import { UserService } from '../../../_services/user.service';
 import { usercolumns, userrolescolumns } from 'app/_models/common/table-columns';
 import { ValidationService } from '../../../_services/validation.service';
 import { ConfirmPasswordValidator } from '../../../_helpers/confirmPasswordValidator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-users-view',
@@ -59,7 +60,7 @@ export class UsersViewComponent implements OnInit {
   isLoaded: boolean = false;
 
   cardTitle = "View User";
-  constructor(private fb: FormBuilder, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private toastr: ToastrService) { }
 
   async ngOnInit() {
     await this.fetchUserDetails();
@@ -85,9 +86,21 @@ export class UsersViewComponent implements OnInit {
   getUser(user){
     console.log(user);
     this.loadUserList(user.id);
-    this.showUser= true;
-    
+    this.showUser= true;  
   }
+
+  deleteUser(user){
+    console.log(user);
+    this.userService.deleteUserById(user.id).subscribe(
+      data => {
+        console.log("user deleted");
+        this.toastr.info('User deleted successfully ', 'Success', {
+          timeOut: 3000,
+          progressBar: true
+        });
+      });
+  }
+
 
   private loadUserList(id) {
     this.userService.getUserById(id).subscribe(

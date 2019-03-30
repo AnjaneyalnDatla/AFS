@@ -89,4 +89,17 @@ export class UserService {
             return throwError(error);
         });
     }
+
+    deleteUserById(id){
+        let url = `${environment.keycloak_contextroot}` + `${environment.keycloak_resource}` + '/id'+ '?userId=' +id ;
+        return this.http.delete<any>(url, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).map(response => {
+            return response;
+        }).catch((error: any) => {
+            return throwError(error);
+        });
+    }
 }
