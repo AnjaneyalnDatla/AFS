@@ -39,7 +39,7 @@
     "bootstrap-select": "^1.13.3",
     "bootstrap-tagsinput": "^0.7.1",
     "bootstrap-v4-rtl": "^4.1.1-0",
-    "chart.js": "^2.7.2",
+    "chart.js": "^2.9.4",
     "chartist": "0.11.0",
     "chartist-plugin-legend": "^0.6.0",
     "chartist-plugin-zoom": "^0.4.1",
